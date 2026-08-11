@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pharma.jedliuai.com/sitemap-index.xml
-LLMs: https://pharma.jedliuai.com/llms.txt
