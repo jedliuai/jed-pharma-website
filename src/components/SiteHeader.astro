@@ -1,0 +1,61 @@
+---
+import { alternatePath, routeMap, site, type Locale, type RouteKey } from "@/config/site";
+import { common, navLabels } from "@/data/copy";
+
+interface Props {
+  locale: Locale;
+  route: RouteKey;
+  path: string;
+}
+
+const { locale, route, path } = Astro.props;
+const otherLocale: Locale = locale === "en" ? "zh" : "en";
+const localePath = alternatePath(path, otherLocale);
+const navOrder: RouteKey[] = ["expertise", "markets", "projects", "about", "contact"];
+---
+
+<header class="site-header" data-header>
+  <div class="shell header-inner">
+    <a class="brand-link" href={routeMap.home[locale]} aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
+      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" />
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+      <span>{locale === "zh" ? "菜单" : "Menu"}</span>
+      <span class="menu-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav id="site-navigation" class="site-nav" aria-label={locale === "zh" ? "主导航" : "Primary navigation"}>
+      <div class="nav-links">
+        {navOrder.map((key) => (
+          <a href={routeMap[key][locale]} aria-current={route === key ? "page" : undefined}>{navLabels[locale][key]}</a>
+        ))}
+      </div>
+      <a class="language-link" href={localePath} hreflang={otherLocale === "zh" ? "zh-CN" : "en"}>
+        {common[locale].language}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const toggle = header?.querySelector<HTMLButtonElement>(".menu-toggle");
+  const navigation = header?.querySelector<HTMLElement>(".site-nav");
+
+  const closeMenu = () => {
+    toggle?.setAttribute("aria-expanded", "false");
+    navigation?.classList.remove("is-open");
+    document.body.classList.remove("menu-open");
+  };
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    navigation?.classList.toggle("is-open", !open);
+    document.body.classList.toggle("menu-open", !open);
+  });
+
+  navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+</script>

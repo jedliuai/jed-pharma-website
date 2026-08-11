@@ -1,0 +1,23 @@
+---
+import { routeMap, site, type Locale } from "@/config/site";
+import { common } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = common[locale];
+---
+
+<section class="contact-band">
+  <div class="shell contact-band-grid">
+    <div data-reveal>
+      <p class="eyebrow">{locale === "zh" ? "建立联系" : "START A CONVERSATION"}</p>
+      <h2>{c.contactTitle}</h2>
+      <p>{c.contactBody}</p>
+    </div>
+    <div class="contact-band-actions" data-reveal>
+      <a class="button button--paper" href={site.linkedin} target="_blank" rel="noopener noreferrer">{c.linkedinCta}</a>
+      <a class="button button--ghost-light" href={`mailto:${site.email}`}>{site.email}</a>
+      <a class="text-link text-link--light" href={routeMap.contact[locale]}>{locale === "zh" ? "查看全部联系方式" : "View all contact options"}<span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>

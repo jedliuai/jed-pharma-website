@@ -1,0 +1,50 @@
+---
+import { site, type Locale } from "@/config/site";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  body: string;
+  closeLabel: string;
+}
+
+const { locale, title, body, closeLabel } = Astro.props;
+---
+
+<dialog class="wechat-dialog" id="wechat-dialog" aria-labelledby="wechat-title" aria-describedby="wechat-description">
+  <div class="wechat-panel">
+    <div class="dialog-head">
+      <div>
+        <span class="eyebrow">WECHAT / {locale === "zh" ? "微信" : "CONTACT"}</span>
+        <h2 id="wechat-title">{title}</h2>
+      </div>
+      <button class="dialog-close" type="button" aria-label={closeLabel}>×</button>
+    </div>
+    <p id="wechat-description">{body}</p>
+    <img src={site.wechatCard} width="888" height="1134" alt={locale === "zh" ? "Jed Liu 微信联系卡" : "Jed Liu WeChat contact card"} />
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#wechat-dialog");
+  const closeButton = dialog?.querySelector<HTMLButtonElement>(".dialog-close");
+  let trigger: HTMLElement | null = null;
+
+  document.querySelectorAll<HTMLElement>("[data-open-wechat]").forEach((button) => {
+    button.addEventListener("click", () => {
+      trigger = button;
+      dialog?.showModal();
+      requestAnimationFrame(() => closeButton?.focus());
+    });
+  });
+
+  const close = () => dialog?.close();
+  closeButton?.addEventListener("click", close);
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) close();
+  });
+  dialog?.addEventListener("close", () => {
+    trigger?.focus();
+    trigger = null;
+  });
+</script>

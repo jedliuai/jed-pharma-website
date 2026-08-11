@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/PageHero.astro";
+import ContactBand from "@/components/ContactBand.astro";
+import { routeMap, type Locale } from "@/config/site";
+import { markets } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const page = markets[locale];
+const path = routeMap.markets[locale];
+---
+
+<BaseLayout locale={locale} route="markets" path={path}>
+  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="02" />
+
+  <section class="section section--paper">
+    <div class="shell regional-grid">
+      {page.regions.map((region) => (
+        <article class="regional-card" data-reveal>
+          <span class="region-code">{region.code}</span>
+          <h2>{region.title}</h2>
+          <p>{region.body}</p>
+          <ul>
+            {region.countries.map((country) => <li>{country}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="shell regulatory-grid">
+      <header data-reveal>
+        <p class="eyebrow">{locale === "zh" ? "监管协作边界" : "REGULATORY CONTEXT"}</p>
+        <h2>{page.regulatoryTitle}</h2>
+        <p>{page.regulatoryLead}</p>
+      </header>
+      <ul data-reveal>
+        {page.authorities.map((authority, index) => <li><span>0{index + 1}</span>{authority}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section market-reality">
+    <div class="shell">
+      <p class="eyebrow">{locale === "zh" ? "项目现实" : "COMMERCIAL REALITY"}</p>
+      <h2>{page.realityTitle}</h2>
+      <div class="reality-grid">
+        {page.reality.map((question, index) => <div data-reveal><span>0{index + 1}</span><strong>{question}</strong></div>)}
+      </div>
+      <blockquote data-reveal>{page.quote}</blockquote>
+    </div>
+  </section>
+  <ContactBand locale={locale} />
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/PageHero.astro";
+import ContactBand from "@/components/ContactBand.astro";
+import { projectCases, routeMap, type Locale } from "@/config/site";
+import { projects } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const page = projects[locale];
+const path = routeMap.projects[locale];
+---
+
+<BaseLayout locale={locale} route="projects" path={path}>
+  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="03" />
+  <section class="section section--paper">
+    <div class="shell case-files">
+      {projectCases.map((project) => (
+        <article class="case-file" id={project.id} data-reveal>
+          <header>
+            <span>CASE / {project.number}</span>
+            <h2>{project.title[locale]}</h2>
+          </header>
+          <div class="case-file-grid">
+            <section>
+              <h3>{page.situation}</h3>
+              <p>{project.situation[locale]}</p>
+            </section>
+            <section>
+              <h3>{page.role}</h3>
+              <ul>{project.role[locale].map((item) => <li>{item}</li>)}</ul>
+            </section>
+            <section>
+              <h3>{page.demonstrates}</h3>
+              <ul class="skill-list">{project.demonstrates[locale].map((item) => <li>{item}</li>)}</ul>
+            </section>
+          </div>
+        </article>
+      ))}
+      <aside class="privacy-note" data-reveal><span>PRIVACY / 01</span><p>{page.privacy}</p></aside>
+    </div>
+  </section>
+  <ContactBand locale={locale} />
+</BaseLayout>

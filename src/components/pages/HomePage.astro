@@ -1,0 +1,118 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MetricStrip from "@/components/MetricStrip.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ContactBand from "@/components/ContactBand.astro";
+import { projectCases, routeMap, site, type Locale } from "@/config/site";
+import { common, home } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const path = routeMap.home[locale];
+const c = common[locale];
+const page = home[locale];
+---
+
+<BaseLayout locale={locale} route="home" path={path}>
+  <section class="home-hero">
+    <div class="shell home-hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow hero-eyebrow">{c.eyebrow}</p>
+        <h1>{page.heroTitle}</h1>
+        <p class="hero-lead">{page.heroLead}</p>
+        <div class="hero-actions">
+          <a class="button button--paper" href={routeMap.contact[locale]}>{c.primaryCta}</a>
+          <a class="button button--ghost-light" href={routeMap.expertise[locale]}>{c.secondaryCta}</a>
+        </div>
+        <p class="hero-aside">{page.heroAside}</p>
+      </div>
+      <figure class="hero-portrait">
+        <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 个人头像" : "Portrait of Jed Liu"} fetchpriority="high" />
+        <figcaption>
+          <span>JED LIU</span>
+          <span>{locale === "zh" ? "中国 · 医药国际业务" : "CHINA · PHARMA INTERNATIONAL"}</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="hero-coordinate" aria-hidden="true">31.2304° N / 121.4737° E</div>
+  </section>
+
+  <MetricStrip locale={locale} />
+
+  <section class="section section--paper">
+    <div class="shell intro-grid">
+      <SectionHeading kicker={page.introKicker} title={page.introTitle} />
+      <div class="intro-body" data-reveal>
+        <p>{page.introBody}</p>
+        <a class="text-link" href={routeMap.about[locale]}>{locale === "zh" ? "了解我的工作方式" : "Read how I work"}<span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="shell">
+      <SectionHeading kicker={page.expertiseKicker} title={page.expertiseTitle} />
+      <div class="expertise-ledger">
+        {page.expertise.map((item) => (
+          <article class="ledger-row" data-reveal>
+            <span class="ledger-number">{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+      <a class="button button--ink section-action" href={routeMap.expertise[locale]}>{c.secondaryCta}</a>
+    </div>
+  </section>
+
+  <section class="section market-preview">
+    <div class="shell market-preview-grid">
+      <SectionHeading kicker={page.marketsKicker} title={page.marketsTitle} body={page.marketsBody} light />
+      <div class="region-index" data-reveal>
+        {page.regions.map((region, index) => (
+          <a href={routeMap.markets[locale]}>
+            <span>0{index + 1}</span>
+            <strong>{region}</strong>
+            <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="shell">
+      <div class="section-topline" data-reveal>
+        <p class="eyebrow">{c.selectedProjects}</p>
+        <a class="text-link" href={routeMap.projects[locale]}>{c.viewAll}<span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="case-preview-grid">
+        {projectCases.map((project) => (
+          <article class="case-preview" data-reveal>
+            <span>{project.number}</span>
+            <h3>{project.title[locale]}</h3>
+            <p>{project.situation[locale]}</p>
+            <div class="tag-row">
+              {project.demonstrates[locale].slice(0, 2).map((tag) => <small>{tag}</small>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section ai-method">
+    <div class="shell ai-method-grid">
+      <div>
+        <p class="eyebrow">{page.aiKicker}</p>
+        <h2>{page.aiTitle}</h2>
+      </div>
+      <div data-reveal>
+        <p>{page.aiBody}</p>
+        <blockquote>{page.aiQuote}</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <ContactBand locale={locale} />
+</BaseLayout>

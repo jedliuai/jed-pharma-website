@@ -1,0 +1,32 @@
+---
+import { routeMap, site, type Locale } from "@/config/site";
+import { common, navLabels } from "@/data/copy";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = common[locale];
+const navOrder = ["expertise", "markets", "projects", "about", "contact"] as const;
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div class="footer-identity">
+      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" />
+      <p>{c.footerNote}</p>
+    </div>
+    <nav aria-label={locale === "zh" ? "页尾导航" : "Footer navigation"}>
+      {navOrder.map((key) => <a href={routeMap[key][locale]}>{navLabels[locale][key]}</a>)}
+    </nav>
+    <div class="footer-contact">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <p>© {new Date().getFullYear()} Jed Liu</p>
+    <p>{c.disclaimer}</p>
+  </div>
+</footer>

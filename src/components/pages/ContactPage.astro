@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/PageHero.astro";
+import { routeMap, site, type Locale } from "@/config/site";
+import { contact } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const page = contact[locale];
+const path = routeMap.contact[locale];
+---
+
+<BaseLayout locale={locale} route="contact" path={path}>
+  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="05" />
+  <section class="section section--paper contact-page">
+    <div class="shell contact-page-grid">
+      <div data-reveal>
+        <p class="eyebrow">{locale === "zh" ? "联系方式" : "DIRECT CHANNELS"}</p>
+        <h2>{page.responseTitle}</h2>
+      </div>
+      <div class="direct-contacts">
+        <a href={site.linkedin} target="_blank" rel="noopener noreferrer" data-reveal>
+          <span>01</span><strong>LinkedIn</strong><small>{locale === "zh" ? "专业交流与合作联系" : "Professional connection"}</small><i aria-hidden="true">↗</i>
+        </a>
+        <a href={`mailto:${site.email}`} data-reveal>
+          <span>02</span><strong>{site.email}</strong><small>{locale === "zh" ? "商务邮件" : "Business email"}</small><i aria-hidden="true">↗</i>
+        </a>
+        <button type="button" data-open-wechat data-reveal>
+          <span>03</span><strong>WeChat</strong><small>{locale === "zh" ? "打开微信联系卡" : "Open contact card"}</small><i aria-hidden="true">↗</i>
+        </button>
+      </div>
+    </div>
+    <aside class="shell contact-note" data-reveal><span>NOTE / 01</span><p>{page.note}</p></aside>
+  </section>
+</BaseLayout>

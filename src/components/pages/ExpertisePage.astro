@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/PageHero.astro";
+import ContactBand from "@/components/ContactBand.astro";
+import { routeMap, type Locale } from "@/config/site";
+import { expertise } from "@/data/copy";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const page = expertise[locale];
+const path = routeMap.expertise[locale];
+---
+
+<BaseLayout locale={locale} route="expertise" path={path}>
+  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="01" />
+  <section class="section section--paper">
+    <div class="shell numbered-list">
+      {page.areas.map(([title, body], index) => (
+        <article data-reveal>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section execution-chain">
+    <div class="shell">
+      <p class="eyebrow">{locale === "zh" ? "项目执行" : "PROJECT EXECUTION"}</p>
+      <h2>{page.processTitle}</h2>
+      <ol class="process-track" data-reveal>
+        {page.process.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="shell">
+      <header class="split-heading" data-reveal>
+        <h2>{page.productsTitle}</h2>
+        <p>{page.productsLead}</p>
+      </header>
+      <div class="product-groups">
+        {page.productGroups.map(([title, body], index) => (
+          <article data-reveal>
+            <span>0{index + 1}</span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <ContactBand locale={locale} />
+</BaseLayout>
