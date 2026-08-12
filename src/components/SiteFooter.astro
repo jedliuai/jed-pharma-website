@@ -1,6 +1,7 @@
 ---
 import { routeMap, site, type Locale } from "@/config/site";
 import { common, navLabels } from "@/data/copy";
+import ProjectIcon from "@/components/ProjectIcon.astro";
 
 interface Props {
   locale: Locale;
@@ -17,12 +18,13 @@ const navOrder = ["expertise", "markets", "projects", "about", "contact"] as con
       <img src={site.wordmarkLight} width="218" height="102" alt="Jed" />
       <p>{c.footerNote}</p>
     </div>
-    <nav aria-label={locale === "zh" ? "页尾导航" : "Footer navigation"}>
+    <nav aria-label={c.footerNavigation}>
       {navOrder.map((key) => <a href={routeMap[key][locale]}>{navLabels[locale][key]}</a>)}
     </nav>
-    <div class="footer-contact">
-      <a href={`mailto:${site.email}`}>{site.email}</a>
-      <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <div class="footer-contact" aria-label={c.contactChannels}>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><ProjectIcon name="linkedin-logo" />LinkedIn</a>
+      <a href={`mailto:${site.email}`}><ProjectIcon name="envelope-simple" />{site.email}</a>
+      <button type="button" data-open-wechat><ProjectIcon name="wechat-logo" />{locale === "zh" ? "微信" : "WeChat"}</button>
     </div>
   </div>
   <div class="shell footer-bottom">

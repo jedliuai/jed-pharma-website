@@ -1,6 +1,8 @@
 ---
 import { routeMap, site, type Locale } from "@/config/site";
 import { common } from "@/data/copy";
+import ButtonLink from "@/components/ButtonLink.astro";
+import ProjectIcon from "@/components/ProjectIcon.astro";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -15,9 +17,9 @@ const c = common[locale];
       <p>{c.contactBody}</p>
     </div>
     <div class="contact-band-actions" data-reveal>
-      <a class="button button--paper" href={site.linkedin} target="_blank" rel="noopener noreferrer">{c.linkedinCta}</a>
-      <a class="button button--ghost-light" href={`mailto:${site.email}`}>{site.email}</a>
-      <a class="text-link text-link--light" href={routeMap.contact[locale]}>{locale === "zh" ? "查看全部联系方式" : "View all contact options"}<span aria-hidden="true">↗</span></a>
+      <ButtonLink href={site.linkedin} variant="paper" icon="linkedin-logo" external>{c.linkedinCta}</ButtonLink>
+      <ButtonLink href={`mailto:${site.email}`} variant="ghost-light" icon="envelope-simple">{site.email}</ButtonLink>
+      <a class="text-link text-link--light" href={routeMap.contact[locale]}>{c.allContactOptions}<ProjectIcon name="arrow-up-right" size={16} /></a>
     </div>
   </div>
 </section>

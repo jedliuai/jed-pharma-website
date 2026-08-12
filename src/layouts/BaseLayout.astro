@@ -3,7 +3,7 @@ import "@/styles/global.css";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import WeChatDialog from "@/components/WeChatDialog.astro";
-import { alternatePath, site, type Locale, type RouteKey } from "@/config/site";
+import { alternatePath, designTokens, site, type Locale, type RouteKey } from "@/config/site";
 import { common, seo } from "@/data/copy";
 
 interface Props {
@@ -67,7 +67,8 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#061325" />
+    <meta name="theme-color" content={designTokens.warmIvory} />
+    <meta name="color-scheme" content="light" />
     <meta name="description" content={meta.description} />
     <meta name="author" content="Jed Liu" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -86,6 +87,7 @@ const structuredData = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:alt" content="Portrait of Jed Liu" />
     <meta property="og:locale" content={locale === "zh" ? "zh_CN" : "en_US"} />
+    <meta property="og:locale:alternate" content={locale === "zh" ? "en_US" : "zh_CN"} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />

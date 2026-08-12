@@ -1,5 +1,6 @@
 ---
 import { site, type Locale } from "@/config/site";
+import ProjectIcon from "@/components/ProjectIcon.astro";
 
 interface Props {
   locale: Locale;
@@ -18,7 +19,7 @@ const { locale, title, body, closeLabel } = Astro.props;
         <span class="eyebrow">WECHAT / {locale === "zh" ? "微信" : "CONTACT"}</span>
         <h2 id="wechat-title">{title}</h2>
       </div>
-      <button class="dialog-close" type="button" aria-label={closeLabel}>×</button>
+      <button class="dialog-close" type="button" aria-label={closeLabel}><ProjectIcon name="x" size={20} /></button>
     </div>
     <p id="wechat-description">{body}</p>
     <img src={site.wechatCard} width="888" height="1134" alt={locale === "zh" ? "Jed Liu 微信联系卡" : "Jed Liu WeChat contact card"} />
@@ -33,7 +34,7 @@ const { locale, title, body, closeLabel } = Astro.props;
   document.querySelectorAll<HTMLElement>("[data-open-wechat]").forEach((button) => {
     button.addEventListener("click", () => {
       trigger = button;
-      dialog?.showModal();
+      if (dialog && !dialog.open) dialog.showModal();
       requestAnimationFrame(() => closeButton?.focus());
     });
   });
@@ -42,6 +43,9 @@ const { locale, title, body, closeLabel } = Astro.props;
   closeButton?.addEventListener("click", close);
   dialog?.addEventListener("click", (event) => {
     if (event.target === dialog) close();
+  });
+  dialog?.addEventListener("cancel", () => {
+    requestAnimationFrame(() => trigger?.focus());
   });
   dialog?.addEventListener("close", () => {
     trigger?.focus();

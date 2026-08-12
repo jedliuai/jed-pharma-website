@@ -1,0 +1,31 @@
+---
+import { Icon } from "astro-icon/components";
+
+export type ProjectIconName =
+  | "arrow-right"
+  | "arrow-up-right"
+  | "envelope-simple"
+  | "linkedin-logo"
+  | "list"
+  | "wechat-logo"
+  | "x";
+
+interface Props {
+  name: ProjectIconName;
+  label?: string;
+  size?: number | string;
+  class?: string;
+}
+
+const { name, label, size = 18, class: className } = Astro.props;
+---
+
+<Icon
+  name={`ph:${name}`}
+  width={size}
+  height={size}
+  class:list={["project-icon", className]}
+  aria-hidden={label ? undefined : "true"}
+  aria-label={label}
+  focusable="false"
+/>

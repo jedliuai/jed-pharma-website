@@ -12,8 +12,10 @@
     "deploy": "pnpm dlx wrangler@4.120.1 pages deploy dist --project-name jed-pharma-website"
   },
   "dependencies": {
+    "@iconify-json/ph": "1.2.2",
     "@astrojs/sitemap": "3.7.3",
-    "astro": "7.2.0"
+    "astro": "7.2.0",
+    "astro-icon": "1.1.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

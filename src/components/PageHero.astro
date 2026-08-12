@@ -11,11 +11,11 @@ const { kicker, title, lead, index } = Astro.props;
 <section class="page-hero">
   <div class="shell page-hero-grid">
     <div>
-      <p class="eyebrow">{kicker}</p>
+      <div class="page-hero__meta"><span>{index}</span><p class="eyebrow">{kicker}</p></div>
       <h1>{title}</h1>
     </div>
     <div class="page-hero-aside">
-      <span class="page-index">{index}</span>
+      <span class="page-index">JED / {index}</span>
       <p>{lead}</p>
     </div>
   </div>

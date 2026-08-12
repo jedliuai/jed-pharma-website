@@ -16,12 +16,19 @@ export type ProjectCase = {
 
 export type ContactChannel = {
   id: "linkedin" | "email" | "wechat";
-  label: string;
-  value: string;
+  label: Record<Locale, string>;
+  value: Record<Locale, string>;
   href?: string;
   external?: boolean;
   dialog?: boolean;
 };
+
+export const designTokens = {
+  warmIvory: "#F2EDE3",
+  nearBlackBrown: "#2B211C",
+  terracotta: "#C95D3A",
+  cobalt: "#1F55B5"
+} as const;
 
 export const site = {
   name: "Jed Liu — Pharmaceutical International Business",
@@ -49,21 +56,21 @@ export const metrics: Metric[] = [
 export const contacts: ContactChannel[] = [
   {
     id: "linkedin",
-    label: "LinkedIn",
-    value: "Connect professionally",
+    label: { en: "LinkedIn", zh: "LinkedIn" },
+    value: { en: "Professional connection", zh: "专业交流与合作联系" },
     href: site.linkedin,
     external: true
   },
   {
     id: "email",
-    label: "Business email",
-    value: site.email,
+    label: { en: site.email, zh: site.email },
+    value: { en: "Business email", zh: "商务邮件" },
     href: `mailto:${site.email}`
   },
   {
     id: "wechat",
-    label: "WeChat",
-    value: "Open contact card",
+    label: { en: "WeChat", zh: "微信" },
+    value: { en: "Open contact card", zh: "打开微信联系卡" },
     dialog: true
   }
 ];

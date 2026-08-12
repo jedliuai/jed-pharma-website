@@ -1,0 +1,29 @@
+---
+import ProjectIcon, { type ProjectIconName } from "@/components/ProjectIcon.astro";
+
+interface Props {
+  href: string;
+  variant?: "terracotta" | "outline" | "paper" | "ghost-light" | "ink";
+  icon?: ProjectIconName;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = "terracotta",
+  icon,
+  external = false,
+  class: className
+} = Astro.props;
+---
+
+<a
+  class:list={["button", `button--${variant}`, className]}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+>
+  <span><slot /></span>
+  {icon && <ProjectIcon name={icon} size={17} />}
+</a>
