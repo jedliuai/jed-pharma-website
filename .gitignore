@@ -4,5 +4,7 @@ dist/
 .wrangler/
 .playwright-cli/
 output/
+.superpowers/
+.worktrees/
 .DS_Store
 *.log
