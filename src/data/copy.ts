@@ -24,7 +24,7 @@ export const seo: Record<Locale, Record<RouteKey, { title: string; description: 
     home: {
       title: "Jed Liu | Pharmaceutical International Business",
       description:
-        "Pharmaceutical international business professional focused on Latin America and CIS markets, covering registration coordination, project execution, supply chain and AI-enabled trade workflows."
+        "Pharmaceutical international business professional focused on Latin America and CIS & Eastern Europe, covering registration coordination, project execution, supply chain and AI-enabled trade workflows."
     },
     expertise: {
       title: "Expertise | Jed Liu — Pharmaceutical International Business",
@@ -32,9 +32,9 @@ export const seo: Record<Locale, Record<RouteKey, { title: string; description: 
         "International business development, pharmaceutical registration coordination, quality communication, order execution and international delivery."
     },
     markets: {
-      title: "Markets | Latin America & CIS Pharmaceutical Experience",
+      title: "Markets | Latin America and CIS & Eastern Europe Pharmaceutical Experience",
       description:
-        "Practical pharmaceutical project coordination across Latin America, CIS and Eastern European markets."
+        "Practical pharmaceutical project coordination across Latin America and CIS & Eastern Europe."
     },
     projects: {
       title: "Selected Projects | Jed Liu",
@@ -55,7 +55,7 @@ export const seo: Record<Locale, Record<RouteKey, { title: string; description: 
   zh: {
     home: {
       title: "Jed Liu｜医药国际业务",
-      description: "聚焦拉美、独联体及东欧市场，覆盖药品注册协调、项目执行、国际交付与 AI 赋能外贸工作流。"
+      description: "聚焦拉美、独联体与东欧市场，覆盖药品注册协调、项目执行、国际交付与 AI 赋能外贸工作流。"
     },
     expertise: {
       title: "专业能力｜Jed 医药国际业务",
@@ -63,7 +63,7 @@ export const seo: Record<Locale, Record<RouteKey, { title: string; description: 
     },
     markets: {
       title: "市场经验｜拉美、独联体与东欧医药市场",
-      description: "面向拉美、独联体及东欧市场的医药项目协调与国际业务实践。"
+      description: "面向拉美、独联体与东欧市场的医药项目协调与国际业务实践。"
     },
     projects: {
       title: "匿名项目案例｜Jed 医药国际业务",
@@ -185,7 +185,7 @@ export const home = {
       { title: "CIS & Eastern Europe", body: "Focus on sustainable market access." }
     ],
     casesKicker: "SELECTED PROJECT CASES",
-    caseMarkets: ["Latin America", "CIS", "Latin America"],
+    caseMarkets: ["Latin America", "CIS & Eastern Europe", "Latin America"],
     aiKicker: "AI-ENABLED WORKING METHOD",
     aiTitle: "AI is part of my working method, not my professional identity.",
     aiBody:
@@ -252,7 +252,7 @@ export const home = {
       { title: "独联体与东欧", body: "聚焦可持续的市场准入。" }
     ],
     casesKicker: "精选匿名项目案例",
-    caseMarkets: ["拉丁美洲", "独联体", "拉丁美洲"],
+    caseMarkets: ["拉丁美洲", "独联体与东欧", "拉丁美洲"],
     aiKicker: "AI 赋能的工作方法",
     aiTitle: "AI 是我的工作方法之一，而不是我的职业身份。",
     aiBody:
@@ -412,7 +412,7 @@ export const about = {
     ],
     timelineTitle: "Professional progression",
     timeline: [
-      ["Pharmaceutical international business", "Focused on overseas pharmaceutical business, especially Latin America and CIS-related markets."],
+      ["Pharmaceutical international business", "Focused on overseas pharmaceutical business, especially Latin America and CIS & Eastern Europe."],
       ["From sales to project execution", "Expanded from early commercial work into registration, production, quality, packaging and logistics coordination."],
       ["A data-driven working system", "Structured years of working records into reusable product, order and execution data."],
       ["AI-supported workflow", "Applied AI and automation to document processing, information extraction, validation and project tracking — always with human review."]
@@ -439,7 +439,7 @@ export const about = {
     ],
     timelineTitle: "职业能力演进",
     timeline: [
-      ["医药国际业务", "聚焦海外医药业务，尤其是拉美、独联体及东欧相关市场。"],
+      ["医药国际业务", "聚焦海外医药业务，尤其是拉美、独联体与东欧市场。"],
       ["从销售走向项目执行", "从早期商务工作逐步延伸到注册、生产、质量、包装和物流协调。"],
       ["数据驱动的工作系统", "把多年工作记录整理为可复用的产品、订单与执行数据。"],
       ["AI 支持的工作流", "将 AI 与自动化用于文件处理、信息提取、数据核验与项目跟踪，并始终保留人工复核。"]

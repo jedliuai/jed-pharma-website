@@ -18,6 +18,7 @@ const englishPath = alternatePath(path, "en");
 const chinesePath = alternatePath(path, "zh");
 const canonical = new URL(path, site.origin).toString();
 const ogImage = new URL(site.portrait, site.origin).toString();
+const ogImageAlt = locale === "zh" ? "Jed Liu 个人肖像" : "Portrait of Jed Liu";
 const c = common[locale];
 
 const structuredData = {
@@ -34,8 +35,7 @@ const structuredData = {
       sameAs: [site.linkedin],
       knowsAbout: [
         "Pharmaceutical international business",
-        "Latin America pharmaceutical markets",
-        "CIS pharmaceutical markets",
+        "Latin America and CIS & Eastern Europe pharmaceutical markets",
         "Pharmaceutical registration coordination",
         "International pharmaceutical project execution",
         "AI-enabled trade workflows"
@@ -86,13 +86,14 @@ const structuredData = {
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="Portrait of Jed Liu" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content={locale === "zh" ? "zh_CN" : "en_US"} />
     <meta property="og:locale:alternate" content={locale === "zh" ? "en_US" : "zh_CN"} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>

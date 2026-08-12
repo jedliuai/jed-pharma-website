@@ -170,7 +170,7 @@ const caseImages = [
           </ul>
         </div>
         <figure class="home-v2-map home-v2-reveal" data-home-reveal>
-          <img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "突出显示拉丁美洲以及独联体和东欧区域的世界地图" : "World map highlighting Latin America and CIS and Eastern Europe"} loading="lazy" />
+          <img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "突出显示拉丁美洲以及独联体与东欧区域的世界地图" : "World map highlighting Latin America and CIS & Eastern Europe"} loading="lazy" />
         </figure>
       </div>
     </section>
@@ -233,7 +233,7 @@ const caseImages = [
           <h2>{page.contactTitle}</h2>
           <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><ProjectIcon name="linkedin-logo" size={19} /><span>LinkedIn</span></a>
           <a href={`mailto:${site.email}`}><ProjectIcon name="envelope-simple" size={19} /><span>{site.email}</span></a>
-          <button type="button" data-open-wechat><ProjectIcon name="wechat-logo" size={19} /><span>{page.wechatLabel}</span></button>
+          <button type="button" data-open-wechat aria-haspopup="dialog" aria-controls="wechat-dialog"><ProjectIcon name="wechat-logo" size={19} /><span>{page.wechatLabel}</span></button>
         </div>
         <div class="home-v2-ending-signature" aria-hidden="true">
           <img src={site.wordmarkLight} width="218" height="102" alt="" />

@@ -1599,9 +1599,14 @@ ol {
 }
 
 .detail-v2 .page-hero__meta > span {
+  display: inline-grid;
   width: 2.5rem;
+  height: 1.45rem;
+  place-items: center;
+  border: 1px solid rgba(201, 93, 58, 0.55);
+  border-radius: 99rem;
   color: var(--terracotta);
-  background: currentColor;
+  background: rgba(250, 246, 238, 0.72);
 }
 
 .detail-v2 .page-hero-aside {

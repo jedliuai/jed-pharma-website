@@ -107,3 +107,43 @@ Task 3 已完成。五类详情页共十个中英文路由已进入既有 V2 编
 
 - 实现与 worklog：`d1068286a7abcf595950ab7388d152df00a38383` (`feat: redesign bilingual detail pages`)
 - 本报告：随后独立提交，以避免报告对自身提交哈希形成递归引用。
+
+## Fix round 1（审查发现修复）
+
+### 覆盖的审查发现
+
+1. **微信触发器 ARIA 一致性**
+   - 为共享 `SiteFooter` 与首页 ending contact 的微信按钮补充 `aria-haspopup="dialog"` 和 `aria-controls="wechat-dialog"`。
+   - 联系页原有按钮保持同一组属性。
+   - 源码与 `dist` 均按完整 `<button data-open-wechat>` 标签逐个断言，避免只检查属性是否在文件内出现。
+
+2. **区域范围表述统一**
+   - 英文首页 SEO、Markets SEO、Markets 正文、About 职业路径、首页案例市场标签、图片 alt 和 JSON-LD 统一使用 `Latin America and CIS & Eastern Europe` 作为整体范围表述。
+   - 中文对应位置统一为“拉美、独联体与东欧”或语义等价的“拉丁美洲、独联体与东欧”。
+   - `llms.txt` 与 `ai-summary.txt` 已使用同一范围表述并保持不变。
+   - 旧表述 `CIS-related`、`Latin America & CIS`、`Latin America, CIS`、`拉美、独联体及东欧` 扫描结果为 0。
+
+3. **PageHero 序号对比度**
+   - 移除陶土红文字与同色背景的组合。
+   - 序号改为陶土红文字、半透明暖纸底、陶土红细边框的 compact pill，保持元数据感同时确保可读。
+   - 定向 CSS 断言：`background: currentColor` 为 false，边框与分离背景均存在。
+
+4. **中文 OG 图片 alt**
+   - zh-CN 页面输出 `Jed Liu 个人肖像`；英文页面继续输出 `Portrait of Jed Liu`。
+   - 同步增加本地化 `twitter:image:alt`。
+
+### Fix round 验证证据
+
+- `pnpm check`：33 files，0 errors、0 warnings、0 hints。
+- `pnpm build`：12 pages built，sitemap index 正常生成。
+- 源码微信按钮断言：`wechat_errors=0`。
+- 构建产物微信触发器：共 16 个；每个均含 `aria-haspopup="dialog"` 与 `aria-controls="wechat-dialog"`。
+- 构建产物页面检查：12 个；英文/中文 OG 图片 alt、关键区域短语、首页核心链接综合断言 `dist_assertion_errors=0`。
+- JSON-LD：12 页 Person `knowsAbout` 均包含 `Latin America and CIS & Eastern Europe pharmaceutical markets`，`jsonld_region_errors=0`。
+- `git diff --check`：通过。
+
+### Fix round 自审与边界
+
+- 修改严格限定于审查发现，没有扩展到 Task 4 的多视口视觉 QA。
+- 没有更改路由、三个项目锚点、首页主体结构或外部服务。
+- 没有修改或暂存 `progress.md`。

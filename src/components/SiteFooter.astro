@@ -24,7 +24,7 @@ const navOrder = ["expertise", "markets", "projects", "about", "contact"] as con
     <div class="footer-contact" aria-label={c.contactChannels}>
       <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><ProjectIcon name="linkedin-logo" />LinkedIn</a>
       <a href={`mailto:${site.email}`}><ProjectIcon name="envelope-simple" />{site.email}</a>
-      <button type="button" data-open-wechat><ProjectIcon name="wechat-logo" />{locale === "zh" ? "微信" : "WeChat"}</button>
+      <button type="button" data-open-wechat aria-haspopup="dialog" aria-controls="wechat-dialog"><ProjectIcon name="wechat-logo" />{locale === "zh" ? "微信" : "WeChat"}</button>
     </div>
   </div>
   <div class="shell footer-bottom">
