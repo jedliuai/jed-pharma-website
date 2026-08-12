@@ -47,6 +47,7 @@ const caseImages = [
             </div>
             <div class="home-v2-portrait-wrap">
               <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 的个人肖像" : "Portrait of Jed Liu"} fetchpriority="high" />
+              <span class="home-v2-portrait-monogram" aria-hidden="true">jed</span>
               <div class="home-v2-annotations" aria-hidden="true">
                 {page.heroAnnotations.map((annotation) => <span>{annotation}</span>)}
               </div>
