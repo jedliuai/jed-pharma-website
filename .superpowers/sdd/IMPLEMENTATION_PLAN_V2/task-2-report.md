@@ -67,3 +67,26 @@ DONE
 - 流程滚动状态使用轻量 `requestAnimationFrame` scroll listener；已限制为桌面且每帧去重，后续全站 QA 可继续观察低端设备表现。
 - Playwright 的一次性 full-page screenshot 不会自然滚动触发 IntersectionObserver，因此截图中未滚动到的 reveal 内容会保持初始隐藏；真实滚轮路径已逐段验证内容会正常显示，reduced motion 下内容默认可见。
 
+## Fix round 1（2026-08-12）
+
+### 修复内容
+
+- Reduced motion：新增显式覆盖，关闭首页、Header 和 Footer 内的 animation / transition，并将 CTA、阶段选择器、案例行与箭头、联系控件、档案窗及相关图标的 hover / active transform 强制归零；内容保持完整可见。
+- 渐进增强：服务端不再为流程 2–6 写入 `hidden`。阶段选择器从按钮改为指向真实面板 ID 的锚点；无 JS 时六块面板顺序可读且锚点可跳转。JS 成功初始化后才添加 `is-process-enhanced`，随后折叠非活动面板并启用 sticky、滚动、点击和焦点联动。
+- 视觉还原：把英文主标题拆成正文与斜体 `move forward.`，用纯 CSS 陶土色双线做手绘下划线；中文克制强调“持续向前。”且保持中文正体。能力、市场和案例关键标题增加同语汇的短下划线。
+- 精确文案：英文 eyebrow 与 CTA 更新为 `Pharmaceutical International Business`、`Discuss a Project`、`View My Expertise`。
+- 图片加载：流程主插画加入 `loading="lazy"` 与 `decoding="async"`。
+- 脚本效率：流程保存 `activePhase` 并跳过重复状态；指针视差改为每帧至多更新一次，边界在 pointerenter / ResizeObserver 时缓存更新，离开时取消待执行帧并清理变量。
+
+### 覆盖检查与结果
+
+- `pnpm check`：通过；33 files，0 errors / 0 warnings / 0 hints。
+- `pnpm build`：通过；12 个静态路由全部生成，sitemap 正常创建。
+- no-JS 构建产物断言（PowerShell 正则检查 `dist/index.html`）：`article_phase_panels=6`、`article_hidden_phase_panels=0`、`baseline_phase_anchors=6`。
+- 精确文案构建产物断言：四项 `Pharmaceutical International Business`、`Discuss a Project`、`View My Expertise`、`move forward.` 均为 `True`。
+- 源码扫描：流程图片 lazy / async 属性存在；`is-process-enhanced`、`activePhase`、`dossierFrame`、缓存边界和 RAF 调用存在；空 `href`、`scrollIntoView`、`const styles =` 均未发现。
+- `git diff --check`：通过；仅 Windows LF/CRLF 提示，无 whitespace error。
+- Playwright 1440：`clientWidth=1425`、`scrollWidth=1425`；enhancement class 已添加、活动面板数为 1；英文三项精确文案通过；控制台 0 error / 0 warning。
+- Playwright reduced-motion：媒体查询命中后，CTA、阶段锚点、案例行、案例箭头、联系链接与档案窗的 computed transform 均为 `none`；首屏和流程面板 computed animation-name 均为 `none`。实际 hover CTA、阶段、案例及联系链接后 transform 仍为 `none`。
+- Playwright 响应式：768 视口 `clientWidth=753`、`scrollWidth=753`；中文 390 视口 `clientWidth=390`、`scrollWidth=390`；控制台 0 error / 0 warning。
+- Playwright 阶段交互：点击“交付与申报”后 `aria-current` 与可见面板同步为阶段 05；按 Tab 聚焦下一阶段后同步为“收尾与跟进”，证明点击与焦点状态均保留。

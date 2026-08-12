@@ -82,9 +82,9 @@ export const seo: Record<Locale, Record<RouteKey, { title: string; description: 
 
 export const common = {
   en: {
-    eyebrow: "PHARMACEUTICAL INTERNATIONAL BUSINESS",
-    primaryCta: "Discuss a project",
-    secondaryCta: "View expertise",
+    eyebrow: "Pharmaceutical International Business",
+    primaryCta: "Discuss a Project",
+    secondaryCta: "View My Expertise",
     linkedinCta: "Connect on LinkedIn",
     language: "中文",
     menu: "Menu",
@@ -135,7 +135,8 @@ export const common = {
 
 export const home = {
   en: {
-    heroTitle: "From registration to delivery, I help pharmaceutical projects move forward.",
+    heroTitleStart: "From registration to delivery, I help pharmaceutical projects ",
+    heroTitleEmphasis: "move forward.",
     heroLead:
       "Connecting international business development with regulatory, technical and operational work — so projects move forward with clarity and discipline.",
     heroAnnotations: ["Markets", "Coordination", "Execution"],
@@ -201,7 +202,8 @@ export const home = {
     wechatLabel: "WeChat: lijied03"
   },
   zh: {
-    heroTitle: "从注册到交付，我推动医药项目持续向前。",
+    heroTitleStart: "从注册到交付，我推动医药项目",
+    heroTitleEmphasis: "持续向前。",
     heroLead:
       "连接国际业务开发与注册、技术和运营工作，让项目在清晰的判断与严谨的执行中持续推进。",
     heroAnnotations: ["市场", "协调", "执行"],

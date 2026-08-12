@@ -28,7 +28,9 @@ const caseImages = [
       <div class="home-v2-shell home-v2-hero-grid">
         <div class="home-v2-hero-copy">
           <p class="home-v2-pill home-v2-enter" style="--enter-delay: 40ms">{c.eyebrow}</p>
-          <h1 id="home-hero-title" class="home-v2-enter" style="--enter-delay: 110ms">{page.heroTitle}</h1>
+          <h1 id="home-hero-title" class="home-v2-enter" style="--enter-delay: 110ms">
+            {page.heroTitleStart}<em class="home-v2-title-emphasis">{page.heroTitleEmphasis}</em>
+          </h1>
           <p class="home-v2-hero-lead home-v2-enter" style="--enter-delay: 180ms">{page.heroLead}</p>
           <div class="home-v2-hero-actions home-v2-enter" style="--enter-delay: 250ms">
             <ButtonLink href={routeMap.contact[locale]} variant="terracotta">{c.primaryCta}</ButtonLink>
@@ -77,7 +79,7 @@ const caseImages = [
       <div class="home-v2-shell">
         <header class="home-v2-section-head home-v2-reveal" data-home-reveal>
           <p class="eyebrow">{page.expertiseKicker}</p>
-          <h2 id="expertise-title">{page.expertiseTitle}</h2>
+          <h2 id="expertise-title" class="home-v2-heading-accent">{page.expertiseTitle}</h2>
         </header>
         <div class="home-v2-expertise-grid">
           {page.expertise.map((item) => (
@@ -106,17 +108,16 @@ const caseImages = [
             <ol>
               {page.process.map((phase, index) => (
                 <li data-phase-observer>
-                  <button
-                    type="button"
-                    class:list={["home-v2-phase-button", { "is-active": index === 0 }]}
-                    aria-pressed={index === 0 ? "true" : "false"}
+                  <a
+                    href={`#process-panel-${index}`}
+                    class="home-v2-phase-button"
                     aria-controls={`process-panel-${index}`}
                     data-phase-button
                     data-phase-index={index}
                   >
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <strong>{phase.title}</strong>
-                  </button>
+                  </a>
                 </li>
               ))}
             </ol>
@@ -129,7 +130,6 @@ const caseImages = [
                   id={`process-panel-${index}`}
                   class="home-v2-process-panel"
                   data-phase-panel
-                  hidden={index !== 0}
                 >
                   <header>
                     <span>{String(index + 1).padStart(2, "0")} / 06</span>
@@ -141,7 +141,7 @@ const caseImages = [
                       <p>{phase.body}</p>
                     </div>
                     {index === 0 ? (
-                      <img src="/images/process-objective-v2.png" width="1448" height="1086" alt={locale === "zh" ? "用于定义项目目标的笔记本与钢笔插画" : "Notebook and pen illustration for defining a project objective"} />
+                      <img src="/images/process-objective-v2.png" width="1448" height="1086" alt={locale === "zh" ? "用于定义项目目标的笔记本与钢笔插画" : "Notebook and pen illustration for defining a project objective"} loading="lazy" decoding="async" />
                     ) : (
                       <div class="home-v2-process-symbol" aria-hidden="true"><ProjectIcon name={phase.icon} size={72} /></div>
                     )}
@@ -159,7 +159,7 @@ const caseImages = [
       <div class="home-v2-shell home-v2-markets-grid">
         <div class="home-v2-markets-copy home-v2-reveal" data-home-reveal>
           <p class="eyebrow">{page.marketsKicker}</p>
-          <h2 id="markets-title">{page.marketsTitle}</h2>
+          <h2 id="markets-title" class="home-v2-heading-accent">{page.marketsTitle}</h2>
           <ul>
             {page.regions.map((region, index) => (
               <li>
@@ -179,7 +179,7 @@ const caseImages = [
       <div class="home-v2-shell">
         <header class="home-v2-subhead home-v2-reveal" data-home-reveal>
           <p class="eyebrow">{page.casesKicker}</p>
-          <h2 id="cases-title">{c.selectedProjects}</h2>
+          <h2 id="cases-title" class="home-v2-heading-accent">{c.selectedProjects}</h2>
         </header>
         <div class="home-v2-case-list">
           {projectCases.map((project, index) => (
@@ -294,16 +294,20 @@ const caseImages = [
     }
 
     const process = homeRoot.querySelector<HTMLElement>("[data-process-story]");
-    const phaseButtons = Array.from(process?.querySelectorAll<HTMLButtonElement>("[data-phase-button]") ?? []);
+    const phaseButtons = Array.from(process?.querySelectorAll<HTMLAnchorElement>("[data-phase-button]") ?? []);
     const phasePanels = Array.from(process?.querySelectorAll<HTMLElement>("[data-phase-panel]") ?? []);
     const phaseObservers = Array.from(process?.querySelectorAll<HTMLElement>("[data-phase-observer]") ?? []);
     const progress = process?.querySelector<HTMLElement>("[data-process-progress]");
 
-    const setActivePhase = (index: number) => {
+    let activePhase = -1;
+    const setActivePhase = (index: number, force = false) => {
+      if (!homeRoot.classList.contains("is-process-enhanced") || (!force && index === activePhase)) return;
+      activePhase = index;
       phaseButtons.forEach((button, buttonIndex) => {
         const active = buttonIndex === index;
         button.classList.toggle("is-active", active);
-        button.setAttribute("aria-pressed", String(active));
+        if (active) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
       });
       phasePanels.forEach((panel, panelIndex) => {
         panel.hidden = panelIndex !== index;
@@ -312,9 +316,17 @@ const caseImages = [
     };
 
     phaseButtons.forEach((button, index) => {
-      button.addEventListener("click", () => setActivePhase(index));
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        setActivePhase(index);
+      });
       button.addEventListener("focus", () => setActivePhase(index));
     });
+
+    if (process && phaseButtons.length === phasePanels.length && phasePanels.length > 0) {
+      homeRoot.classList.add("is-process-enhanced");
+      setActivePhase(0, true);
+    }
 
     if (process && phaseObservers.length > 0) {
       let phaseFrame = 0;
@@ -340,21 +352,37 @@ const caseImages = [
     const dossier = homeRoot.querySelector<HTMLElement>("[data-hero-dossier]");
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     if (dossier && finePointer.matches && !reducedMotion.matches) {
-      dossier.addEventListener("pointermove", (event) => {
-        const bounds = dossier.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+      let dossierFrame = 0;
+      let pointerX = 0;
+      let pointerY = 0;
+      let dossierBounds = dossier.getBoundingClientRect();
+      const refreshDossierBounds = () => {
+        dossierBounds = dossier.getBoundingClientRect();
+      };
+      const applyDossierTransform = () => {
+        dossierFrame = 0;
+        const x = (pointerX - dossierBounds.left) / dossierBounds.width - 0.5;
+        const y = (pointerY - dossierBounds.top) / dossierBounds.height - 0.5;
         dossier.style.setProperty("--dossier-x", `${x * 7}px`);
         dossier.style.setProperty("--dossier-y", `${y * 5}px`);
         dossier.style.setProperty("--dossier-rx", `${y * -1.2}deg`);
         dossier.style.setProperty("--dossier-ry", `${x * 1.5}deg`);
+      };
+      dossier.addEventListener("pointerenter", refreshDossierBounds);
+      dossier.addEventListener("pointermove", (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        if (!dossierFrame) dossierFrame = requestAnimationFrame(applyDossierTransform);
       });
       dossier.addEventListener("pointerleave", () => {
+        if (dossierFrame) cancelAnimationFrame(dossierFrame);
+        dossierFrame = 0;
         dossier.style.removeProperty("--dossier-x");
         dossier.style.removeProperty("--dossier-y");
         dossier.style.removeProperty("--dossier-rx");
         dossier.style.removeProperty("--dossier-ry");
       });
+      new ResizeObserver(refreshDossierBounds).observe(dossier);
     }
   }
 </script>
