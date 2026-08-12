@@ -1,24 +1,16 @@
 ---
-interface Props {
-  kicker: string;
-  title: string;
-  lead: string;
-  index: string;
-}
+interface Props { kicker: string; title: string; lead: string; index: string }
 const { kicker, title, lead, index } = Astro.props;
-const titleId = `page-title-${index}`;
 ---
-
-<section class="page-hero" aria-labelledby={titleId}>
+<section class="page-hero">
   <div class="shell page-hero-grid">
-    <div class="page-hero-copy">
-      <div class="page-hero__meta"><span>{index}</span><p class="eyebrow">{kicker}</p></div>
-      <h1 id={titleId}>{title}</h1>
+    <div data-reveal>
+      <p class="kicker"><span>{index}</span>{kicker}</p>
+      <h1>{title}</h1>
     </div>
-    <div class="page-hero-aside">
-      <span class="page-index">JED / {index}</span>
+    <div class="page-hero-aside" data-reveal>
+      <span>JED / {index}</span>
       <p>{lead}</p>
-      <span class="page-hero-rule" aria-hidden="true"></span>
     </div>
   </div>
 </section>

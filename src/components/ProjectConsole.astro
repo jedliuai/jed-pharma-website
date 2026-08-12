@@ -1,0 +1,52 @@
+---
+import ProjectIcon from "@/components/ProjectIcon.astro";
+import { site, type Locale } from "@/config/site";
+
+interface Props { locale: Locale; compact?: boolean; auto?: boolean }
+const { locale, compact = false, auto = true } = Astro.props;
+const rows = locale === "zh" ? [
+  { tag: "市场", title: "市场与伙伴", body: "机会、合作方与进入路径", icon: "globe" as const },
+  { tag: "注册 / 质量", title: "注册与质量", body: "要求、资料与技术问题", icon: "sliders-horizontal" as const },
+  { tag: "供应", title: "生产与供应", body: "准备度、节点与跨团队协同", icon: "package" as const },
+  { tag: "交付", title: "交付与跟进", body: "文件、物流、交接与闭环", icon: "truck" as const }
+] : [
+  { tag: "MARKET", title: "Market & Partner", body: "Opportunity, partner and entry path", icon: "globe" as const },
+  { tag: "REG / QA", title: "Registration & Quality", body: "Requirements, dossiers and technical questions", icon: "sliders-horizontal" as const },
+  { tag: "SUPPLY", title: "Manufacturing & Supply", body: "Readiness, milestones and team alignment", icon: "package" as const },
+  { tag: "DELIVERY", title: "Delivery & Follow-up", body: "Documents, logistics, handover and closeout", icon: "truck" as const }
+];
+---
+
+<div class:list={["project-console", { "project-console--compact": compact }]} data-console data-console-auto={auto ? "true" : undefined} data-reveal>
+  <div class="console-bar">
+    <div class="console-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <span>{locale === "zh" ? "国际项目执行台" : "INTERNATIONAL PROJECT DESK"}</span>
+    <ProjectIcon name="dots-three" size={20} />
+  </div>
+  <div class="console-body">
+    <aside class="console-sidebar" aria-hidden="true">
+      <img src={site.portrait} width="52" height="52" alt="" />
+      <span></span><span></span><span></span>
+    </aside>
+    <div class="console-workspace">
+      <header class="console-heading">
+        <div><small>{locale === "zh" ? "工作路径" : "WORKING PATH"}</small><strong>{locale === "zh" ? "从机会到交付" : "Opportunity to delivery"}</strong></div>
+        <span class="console-live"><i></i>{locale === "zh" ? "持续推进" : "IN MOTION"}</span>
+      </header>
+      <div class="console-list" aria-label={locale === "zh" ? "项目工作阶段" : "Project work stages"}>
+        {rows.map((row, index) => (
+          <button class:list={["console-row", { "is-active": index === 1 }]} type="button" data-console-row data-index={index} aria-label={row.title}>
+            <span class="console-row-icon"><ProjectIcon name={row.icon} size={19} /></span>
+            <span class="console-row-copy"><strong>{row.title}</strong><small>{row.body}</small></span>
+            <span class="console-tag">{row.tag}</span>
+            <ProjectIcon name="arrow-up-right" size={17} />
+          </button>
+        ))}
+      </div>
+      <footer class="console-footer">
+        <span><img src={site.portrait} width="30" height="30" alt="" /> Jed Liu</span>
+        <small>{locale === "zh" ? "清晰目标 · 可见交接 · 完成闭环" : "CLEAR OBJECTIVE · VISIBLE HANDOFFS · CLOSED LOOP"}</small>
+      </footer>
+    </div>
+  </div>
+</div>

@@ -6,5 +6,6 @@ dist/
 output/
 .superpowers/
 .worktrees/
+.superdesign/
 .DS_Store
 *.log

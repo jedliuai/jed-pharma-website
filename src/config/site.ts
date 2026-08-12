@@ -24,10 +24,10 @@ export type ContactChannel = {
 };
 
 export const designTokens = {
-  warmIvory: "#F2EDE3",
-  nearBlackBrown: "#2B211C",
-  terracotta: "#C95D3A",
-  terracottaInk: "#9B452B",
+  warmIvory: "#EEEAE2",
+  nearBlackBrown: "#2C2621",
+  terracotta: "#D45D35",
+  terracottaInk: "#A64227",
   cobalt: "#1F55B5"
 } as const;
 

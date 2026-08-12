@@ -1,481 +1,122 @@
 import type { Locale, RouteKey } from "@/config/site";
 
 export const navLabels: Record<Locale, Record<RouteKey, string>> = {
-  en: {
-    home: "Home",
-    expertise: "Expertise",
-    markets: "Markets",
-    projects: "Projects",
-    about: "About",
-    contact: "Contact"
-  },
-  zh: {
-    home: "首页",
-    expertise: "专业能力",
-    markets: "市场经验",
-    projects: "项目案例",
-    about: "关于我",
-    contact: "联系"
-  }
+  en: { home: "Home", expertise: "Expertise", markets: "Markets", projects: "Projects", about: "About", contact: "Contact" },
+  zh: { home: "首页", expertise: "专业能力", markets: "市场经验", projects: "项目案例", about: "关于我", contact: "联系" }
 };
 
 export const seo: Record<Locale, Record<RouteKey, { title: string; description: string }>> = {
   en: {
-    home: {
-      title: "Jed Liu | Pharmaceutical International Business",
-      description:
-        "Pharmaceutical international business professional focused on Latin America and CIS & Eastern Europe, covering registration coordination, project execution, supply chain and AI-enabled trade workflows."
-    },
-    expertise: {
-      title: "Expertise | Jed Liu — Pharmaceutical International Business",
-      description:
-        "International business development, pharmaceutical registration coordination, quality communication, order execution and international delivery."
-    },
-    markets: {
-      title: "Markets | Latin America and CIS & Eastern Europe Pharmaceutical Experience",
-      description:
-        "Practical pharmaceutical project coordination across Latin America and CIS & Eastern Europe."
-    },
-    projects: {
-      title: "Selected Projects | Jed Liu",
-      description:
-        "Anonymized pharmaceutical international business cases covering registration, manufacturing scope and multi-order delivery."
-    },
-    about: {
-      title: "About Jed Liu | Pharmaceutical International Business",
-      description:
-        "The professional story, working principles and systems-thinking approach behind Jed Liu’s pharmaceutical international business practice."
-    },
-    contact: {
-      title: "Contact Jed Liu | Discuss a Pharmaceutical Project",
-      description:
-        "Connect with Jed Liu about pharmaceutical registration, sourcing, distribution and international supply projects."
-    }
+    home: { title: "Jed Liu | Pharmaceutical International Business", description: "Pharmaceutical international business professional connecting market development, registration, quality coordination, execution and international delivery." },
+    expertise: { title: "Expertise | Jed Liu", description: "International business development, pharmaceutical registration and quality coordination, project execution and international supply." },
+    markets: { title: "Markets | Jed Liu", description: "Practical pharmaceutical project experience across Latin America, CIS and Eastern Europe." },
+    projects: { title: "Selected Projects | Jed Liu", description: "Anonymized pharmaceutical international business cases across registration, manufacturing scope and delivery." },
+    about: { title: "About Jed Liu | Pharmaceutical International Business", description: "Jed Liu's professional approach to moving complex pharmaceutical international projects forward." },
+    contact: { title: "Contact Jed Liu | Discuss a Pharmaceutical Project", description: "Connect with Jed Liu through LinkedIn, email or WeChat." }
   },
   zh: {
-    home: {
-      title: "Jed Liu｜医药国际业务",
-      description: "聚焦拉美、独联体与东欧市场，覆盖药品注册协调、项目执行、国际交付与 AI 赋能外贸工作流。"
-    },
-    expertise: {
-      title: "专业能力｜Jed 医药国际业务",
-      description: "医药国际业务开发、注册协调、质量技术沟通、订单执行与国际交付能力。"
-    },
-    markets: {
-      title: "市场经验｜拉美、独联体与东欧医药市场",
-      description: "面向拉美、独联体与东欧市场的医药项目协调与国际业务实践。"
-    },
-    projects: {
-      title: "匿名项目案例｜Jed 医药国际业务",
-      description: "围绕注册补件、生产范围澄清和多订单交付的匿名医药国际业务案例。"
-    },
-    about: {
-      title: "关于 Jed Liu｜医药国际业务",
-      description: "Jed Liu 的职业经历、工作原则，以及通过系统化方法推进医药国际项目的实践。"
-    },
-    contact: {
-      title: "联系 Jed Liu｜沟通医药国际项目",
-      description: "就药品注册、采购、分销和国际供应项目与 Jed Liu 建立联系。"
-    }
+    home: { title: "Jed Liu｜医药国际业务", description: "连接市场开发、注册与质量协调、项目执行和国际交付。" },
+    expertise: { title: "专业能力｜Jed 医药国际业务", description: "医药国际业务开发、注册与质量协调、项目执行与国际供应。" },
+    markets: { title: "市场经验｜Jed 医药国际业务", description: "拉丁美洲、独联体及东欧市场的医药项目实践。" },
+    projects: { title: "匿名项目案例｜Jed 医药国际业务", description: "涵盖注册补件、生产范围澄清和多订单交付的匿名案例。" },
+    about: { title: "关于 Jed Liu｜医药国际业务", description: "Jed Liu 的职业经历、工作原则与系统化项目方法。" },
+    contact: { title: "联系 Jed Liu｜沟通医药国际项目", description: "通过 LinkedIn、邮件或微信与 Jed Liu 建立联系。" }
   }
 };
 
 export const common = {
   en: {
-    eyebrow: "Pharmaceutical International Business",
-    primaryCta: "Discuss a Project",
-    secondaryCta: "View My Expertise",
-    linkedinCta: "Connect on LinkedIn",
-    language: "中文",
-    menu: "Menu",
-    openMenu: "Open menu",
-    closeMenu: "Close menu",
-    mainNavigation: "Primary navigation",
-    footerNavigation: "Footer navigation",
-    contactChannels: "Direct channels",
-    allContactOptions: "View all contact options",
-    metricsNote: "Anonymized ranges from personal working records. Not an employer disclosure.",
-    selectedProjects: "Selected projects",
-    viewAll: "View all projects",
-    contactTitle: "Let’s discuss a pharmaceutical project.",
-    contactBody:
-      "If you are working on pharmaceutical registration, sourcing, distribution or an international supply project and believe there may be a fit, feel free to get in touch.",
-    footerNote: "Personal professional website · China · Working internationally",
-    disclaimer:
-      "Product information, regulatory status, availability, specifications and commercial terms require project-specific formal confirmation.",
-    wechatTitle: "Connect on WeChat",
-    wechatBody: "Scan the contact card and include a short note about your project.",
-    close: "Close dialog"
+    eyebrow: "PHARMACEUTICAL INTERNATIONAL BUSINESS", primaryCta: "Discuss a Project", secondaryCta: "See how I work", linkedinCta: "Connect on LinkedIn",
+    language: "中文", menu: "Menu", openMenu: "Open menu", closeMenu: "Close menu", mainNavigation: "Primary navigation", footerNavigation: "Footer navigation", contactChannels: "Direct channels",
+    metricsNote: "Anonymized personal working records. Not an employer disclosure.", selectedProjects: "Selected projects", viewAll: "View all projects",
+    contactTitle: "Ready to move a project forward?", contactBody: "Share the market, product context and current bottleneck. I will respond through the channel you choose.",
+    footerNote: "Pharmaceutical international business, from registration to delivery.", disclaimer: "Product, regulatory and commercial information requires project-specific formal confirmation.",
+    wechatTitle: "Connect on WeChat", wechatBody: "Scan the contact card and include a short note about your project.", close: "Close dialog"
   },
   zh: {
-    eyebrow: "医药国际业务 · 从注册到交付",
-    primaryCta: "沟通项目",
-    secondaryCta: "查看专业能力",
-    linkedinCta: "通过 LinkedIn 联系",
-    language: "EN",
-    menu: "菜单",
-    openMenu: "打开菜单",
-    closeMenu: "关闭菜单",
-    mainNavigation: "主导航",
-    footerNavigation: "页尾导航",
-    contactChannels: "直接联系方式",
-    allContactOptions: "查看全部联系方式",
-    metricsNote: "数据为个人工作记录的脱敏区间，不代表现任公司官方披露。",
-    selectedProjects: "匿名项目案例",
-    viewAll: "查看全部案例",
-    contactTitle: "一起聊聊医药国际项目。",
-    contactBody: "如果你正在推进药品注册、采购、分销或国际供应项目，并认为可能有合作空间，欢迎联系。",
-    footerNote: "个人职业网站 · 中国 · 面向国际市场",
-    disclaimer: "产品信息、注册状态、供应情况、规格与商务条件，均需根据具体项目进行正式确认。",
-    wechatTitle: "微信联系",
-    wechatBody: "扫描联系卡，并简单备注项目或来意。",
-    close: "关闭弹窗"
+    eyebrow: "医药国际业务", primaryCta: "沟通项目", secondaryCta: "看我如何工作", linkedinCta: "通过 LinkedIn 联系",
+    language: "EN", menu: "菜单", openMenu: "打开菜单", closeMenu: "关闭菜单", mainNavigation: "主导航", footerNavigation: "页尾导航", contactChannels: "直接联系方式",
+    metricsNote: "数据来自个人脱敏工作记录，不代表任何雇主承诺。", selectedProjects: "精选项目", viewAll: "查看全部案例",
+    contactTitle: "准备好推动一个项目了吗？", contactBody: "可以先告诉我目标市场、产品背景和当前卡点，我会通过你选择的渠道回复。",
+    footerNote: "医药国际业务，从注册到交付。", disclaimer: "产品、注册和商务信息均需针对具体项目正式确认。",
+    wechatTitle: "微信联系", wechatBody: "扫描联系卡，并简单备注项目背景。", close: "关闭弹窗"
   }
 } as const;
 
 export const home = {
   en: {
-    heroTitleStart: "From registration to delivery, I help pharmaceutical projects ",
-    heroTitleEmphasis: "move forward.",
-    heroLead:
-      "Connecting international business development with regulatory, technical and operational work — so projects move forward with clarity and discipline.",
-    heroAnnotations: ["Markets", "Coordination", "Execution"],
-    expertiseKicker: "WHERE I WORK",
-    expertiseTitle: "I work where commercial opportunity meets regulatory and operational reality.",
-    expertise: [
-      {
-        number: "01",
-        title: "International Business Development",
-        body: "Identify and evaluate markets, partners and opportunities. Build the right entry strategy and business model.",
-        icon: "globe-hemisphere-west"
-      },
-      {
-        number: "02",
-        title: "Regulatory & Technical Coordination",
-        body: "Navigate registration pathways, technical requirements and authority expectations across different markets.",
-        icon: "file-text"
-      },
-      {
-        number: "03",
-        title: "Project Execution & International Delivery",
-        body: "Coordinate manufacturing, documentation, logistics and deliverables to ensure projects reach the market.",
-        icon: "clipboard-text"
-      },
-      {
-        number: "04",
-        title: "AI-enabled Working Systems",
-        body: "Use AI to enhance research, analysis, documentation and decision-making — so teams work with more clarity.",
-        icon: "circles-three-plus"
-      }
+    heroTitle: "Jed Liu", heroLead: "From registration to delivery, I move pharmaceutical projects forward.", heroCaption: "International business · Registration & quality · Execution & supply",
+    capabilitiesTitle: "One connected system for complex international projects.", capabilitiesLead: "Commercial opportunity only becomes valuable when registration, quality, manufacturing and delivery move together.",
+    capabilities: [
+      ["International Business", "Evaluate markets, partners and product opportunities, then align a practical entry path."],
+      ["Registration & Quality", "Coordinate requirements, technical inputs and quality documentation across teams."],
+      ["Execution & Supply", "Connect manufacturing, documentation, logistics and follow-up around shared milestones."]
     ],
-    processKicker: "HOW PROJECTS MOVE",
-    processTitle: "A connected process from objective to follow-up.",
+    methodKicker: "HOW PROJECTS MOVE", methodTitle: "Six stages. One visible working path.",
     process: [
-      { title: "Define Objective", body: "Clarify the project’s purpose, target indications and success criteria. Align stakeholders on scope, timeline and key milestones.", meta: "Clarity sets everything in motion.", icon: "strategy" },
-      { title: "Market & Feasibility", body: "Assess market context, product fit, partner readiness and the practical conditions needed to make the opportunity viable.", meta: "Good projects begin with the right questions.", icon: "magnifying-glass" },
-      { title: "Regulatory Strategy", body: "Map the registration route, core documentation, technical questions and authority expectations before execution accelerates.", meta: "Requirements shape the route forward.", icon: "file-text" },
-      { title: "Execution & Coordination", body: "Connect commercial, regulatory, quality and manufacturing teams around dependencies, decisions and deadlines.", meta: "Coordination turns plans into progress.", icon: "users-three" },
-      { title: "Delivery & Submission", body: "Bring documentation, product readiness, shipment timing and formal submissions together at the point of delivery.", meta: "Every deliverable must arrive complete.", icon: "paper-plane-tilt" },
-      { title: "Closeout & Follow-up", body: "Confirm outcomes, archive the working record, resolve remaining actions and carry learning into the next cycle.", meta: "A clean closeout strengthens what follows.", icon: "seal-check" }
+      ["Define objective", "Clarify purpose, product context, target markets and success criteria."],
+      ["Market & feasibility", "Assess opportunity, partner readiness and the conditions needed to move."],
+      ["Registration strategy", "Map requirements, documentation dependencies and technical questions."],
+      ["Execution & coordination", "Connect commercial, regulatory, quality and manufacturing owners."],
+      ["Delivery & submission", "Bring product readiness, documents, logistics and handover together."],
+      ["Closeout & follow-up", "Resolve remaining actions, archive decisions and carry learning forward."]
     ],
-    marketsKicker: "MARKETS I WORK IN",
-    marketsTitle: "Experience shaped by different market realities.",
-    regions: [
-      { title: "Latin America", body: "Deep ties with key partners across the region." },
-      { title: "CIS & Eastern Europe", body: "Focus on sustainable market access." }
-    ],
-    casesKicker: "SELECTED PROJECT CASES",
-    caseMarkets: ["Latin America", "CIS & Eastern Europe", "Latin America"],
-    aiKicker: "AI-ENABLED WORKING METHOD",
-    aiTitle: "AI is part of my working method, not my professional identity.",
-    aiBody:
-      "I use AI tools every day to research, analyze, draft and organize. It amplifies my ability to think, coordinate and deliver.",
-    aiSteps: [
-      { title: "Research & Analysis", icon: "magnifying-glass" },
-      { title: "Organize & Structure", icon: "list-checks" },
-      { title: "Coordinate & Execute", icon: "users-three" },
-      { title: "Document & Deliver", icon: "check-square" }
-    ],
-    aboutKicker: "ABOUT ME",
-    aboutTitle: "I am interested in how complicated systems actually work.",
-    contactTitle: "Let’s discuss a project.",
-    wechatLabel: "WeChat: lijied03"
+    marketsKicker: "MARKET CONTEXT", marketsTitle: "Experience shaped by different market realities.", marketsLead: "Latin America, CIS and Eastern Europe require different routes, expectations and rhythms—but the same execution discipline.",
+    casesTitle: "Selected anonymized projects", aiTitle: "AI supports the work. It does not replace professional judgment.", aiLead: "I use AI to research, structure information, maintain working records and improve follow-up—with human review at every meaningful decision.",
+    aiItems: ["Research & compare", "Structure & track", "Draft & review"], faqTitle: "Working principles", faq: [
+      ["What can be discussed publicly?", "Only anonymized context. Employer, client, price, batch, payment and non-public regulatory information remain private."],
+      ["What does the data represent?", "The figures are personal anonymized working records, not an employer statement or forward-looking promise."],
+      ["How does a first conversation work?", "Share the market, product context and current bottleneck. Project specifics can follow through a direct channel."]
+    ]
   },
   zh: {
-    heroTitleStart: "从注册到交付，我推动医药项目",
-    heroTitleEmphasis: "持续向前。",
-    heroLead:
-      "连接国际业务开发与注册、技术和运营工作，让项目在清晰的判断与严谨的执行中持续推进。",
-    heroAnnotations: ["市场", "协调", "执行"],
-    expertiseKicker: "我的工作界面",
-    expertiseTitle: "我工作在商业机会、注册要求与运营现实的交汇处。",
-    expertise: [
-      {
-        number: "01",
-        title: "医药国际业务开发",
-        body: "识别和评估市场、合作伙伴与机会，建立合适的市场进入策略和业务模式。",
-        icon: "globe-hemisphere-west"
-      },
-      {
-        number: "02",
-        title: "注册与技术协调",
-        body: "理解不同市场的注册路径、技术要求与监管预期，并推动各方形成一致。",
-        icon: "file-text"
-      },
-      {
-        number: "03",
-        title: "项目执行与国际交付",
-        body: "协调生产、文件、物流和交付成果，确保项目真正走向市场。",
-        icon: "clipboard-text"
-      },
-      {
-        number: "04",
-        title: "AI 赋能的工作系统",
-        body: "使用 AI 增强研究、分析、文档和决策，让团队更清楚地协同推进。",
-        icon: "circles-three-plus"
-      }
+    heroTitle: "Jed Liu", heroLead: "从注册到交付，我推动医药国际项目持续向前。", heroCaption: "国际业务 · 注册与质量 · 执行与供应",
+    capabilitiesTitle: "一套连接复杂国际项目的工作系统。", capabilitiesLead: "当市场机会与注册、质量、生产和交付同步推进，商业价值才能真正落地。",
+    capabilities: [
+      ["医药国际业务", "评估市场、伙伴和产品机会，对齐可执行的进入路径。"],
+      ["注册与质量", "协调注册要求、技术输入和质量文件，让团队保持一致。"],
+      ["执行与供应", "围绕共同里程碑串联生产、文件、物流和后续行动。"]
     ],
-    processKicker: "项目如何推进",
-    processTitle: "从目标定义到后续跟进的一体化流程。",
+    methodKicker: "项目如何推进", methodTitle: "六个阶段，一条可视的工作路径。",
     process: [
-      { title: "明确目标", body: "澄清项目目的、目标适应症和成功标准，让相关方就范围、时间线与关键里程碑达成一致。", meta: "清晰的目标让一切开始运转。", icon: "strategy" },
-      { title: "市场与可行性", body: "评估市场语境、产品匹配度、合作方准备情况，以及机会落地所需的现实条件。", meta: "好项目始于正确的问题。", icon: "magnifying-glass" },
-      { title: "注册策略", body: "在执行加速前梳理注册路径、核心文件、技术问题与监管预期。", meta: "要求决定前进的路线。", icon: "file-text" },
-      { title: "执行与协调", body: "围绕依赖关系、决策与期限，连接商务、注册、质量和生产团队。", meta: "协调让计划变成进展。", icon: "users-three" },
-      { title: "交付与申报", body: "在交付节点整合文件、产品准备、发运节奏与正式申报。", meta: "每项成果都必须完整抵达。", icon: "paper-plane-tilt" },
-      { title: "收尾与跟进", body: "确认结果、归档工作记录、解决剩余事项，并将经验带入下一轮项目。", meta: "清晰收尾，让后续更稳健。", icon: "seal-check" }
+      ["明确目标", "澄清项目目的、产品背景、目标市场和成功标准。"],
+      ["市场与可行性", "评估机会、伙伴准备度和项目推进所需的现实条件。"],
+      ["注册策略", "梳理要求、文件依赖和关键技术问题。"],
+      ["执行与协调", "连接商务、注册、质量和生产负责人。"],
+      ["交付与申报", "将产品准备、文件、物流和交接聚合到一起。"],
+      ["收尾与跟进", "处理剩余行动、归档决策，并将经验带入下一轮。"]
     ],
-    marketsKicker: "我的市场经验",
-    marketsTitle: "在不同市场现实中形成的工作经验。",
-    regions: [
-      { title: "拉丁美洲", body: "与区域内关键合作伙伴保持深入协作。" },
-      { title: "独联体与东欧", body: "聚焦可持续的市场准入。" }
-    ],
-    casesKicker: "精选匿名项目案例",
-    caseMarkets: ["拉丁美洲", "独联体与东欧", "拉丁美洲"],
-    aiKicker: "AI 赋能的工作方法",
-    aiTitle: "AI 是我的工作方法之一，而不是我的职业身份。",
-    aiBody:
-      "我每天使用 AI 工具进行研究、分析、起草与整理。它放大了我的思考、协调和交付能力。",
-    aiSteps: [
-      { title: "研究与分析", icon: "magnifying-glass" },
-      { title: "组织与结构化", icon: "list-checks" },
-      { title: "协调与执行", icon: "users-three" },
-      { title: "文档与交付", icon: "check-square" }
-    ],
-    aboutKicker: "关于我",
-    aboutTitle: "我对复杂系统究竟如何运作始终保持兴趣。",
-    contactTitle: "一起聊聊项目。",
-    wechatLabel: "微信：lijied03"
+    marketsKicker: "市场语境", marketsTitle: "在不同市场现实中形成的经验。", marketsLead: "拉丁美洲、独联体和东欧拥有不同的路径、预期与节奏，但都需要一致的执行纪律。",
+    casesTitle: "精选匿名项目", aiTitle: "AI 支持工作，但不取代专业判断。", aiLead: "我使用 AI 辅助研究、结构化信息、维护工作记录和改进跟进，重要决策始终经过人工审核。",
+    aiItems: ["研究与对比", "结构化与跟踪", "起草与审核"], faqTitle: "工作原则", faq: [
+      ["哪些内容可以公开讨论？", "仅讨论脱敏后的项目语境。雇主、客户、价格、批次、付款和未公开注册信息始终保密。"],
+      ["页面数据代表什么？", "这些数据来自个人脱敏工作记录，不代表雇主声明或未来承诺。"],
+      ["第一次沟通需要什么？", "可以先分享目标市场、产品背景和当前卡点，具体信息可在直接渠道中继续。"]
+    ]
   }
 } as const;
 
 export const expertise = {
-  en: {
-    kicker: "EXPERTISE",
-    title: "The work that turns an opportunity into a deliverable project.",
-    lead:
-      "I connect commercial goals with regulatory requirements, technical decisions, manufacturing readiness and international delivery.",
-    areas: [
-      ["International business development", "Evaluate market context, partner readiness and product fit; turn early conversations into a clear opportunity brief and a practical route forward."],
-      ["Regulatory & technical coordination", "Structure registration questions, documentation dependencies and technical responses, then connect overseas requirements with the right internal specialists."],
-      ["Quality & manufacturing alignment", "Clarify specifications, analytical expectations, packaging requirements, manufacturing scope and release readiness before they become execution risks."],
-      ["Project execution & international delivery", "Track owners, decisions, milestones, product readiness, shipping documentation and handover so the project moves as one connected system."]
-    ],
-    processKicker: "REGISTRATION → DELIVERY",
-    processTitle: "One connected chain, with every handoff visible.",
-    process: ["Objective & fit", "Registration route", "Technical package", "Artwork & readiness", "Production", "Quality release", "Shipping documents", "Handover & archive"],
-    productsTitle: "Product experience, presented as context",
-    productsLead:
-      "These categories describe anonymized personal working experience. They are not a live catalogue, an availability statement or an offer; every project requires current, formal confirmation.",
-    productGroups: [
-      ["Sterile & injectable forms", "Working familiarity with sterile powders and injectable solutions, including the documentation and coordination questions that surround them."],
-      ["Oral & inhalation forms", "Experience contexts include tablets, capsules, soft capsules and inhalation aerosols, with dosage-form-specific packaging and technical considerations."],
-      ["Active ingredients", "Coordination may cover technical packages, quality documents, sample readiness, standard packing and feasibility questions for registration or supply evaluation."]
-    ]
-  },
-  zh: {
-    kicker: "专业能力",
-    title: "把业务机会变成可交付项目，中间真正需要做的工作。",
-    lead: "我连接商务目标、注册要求、技术决策、生产准备与国际交付。",
-    areas: [
-      ["医药国际业务开发", "评估市场语境、合作方准备度与产品匹配度，把早期沟通整理成清晰的机会简报和可执行的推进路径。"],
-      ["注册与技术协调", "梳理注册问题、文件依赖与技术回复，再把海外要求连接到合适的内部专业团队。"],
-      ["质量与生产协同", "提前澄清质量标准、分析要求、包装需求、生产范围与放行准备，避免它们在执行阶段变成风险。"],
-      ["项目执行与国际交付", "跟踪负责人、决策、里程碑、产品准备、运输文件与项目交接，让各环节作为一个系统持续推进。"]
-    ],
-    processKicker: "注册 → 交付",
-    processTitle: "一条相互连接、每次交接都清楚可见的执行链。",
-    process: ["目标与匹配", "注册路径", "技术资料", "包装稿与准备", "生产", "质量放行", "运输文件", "交接与归档"],
-    productsTitle: "作为经验语境呈现的产品范围",
-    productsLead: "以下类别来自脱敏后的个人工作经验，并非实时产品目录、供应声明或要约；每个具体项目都需要以当下的正式确认为准。",
-    productGroups: [
-      ["无菌与注射剂型", "对无菌粉针和注射液相关的文件、技术问题与协作界面具备工作层面的理解。"],
-      ["口服与吸入剂型", "经验语境包括片剂、胶囊、软胶囊与吸入气雾剂，以及不同剂型对应的包装和技术关注点。"],
-      ["原料药", "协调内容可能涉及技术资料、质量文件、样品准备、标准包装，以及注册或供应评估阶段的可行性问题。"]
-    ]
-  }
+  en: { kicker: "EXPERTISE", title: "The work between opportunity and delivery.", lead: "I connect commercial goals with registration requirements, technical decisions, manufacturing readiness and international supply.", areas: home.en.capabilities, chainTitle: "Every handoff stays visible.", chain: ["Objective & fit", "Registration route", "Technical package", "Artwork & readiness", "Production", "Quality release", "Shipping documents", "Handover & archive"], productsTitle: "Product experience as working context", productsLead: "These categories describe anonymized experience, not a live catalogue or supply offer.", groups: [["Sterile & injectable forms", "Coordination context around sterile powders, injectable solutions and their documentation."], ["Oral & inhalation forms", "Tablets, capsules, soft capsules and inhalation aerosols, including dosage-form-specific considerations."], ["Active ingredients", "Technical packages, quality documents, sample readiness and feasibility questions."]] },
+  zh: { kicker: "专业能力", title: "从机会到交付之间的关键工作。", lead: "我连接商业目标、注册要求、技术决策、生产准备和国际供应。", areas: home.zh.capabilities, chainTitle: "让每次交接都清晰可见。", chain: ["目标与匹配", "注册路径", "技术资料", "包装稿与准备", "生产", "质量放行", "运输文件", "交接与归档"], productsTitle: "作为工作语境的产品经验", productsLead: "以下类别来自脱敏经验，并非实时产品目录或供应要约。", groups: [["无菌与注射剂型", "涵盖无菌粉末、注射液及相关文件的协调语境。"], ["口服与吸入剂型", "包括片剂、胶囊、软胶囊和吸入气雾剂等剂型。"], ["原料药", "涵盖技术资料、质量文件、样品准备和可行性问题。"]] }
 } as const;
 
 export const markets = {
-  en: {
-    kicker: "MARKETS",
-    title: "Pharmaceutical business is local, even when the supply chain is global.",
-    lead:
-      "My working context is concentrated in Latin America and CIS & Eastern Europe, where commercial, regulatory and manufacturing teams often need close alignment.",
-    regions: [
-      {
-        code: "LATAM",
-        title: "Latin America",
-        body: "Projects often require careful sequencing across local partner questions, registration documentation, samples, technical clarification and operational readiness.",
-        contexts: ["Local partner alignment", "Documentation pathways", "Sample & artwork readiness", "Cross-time-zone follow-up"]
-      },
-      {
-        code: "CIS / EE",
-        title: "CIS & Eastern Europe",
-        body: "Work frequently involves close reading of quality expectations, registration questions, manufacturing scope and the dependencies between technical and commercial teams.",
-        contexts: ["Quality-standard alignment", "Technical question mapping", "Manufacturing scope", "Execution dependencies"]
-      }
-    ],
-    scopeNote: "Regional focus describes my personal working context; it does not claim coverage of every country or independent authority representation.",
-    regulatoryTitle: "Coordination across different operating contexts",
-    regulatoryLead:
-      "I coordinate from the business side rather than acting as an independent regulatory adviser. The work is to make questions, owners, evidence and next actions legible across teams.",
-    authorities: ["Map the local requirement", "Identify the accountable owner", "Verify the supporting evidence", "Keep decisions and follow-up visible"],
-    realityTitle: "Four questions behind a workable market route",
-    reality: ["Who holds the registration responsibility?", "Who manages the import route?", "Who owns operational follow-up?", "How will teams verify decisions?"],
-    quote: "A promising opportunity becomes a good project only when registration, execution capacity and long-term fit make sense together."
-  },
-  zh: {
-    kicker: "市场经验",
-    title: "供应链可以全球化，但医药业务始终具有本地性。",
-    lead: "我的工作语境主要集中在拉美、独联体与东欧，这些项目通常需要商务、注册和生产团队紧密协同。",
-    regions: [
-      {
-        code: "LATAM",
-        title: "拉丁美洲",
-        body: "项目往往需要细致安排本地合作方问题、注册文件、样品、技术澄清与运营准备之间的先后关系。",
-        contexts: ["本地合作方协同", "文件路径梳理", "样品与包装稿准备", "跨时区跟进"]
-      },
-      {
-        code: "CIS / EE",
-        title: "独联体与东欧",
-        body: "工作中经常需要仔细理解质量预期、注册问题、生产范围，以及技术团队与商务团队之间的依赖关系。",
-        contexts: ["质量标准衔接", "技术问题拆解", "生产范围澄清", "执行依赖管理"]
-      }
-    ],
-    scopeNote: "区域聚焦描述的是我的个人工作语境，不代表覆盖每个国家，也不代表任何监管机构。",
-    regulatoryTitle: "在不同运营语境之间建立协同",
-    regulatoryLead:
-      "我从业务侧开展协调，而不是把自己表述为独立注册顾问。工作的关键，是让跨团队的问题、负责人、依据和下一步行动都清晰可见。",
-    authorities: ["梳理本地要求", "识别责任人", "核验支持依据", "保持决策与跟进可见"],
-    realityTitle: "一条可执行市场路径背后的四个问题",
-    reality: ["谁承担注册责任？", "谁管理进口路径？", "谁负责运营跟进？", "团队如何核验决策？"],
-    quote: "只有当注册路径、执行能力与长期匹配度同时成立，一项有吸引力的机会才会成为好项目。"
-  }
+  en: { kicker: "MARKETS", title: "Regional experience, grounded in project reality.", lead: "Market access is never just a map. It is the interaction of local requirements, partner context and execution readiness.", regions: [["Latin America", "LATAM", "Partner communication, registration routes and long-cycle project coordination."], ["CIS & Eastern Europe", "CIS / EE", "Technical requirements, supply feasibility and sustainable market access."]], questions: ["What does the market require?", "What can the product and team support?", "Which dependencies control the timeline?"], note: "Regions indicate anonymized personal working experience, not current product availability." },
+  zh: { kicker: "市场经验", title: "扎根于项目现实的区域经验。", lead: "市场准入不只是一张地图，而是当地要求、合作方语境和执行准备度的交汇。", regions: [["拉丁美洲", "LATAM", "合作方沟通、注册路径与长周期项目协调。"], ["独联体与东欧", "CIS / EE", "技术要求、供应可行性与可持续市场准入。"]], questions: ["市场真正需要什么？", "产品和团队能够支持什么？", "哪些依赖关系决定时间线？"], note: "区域表示个人脱敏工作经验，不代表当前产品可供状态。" }
 } as const;
 
 export const projects = {
-  en: {
-    kicker: "SELECTED PROJECTS",
-    title: "What execution looks like when the details matter.",
-    lead:
-      "These cases are deliberately anonymized. They show how I structure problems and coordinate action without exposing partners, products or confidential project data.",
-    basis: "ANONYMIZED PERSONAL WORKING RECORDS · ILLUSTRATIVE, NOT AN EMPLOYER DISCLOSURE OR COMMERCIAL COMMITMENT",
-    situation: "Situation",
-    role: "My role",
-    demonstrates: "What it demonstrates",
-    privacy: "Only the problem-solving pattern is shown. Identifying parties, transaction records, non-public operational details and unpublished regulatory information are excluded."
-  },
-  zh: {
-    kicker: "匿名项目案例",
-    title: "当细节真正决定结果时，执行是什么样子。",
-    lead: "这些案例经过严格匿名化，只展示我如何梳理问题和协调行动，不暴露合作方、产品或机密项目数据。",
-    basis: "脱敏个人工作记录 · 仅作方法示例，不代表雇主披露或商业承诺",
-    situation: "项目情境",
-    role: "我的职责",
-    demonstrates: "体现的能力",
-    privacy: "页面只展示解决问题的方法，不包含可识别主体、交易记录、非公开运营细节或未公开注册信息。"
-  }
+  en: { kicker: "SELECTED PROJECTS", title: "Anonymized cases, focused on the work.", lead: "Each case shows the coordination problem, the role I played and the capability it demonstrates—without exposing commercial or regulatory details.", basis: "These cases are reconstructed from anonymized personal records. They do not identify an employer, client, product or authority decision.", situation: "Situation", role: "Coordination", demonstrates: "Demonstrates", privacy: "No employer, client, contract, batch, price, payment or non-public registration information is disclosed." },
+  zh: { kicker: "精选项目", title: "关注工作本身的匿名案例。", lead: "每个案例展示协调问题、我承担的角色和所体现的能力，不暴露商务或注册细节。", basis: "案例根据个人脱敏记录重构，不标识雇主、客户、产品或监管决定。", situation: "项目背景", role: "协调工作", demonstrates: "体现能力", privacy: "不披露雇主、客户、合同、批次、价格、付款或未公开注册信息。" }
 } as const;
 
 export const about = {
-  en: {
-    kicker: "ABOUT JED",
-    title: "A business professional who likes understanding how complex systems actually work.",
-    lead:
-      "Pharmaceutical international business suits me because every project combines people, regulations, manufacturing, documents, time and uncertainty.",
-    story: [
-      "My work has grown from early commercial communication into registration coordination, technical discussions, production follow-up, quality release and international logistics.",
-      "I increasingly see my role as a commercial project executor: someone who understands the business objective, identifies critical dependencies and keeps different teams aligned until the project is truly complete.",
-      "That same curiosity led me to build structured working systems with databases, AI and automation. Technology is useful to me only when it makes real work clearer."
-    ],
-    timelineTitle: "Professional progression",
-    timeline: [
-      ["Pharmaceutical international business", "Focused on overseas pharmaceutical business, especially Latin America and CIS & Eastern Europe."],
-      ["From sales to project execution", "Expanded from early commercial work into registration, production, quality, packaging and logistics coordination."],
-      ["A data-driven working system", "Structured years of working records into reusable product, order and execution data."],
-      ["AI-supported workflow", "Applied AI and automation to document processing, information extraction, validation and project tracking — always with human review."]
-    ],
-    principlesTitle: "Working principles",
-    principles: [
-      ["Clarity", "Clear ownership, timelines and next actions."],
-      ["Verification", "Important technical, regulatory and commercial assumptions should be checked."],
-      ["Execution", "An idea matters only when it can move through registration, production, quality, logistics and handover."],
-      ["Systems thinking", "Recurring problems deserve reusable processes, data structures and automation."]
-    ],
-    aiTitle: "AI supports the method; it does not replace the profession.",
-    aiBody: "I use AI to research, structure, compare, draft and track information. Professional judgment, source verification and accountable decisions remain human responsibilities.",
-    aiSteps: ["Research", "Structure", "Verify", "Deliver"]
-  },
-  zh: {
-    kicker: "关于 JED",
-    title: "一个喜欢弄清楚复杂系统究竟如何运转的国际业务从业者。",
-    lead: "我喜欢医药国际业务，因为每一个项目都是人、法规、生产、文件、时间与不确定性的组合。",
-    story: [
-      "我的工作从早期商务沟通，逐步扩展到注册协调、技术讨论、生产跟进、质量放行与国际物流。",
-      "我越来越把自己的角色理解为一名商务项目执行者：理解业务目标、识别关键依赖，并让不同团队保持一致，直到项目真正完成。",
-      "同样的好奇心也让我开始使用数据库、AI 和自动化建立结构化工作系统。对我来说，技术只有在让真实工作更清楚时才有价值。"
-    ],
-    timelineTitle: "职业能力演进",
-    timeline: [
-      ["医药国际业务", "聚焦海外医药业务，尤其是拉美、独联体与东欧市场。"],
-      ["从销售走向项目执行", "从早期商务工作逐步延伸到注册、生产、质量、包装和物流协调。"],
-      ["数据驱动的工作系统", "把多年工作记录整理为可复用的产品、订单与执行数据。"],
-      ["AI 支持的工作流", "将 AI 与自动化用于文件处理、信息提取、数据核验与项目跟踪，并始终保留人工复核。"]
-    ],
-    principlesTitle: "工作原则",
-    principles: [
-      ["清晰", "明确责任、时间和下一步行动。"],
-      ["核验", "重要的技术、法规与商务假设必须经过确认。"],
-      ["执行", "只有真正穿过注册、生产、质量、物流与交接的想法才有价值。"],
-      ["系统化", "重复出现的问题，应当沉淀为可复用的流程、数据结构和自动化。"]
-    ],
-    aiTitle: "AI 支持工作方法，但不替代专业本身。",
-    aiBody: "我使用 AI 研究、整理、比较、起草和跟踪信息；专业判断、来源核验与可追责的决策仍然由人完成。",
-    aiSteps: ["研究", "结构化", "核验", "交付"]
-  }
+  en: { kicker: "ABOUT", title: "I am interested in how complicated systems actually work.", lead: "My role sits between opportunity and execution—where commercial, regulatory, technical and operational decisions must stay connected.", story: ["I work on pharmaceutical international projects that rarely follow a straight line. Progress depends on understanding the market, asking precise questions and keeping multiple teams aligned.", "I value clear working records, visible ownership and practical decisions. The goal is not activity for its own sake; it is a project that can keep moving."], timelineTitle: "A role shaped by increasing project complexity", timeline: [["International business", "Learning markets, partners and product opportunity."], ["Registration coordination", "Connecting external requirements with internal technical owners."], ["Execution systems", "Making milestones, decisions and dependencies visible."], ["AI-supported method", "Using tools to research, structure and follow up more effectively."]], principlesTitle: "How I prefer to work", principles: [["Clarify before accelerating", "A clear objective prevents activity from becoming noise."], ["Keep handoffs visible", "Owners, dependencies and decisions should be easy to find."], ["Close the loop", "A project is not finished until remaining actions and records are clear."]], aiTitle: "Technology belongs inside the method.", aiBody: "AI helps me research, structure and maintain momentum. Professional judgment and human review remain central." },
+  zh: { kicker: "关于我", title: "我始终关注复杂系统究竟如何真正运作。", lead: "我的工作位于机会与执行之间，需要让商务、注册、技术和运营决策持续连接。", story: ["我参与的医药国际项目很少沿着直线推进。项目进展依赖于理解市场、提出精准问题，并让多个团队保持对齐。", "我重视清晰的工作记录、可见的责任与务实的决策。目标不是制造忙碌，而是让项目持续向前。"], timelineTitle: "随项目复杂度不断成长的角色", timeline: [["国际业务", "理解市场、合作方和产品机会。"], ["注册协调", "将外部要求与内部技术负责人连接。"], ["执行系统", "让里程碑、决策和依赖关系可见。"], ["AI 支持的方法", "使用工具更有效地研究、结构化和跟进。"]], principlesTitle: "我偏好的工作方式", principles: [["先澄清，再加速", "清晰目标能避免行动变成噪音。"], ["让交接可见", "负责人、依赖和决策应该容易查找。"], ["完成闭环", "只有剩余行动和记录都清晰，项目才算完成。"]], aiTitle: "技术应该融入方法。", aiBody: "AI 帮助我研究、结构化并维持项目动量，专业判断与人工审核始终居于中心。" }
 } as const;
 
 export const contact = {
-  en: {
-    kicker: "CONTACT",
-    title: "Start with the project, not a generic introduction.",
-    lead:
-      "A useful first message usually includes the target market, product or dosage form, current project stage and the specific issue you are trying to solve.",
-    responseTitle: "Best ways to connect",
-    promptTitle: "A useful first note",
-    prompts: ["Target market", "Product / dosage form", "Current project stage", "Issue to solve"],
-    note:
-      "This is a personal professional website. Any supply, registration or commercial proposal requires project-specific review and formal confirmation by the relevant parties."
-  },
-  zh: {
-    kicker: "联系",
-    title: "从具体项目开始，而不是泛泛介绍。",
-    lead: "一条有效的首次信息通常包括目标市场、产品或剂型、当前项目阶段，以及希望解决的具体问题。",
-    responseTitle: "建议的联系方式",
-    promptTitle: "首次联系建议包含",
-    prompts: ["目标市场", "产品 / 剂型", "当前项目阶段", "希望解决的问题"],
-    note: "这是个人职业网站。任何供应、注册或商务方案，都需要根据具体项目由相关主体审查并正式确认。"
-  }
+  en: { kicker: "CONTACT", title: "Start with the project context.", lead: "LinkedIn and email are the fastest ways to reach me. WeChat is available through the contact card.", promptTitle: "A useful first message includes", prompts: ["Target market or region", "Product or dosage-form context", "Current question or bottleneck"], responseTitle: "Choose a direct channel", note: "Please do not send confidential dossiers, contracts, patient data, prices or payment information in a first message." },
+  zh: { kicker: "联系", title: "从项目背景开始。", lead: "LinkedIn 和邮件是联系我的最快方式，也可通过联系卡添加微信。", promptTitle: "一条有效的首次消息可以包括", prompts: ["目标市场或区域", "产品或剂型背景", "当前问题或项目卡点"], responseTitle: "选择直接联系渠道", note: "首次消息请勿发送保密申报资料、合同、患者数据、价格或付款信息。" }
 } as const;

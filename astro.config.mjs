@@ -29,7 +29,16 @@ export default defineConfig({
           "strategy",
           "users-three",
           "wechat-logo",
-          "x"
+          "x",
+          "dots-three",
+          "globe",
+          "sliders-horizontal",
+          "truck",
+          "caret-down",
+          "arrow-down",
+          "check",
+          "map-trifold",
+          "sparkle"
         ]
       }
     }),

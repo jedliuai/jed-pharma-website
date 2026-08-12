@@ -1,34 +1,16 @@
 ---
 import { routeMap, site, type Locale } from "@/config/site";
 import { common, navLabels } from "@/data/copy";
-import ProjectIcon from "@/components/ProjectIcon.astro";
-
-interface Props {
-  locale: Locale;
-}
-
+interface Props { locale: Locale }
 const { locale } = Astro.props;
 const c = common[locale];
-const navOrder = ["expertise", "markets", "projects", "about", "contact"] as const;
 ---
-
 <footer class="site-footer">
   <div class="shell footer-grid">
-    <div class="footer-identity">
-      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" />
-      <p>{c.footerNote}</p>
-    </div>
-    <nav aria-label={c.footerNavigation}>
-      {navOrder.map((key) => <a href={routeMap[key][locale]}>{navLabels[locale][key]}</a>)}
-    </nav>
-    <div class="footer-contact" aria-label={c.contactChannels}>
-      <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><ProjectIcon name="linkedin-logo" />LinkedIn</a>
-      <a href={`mailto:${site.email}`}><ProjectIcon name="envelope-simple" />{site.email}</a>
-      <button type="button" data-open-wechat aria-haspopup="dialog" aria-controls="wechat-dialog"><ProjectIcon name="wechat-logo" />{locale === "zh" ? "微信" : "WeChat"}</button>
-    </div>
+    <div class="footer-brand"><img src={site.wordmarkLight} width="218" height="102" alt="Jed" /><p>{c.footerNote}</p></div>
+    <nav aria-label={c.footerNavigation}><strong>{locale === "zh" ? "浏览" : "EXPLORE"}</strong>{(["expertise", "markets", "projects", "about", "contact"] as const).map((key) => <a href={routeMap[key][locale]}>{navLabels[locale][key]}</a>)}</nav>
+    <div class="footer-links"><strong>{locale === "zh" ? "联系" : "CONNECT"}</strong><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href={`mailto:${site.email}`}>{site.email}</a><button type="button" data-open-wechat>{locale === "zh" ? "微信联系卡" : "WeChat card"}</button></div>
+    <div class="footer-location"><strong>{locale === "zh" ? "工作地点" : "LOCATION"}</strong><p>{site.location[locale]}</p><p>{locale === "zh" ? "面向国际医药项目" : "Working across markets"}</p></div>
   </div>
-  <div class="shell footer-bottom">
-    <p>© {new Date().getFullYear()} Jed Liu</p>
-    <p>{c.disclaimer}</p>
-  </div>
+  <div class="shell footer-bottom"><span>© {new Date().getFullYear()} Jed Liu</span><span>{c.disclaimer}</span></div>
 </footer>

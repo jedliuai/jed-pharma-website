@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import WeChatDialog from "@/components/WeChatDialog.astro";
+import SiteMotion from "@/components/SiteMotion.astro";
 import { alternatePath, designTokens, site, type Locale, type RouteKey } from "@/config/site";
 import { common, seo } from "@/data/copy";
 
@@ -105,5 +106,6 @@ const structuredData = {
     </main>
     <SiteFooter locale={locale} />
     <WeChatDialog locale={locale} title={c.wechatTitle} body={c.wechatBody} closeLabel={c.close} />
+    <SiteMotion />
   </body>
 </html>

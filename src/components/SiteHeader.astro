@@ -2,126 +2,37 @@
 import { alternatePath, routeMap, site, type Locale, type RouteKey } from "@/config/site";
 import { common, navLabels } from "@/data/copy";
 import ProjectIcon from "@/components/ProjectIcon.astro";
-
-interface Props {
-  locale: Locale;
-  route: RouteKey;
-  path: string;
-}
-
+interface Props { locale: Locale; route: RouteKey; path: string }
 const { locale, route, path } = Astro.props;
 const otherLocale: Locale = locale === "en" ? "zh" : "en";
-const localePath = alternatePath(path, otherLocale);
-const navOrder: RouteKey[] = ["home", "expertise", "markets", "projects", "about", "contact"];
+const navOrder: RouteKey[] = ["expertise", "markets", "projects", "about", "contact"];
 const c = common[locale];
 ---
-
 <header class="site-header" data-header>
   <div class="shell header-inner">
     <a class="brand-link" href={routeMap.home[locale]} aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
-      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" />
+      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" /><span>Jed Liu</span>
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label={c.openMenu} data-open-label={c.openMenu} data-close-label={c.closeMenu}>
-      <span>{c.menu}</span>
-      <ProjectIcon class="menu-icon menu-icon--open" name="list" size={21} />
-      <ProjectIcon class="menu-icon menu-icon--close" name="x" size={21} />
+      <span>{c.menu}</span><ProjectIcon name="list" size={22} />
     </button>
     <nav id="site-navigation" class="site-nav" aria-label={c.mainNavigation}>
-      <div class="nav-links">
-        {navOrder.map((key) => (
-          <a href={routeMap[key][locale]} aria-current={route === key ? "page" : undefined}>{navLabels[locale][key]}</a>
-        ))}
-      </div>
-      <a class="language-link" href={localePath} hreflang={otherLocale === "zh" ? "zh-CN" : "en"}>
-        {common[locale].language}
-      </a>
+      {navOrder.map((key) => <a href={routeMap[key][locale]} aria-current={route === key ? "page" : undefined}>{navLabels[locale][key]}</a>)}
+      <a class="language-link" href={alternatePath(path, otherLocale)} hreflang={otherLocale === "zh" ? "zh-CN" : "en"}>{c.language}</a>
     </nav>
   </div>
 </header>
-
 <script>
-  const header = document.querySelector<HTMLElement>("[data-header]");
-  const toggle = header?.querySelector<HTMLButtonElement>(".menu-toggle");
-  const navigation = header?.querySelector<HTMLElement>(".site-nav");
-  const brand = header?.querySelector<HTMLElement>(".brand-link");
-  const previousInertStates = new Map<HTMLElement, boolean>();
-
-  const getIsolationTargets = () => [
-    ...(brand ? [brand] : []),
-    ...Array.from(document.body.children).filter(
-      (element): element is HTMLElement =>
-        element instanceof HTMLElement && element !== header && element.tagName !== "SCRIPT" && element.tagName !== "STYLE"
-    )
-  ];
-
-  const isolateBackground = () => {
-    previousInertStates.clear();
-    getIsolationTargets().forEach((element) => {
-      previousInertStates.set(element, element.inert);
-      element.inert = true;
-    });
-  };
-
-  const restoreBackground = () => {
-    previousInertStates.forEach((wasInert, element) => {
-      element.inert = wasInert;
-    });
-    previousInertStates.clear();
-  };
-
-  const getMenuControls = () => {
-    if (!toggle || !navigation) return [];
-    return [toggle, ...navigation.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')];
-  };
-
-  const setMenuState = (open: boolean) => {
-    if (!toggle || !navigation) return;
-    const wasOpen = toggle.getAttribute("aria-expanded") === "true";
-    if (open === wasOpen) return;
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.querySelector<HTMLElement>(".site-nav");
+  const setOpen = (open: boolean) => {
+    if (!toggle || !nav) return;
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? toggle.dataset.closeLabel ?? "Close menu" : toggle.dataset.openLabel ?? "Open menu");
-    navigation.classList.toggle("is-open", open);
-    document.body.classList.toggle("menu-open", open);
-    if (open) {
-      isolateBackground();
-    } else {
-      restoreBackground();
-      toggle.focus({ preventScroll: true });
-    }
+    toggle.setAttribute("aria-label", open ? toggle.dataset.closeLabel ?? "Close" : toggle.dataset.openLabel ?? "Menu");
+    nav.classList.toggle("is-open", open); document.body.classList.toggle("menu-open", open);
   };
-
-  toggle?.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") === "true";
-    setMenuState(!open);
-  });
-
-  navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
-    if (toggle?.getAttribute("aria-expanded") === "true") setMenuState(false);
-  }));
-  window.addEventListener("keydown", (event) => {
-    if (toggle?.getAttribute("aria-expanded") !== "true") return;
-    if (event.key === "Escape") {
-      event.preventDefault();
-      setMenuState(false);
-      return;
-    }
-    if (event.key !== "Tab") return;
-    const controls = getMenuControls();
-    const first = controls[0];
-    const last = controls.at(-1);
-    if (!first || !last) return;
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    } else if (!controls.includes(document.activeElement as HTMLElement)) {
-      event.preventDefault();
-      first.focus();
-    }
-  });
-  window.matchMedia("(min-width: 54.01rem)").addEventListener("change", (event) => {
-    if (event.matches && toggle?.getAttribute("aria-expanded") === "true") setMenuState(false);
-  });
+  toggle?.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+  nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  addEventListener("keydown", (event) => { if (event.key === "Escape") setOpen(false); });
+  matchMedia("(min-width: 54.01rem)").addEventListener("change", (event) => { if (event.matches) setOpen(false); });
 </script>
