@@ -27,6 +27,7 @@ export const designTokens = {
   warmIvory: "#F2EDE3",
   nearBlackBrown: "#2B211C",
   terracotta: "#C95D3A",
+  terracottaInk: "#9B452B",
   cobalt: "#1F55B5"
 } as const;
 

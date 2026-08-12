@@ -43,14 +43,51 @@ const c = common[locale];
   const header = document.querySelector<HTMLElement>("[data-header]");
   const toggle = header?.querySelector<HTMLButtonElement>(".menu-toggle");
   const navigation = header?.querySelector<HTMLElement>(".site-nav");
+  const brand = header?.querySelector<HTMLElement>(".brand-link");
+  const previousInertStates = new Map<HTMLElement, boolean>();
 
-  const setMenuState = (open: boolean, returnFocus = false) => {
+  const getIsolationTargets = () => [
+    ...(brand ? [brand] : []),
+    ...Array.from(document.body.children).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement && element !== header && element.tagName !== "SCRIPT" && element.tagName !== "STYLE"
+    )
+  ];
+
+  const isolateBackground = () => {
+    previousInertStates.clear();
+    getIsolationTargets().forEach((element) => {
+      previousInertStates.set(element, element.inert);
+      element.inert = true;
+    });
+  };
+
+  const restoreBackground = () => {
+    previousInertStates.forEach((wasInert, element) => {
+      element.inert = wasInert;
+    });
+    previousInertStates.clear();
+  };
+
+  const getMenuControls = () => {
+    if (!toggle || !navigation) return [];
+    return [toggle, ...navigation.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')];
+  };
+
+  const setMenuState = (open: boolean) => {
     if (!toggle || !navigation) return;
+    const wasOpen = toggle.getAttribute("aria-expanded") === "true";
+    if (open === wasOpen) return;
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? toggle.dataset.closeLabel ?? "Close menu" : toggle.dataset.openLabel ?? "Open menu");
     navigation.classList.toggle("is-open", open);
     document.body.classList.toggle("menu-open", open);
-    if (returnFocus) toggle.focus();
+    if (open) {
+      isolateBackground();
+    } else {
+      restoreBackground();
+      toggle.focus({ preventScroll: true });
+    }
   };
 
   toggle?.addEventListener("click", () => {
@@ -58,11 +95,33 @@ const c = common[locale];
     setMenuState(!open);
   });
 
-  navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenuState(false)));
+  navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+    if (toggle?.getAttribute("aria-expanded") === "true") setMenuState(false);
+  }));
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") setMenuState(false, true);
+    if (toggle?.getAttribute("aria-expanded") !== "true") return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setMenuState(false);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const controls = getMenuControls();
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (!first || !last) return;
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    } else if (!controls.includes(document.activeElement as HTMLElement)) {
+      event.preventDefault();
+      first.focus();
+    }
   });
   window.matchMedia("(min-width: 54.01rem)").addEventListener("change", (event) => {
-    if (event.matches) setMenuState(false);
+    if (event.matches && toggle?.getAttribute("aria-expanded") === "true") setMenuState(false);
   });
 </script>
