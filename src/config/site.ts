@@ -48,9 +48,10 @@ export const site = {
 } as const;
 
 export const metrics: Metric[] = [
-  { value: "10+", label: { en: "International markets", zh: "国际市场" } },
+  { value: "10+", label: { en: "Markets", zh: "国际市场" } },
   { value: "100+", label: { en: "Projects tracked", zh: "持续跟踪项目" } },
-  { value: "70+", label: { en: "Pharmaceutical products", zh: "医药产品主数据" } }
+  { value: "70+", label: { en: "Pharmaceutical products", zh: "医药产品" } },
+  { value: "Registration → Delivery", label: { en: "End-to-end project support", zh: "端到端项目支持" } }
 ];
 
 export const contacts: ContactChannel[] = [

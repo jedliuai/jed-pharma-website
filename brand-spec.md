@@ -2,7 +2,7 @@
 
 ## 品牌资产
 
-- 真实头像：`public/brand/jed-portrait.png`
+- 真实头像：`public/brand/jed-portrait.webp`
 - 深色背景手写标识：`public/brand/jed-wordmark-light.png`
 - 浅色背景手写标识：`public/brand/jed-wordmark-dark.jpg`
 - 微信联系卡：`public/brand/jed-wechat-card.jpg`

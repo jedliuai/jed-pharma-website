@@ -9,7 +9,28 @@ export default defineConfig({
   integrations: [
     icon({
       include: {
-        ph: ["arrow-right", "arrow-up-right", "envelope-simple", "linkedin-logo", "list", "wechat-logo", "x"]
+        ph: [
+          "arrow-right",
+          "arrow-up-right",
+          "briefcase",
+          "check-square",
+          "circles-three-plus",
+          "clipboard-text",
+          "envelope-simple",
+          "file-text",
+          "globe-hemisphere-west",
+          "linkedin-logo",
+          "list",
+          "list-checks",
+          "magnifying-glass",
+          "package",
+          "paper-plane-tilt",
+          "seal-check",
+          "strategy",
+          "users-three",
+          "wechat-logo",
+          "x"
+        ]
       }
     }),
     sitemap({

@@ -4,9 +4,22 @@ import { Icon } from "astro-icon/components";
 export type ProjectIconName =
   | "arrow-right"
   | "arrow-up-right"
+  | "briefcase"
+  | "check-square"
+  | "circles-three-plus"
+  | "clipboard-text"
   | "envelope-simple"
+  | "file-text"
+  | "globe-hemisphere-west"
   | "linkedin-logo"
   | "list"
+  | "list-checks"
+  | "magnifying-glass"
+  | "package"
+  | "paper-plane-tilt"
+  | "seal-check"
+  | "strategy"
+  | "users-three"
   | "wechat-logo"
   | "x";
 
@@ -18,10 +31,33 @@ interface Props {
 }
 
 const { name, label, size = 18, class: className } = Astro.props;
+
+const iconNames: Record<ProjectIconName, string> = {
+  "arrow-right": "ph:arrow-right",
+  "arrow-up-right": "ph:arrow-up-right",
+  "briefcase": "ph:briefcase",
+  "check-square": "ph:check-square",
+  "circles-three-plus": "ph:circles-three-plus",
+  "clipboard-text": "ph:clipboard-text",
+  "envelope-simple": "ph:envelope-simple",
+  "file-text": "ph:file-text",
+  "globe-hemisphere-west": "ph:globe-hemisphere-west",
+  "linkedin-logo": "ph:linkedin-logo",
+  "list": "ph:list",
+  "list-checks": "ph:list-checks",
+  "magnifying-glass": "ph:magnifying-glass",
+  "package": "ph:package",
+  "paper-plane-tilt": "ph:paper-plane-tilt",
+  "seal-check": "ph:seal-check",
+  "strategy": "ph:strategy",
+  "users-three": "ph:users-three",
+  "wechat-logo": "ph:wechat-logo",
+  "x": "ph:x"
+};
 ---
 
 <Icon
-  name={`ph:${name}`}
+  name={iconNames[name]}
   width={size}
   height={size}
   class:list={["project-icon", className]}

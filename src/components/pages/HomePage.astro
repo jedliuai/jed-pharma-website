@@ -1,120 +1,360 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import MetricStrip from "@/components/MetricStrip.astro";
-import SectionHeading from "@/components/SectionHeading.astro";
-import ContactBand from "@/components/ContactBand.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
 import ProjectIcon from "@/components/ProjectIcon.astro";
-import { projectCases, routeMap, site, type Locale } from "@/config/site";
+import { metrics, projectCases, routeMap, site, type Locale } from "@/config/site";
 import { common, home } from "@/data/copy";
 
 interface Props { locale: Locale }
+
 const { locale } = Astro.props;
 const path = routeMap.home[locale];
 const c = common[locale];
 const page = home[locale];
+const metricEntries = metrics.map((metric) => {
+  const numeric = metric.value.match(/^(\d+)(.*)$/);
+  return { ...metric, countTo: numeric?.[1], suffix: numeric?.[2] ?? "" };
+});
+const caseImages = [
+  "/images/case-registration-v2.png",
+  "/images/case-manufacturing-v2.png",
+  "/images/case-delivery-v2.png"
+];
 ---
 
 <BaseLayout locale={locale} route="home" path={path}>
-  <section class="home-hero">
-    <div class="shell home-hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow hero-eyebrow">{c.eyebrow}</p>
-        <h1>{page.heroTitle}</h1>
-        <p class="hero-lead">{page.heroLead}</p>
-        <div class="hero-actions">
-          <ButtonLink href={routeMap.contact[locale]} variant="terracotta" icon="arrow-right">{c.primaryCta}</ButtonLink>
-          <ButtonLink href={routeMap.expertise[locale]} variant="outline">{c.secondaryCta}</ButtonLink>
+  <div class="home-v2" data-home-v2>
+    <section class="home-v2-hero" aria-labelledby="home-hero-title">
+      <div class="home-v2-shell home-v2-hero-grid">
+        <div class="home-v2-hero-copy">
+          <p class="home-v2-pill home-v2-enter" style="--enter-delay: 40ms">{c.eyebrow}</p>
+          <h1 id="home-hero-title" class="home-v2-enter" style="--enter-delay: 110ms">{page.heroTitle}</h1>
+          <p class="home-v2-hero-lead home-v2-enter" style="--enter-delay: 180ms">{page.heroLead}</p>
+          <div class="home-v2-hero-actions home-v2-enter" style="--enter-delay: 250ms">
+            <ButtonLink href={routeMap.contact[locale]} variant="terracotta">{c.primaryCta}</ButtonLink>
+            <ButtonLink href={routeMap.expertise[locale]} variant="outline">{c.secondaryCta}</ButtonLink>
+          </div>
         </div>
-        <p class="hero-aside">{page.heroAside}</p>
-      </div>
-      <figure class="hero-portrait">
-        <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 个人头像" : "Portrait of Jed Liu"} fetchpriority="high" />
-        <figcaption>
-          <span>JED LIU</span>
-          <span>{locale === "zh" ? "中国 · 医药国际业务" : "CHINA · PHARMA INTERNATIONAL"}</span>
-        </figcaption>
-      </figure>
-    </div>
-    <div class="hero-coordinate" aria-hidden="true">31.2304° N / 121.4737° E</div>
-  </section>
 
-  <MetricStrip locale={locale} />
-
-  <section class="section section--paper">
-    <div class="shell intro-grid">
-      <SectionHeading kicker={page.introKicker} title={page.introTitle} />
-      <div class="intro-body" data-reveal>
-        <p>{page.introBody}</p>
-        <a class="text-link" href={routeMap.about[locale]}>{locale === "zh" ? "了解我的工作方式" : "Read how I work"}<ProjectIcon name="arrow-up-right" size={16} /></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--ice">
-    <div class="shell">
-      <SectionHeading kicker={page.expertiseKicker} title={page.expertiseTitle} />
-      <div class="expertise-ledger">
-        {page.expertise.map((item) => (
-          <article class="ledger-row" data-reveal>
-            <span class="ledger-number">{item.number}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))}
-      </div>
-      <ButtonLink class="section-action" href={routeMap.expertise[locale]} variant="ink" icon="arrow-right">{c.secondaryCta}</ButtonLink>
-    </div>
-  </section>
-
-  <section class="section market-preview">
-    <div class="shell market-preview-grid">
-      <SectionHeading kicker={page.marketsKicker} title={page.marketsTitle} body={page.marketsBody} light />
-      <div class="region-index" data-reveal>
-        {page.regions.map((region, index) => (
-          <a href={routeMap.markets[locale]}>
-            <span>0{index + 1}</span>
-            <strong>{region}</strong>
-            <ProjectIcon name="arrow-up-right" size={18} />
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--paper">
-    <div class="shell">
-      <div class="section-topline" data-reveal>
-        <p class="eyebrow">{c.selectedProjects}</p>
-        <a class="text-link" href={routeMap.projects[locale]}>{c.viewAll}<ProjectIcon name="arrow-up-right" size={16} /></a>
-      </div>
-      <div class="case-preview-grid">
-        {projectCases.map((project) => (
-          <article class="case-preview" data-reveal>
-            <span>{project.number}</span>
-            <h3>{project.title[locale]}</h3>
-            <p>{project.situation[locale]}</p>
-            <div class="tag-row">
-              {project.demonstrates[locale].slice(0, 2).map((tag) => <small>{tag}</small>)}
+        <div class="home-v2-dossier-stage home-v2-enter" style="--enter-delay: 180ms">
+          <div class="home-v2-glow" aria-hidden="true"></div>
+          <figure class="home-v2-dossier" data-hero-dossier>
+            <div class="home-v2-browser-bar" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <small>jedliuai.com / dossier</small>
             </div>
-          </article>
+            <div class="home-v2-portrait-wrap">
+              <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 的个人肖像" : "Portrait of Jed Liu"} fetchpriority="high" />
+              <div class="home-v2-annotations" aria-hidden="true">
+                {page.heroAnnotations.map((annotation) => <span>{annotation}</span>)}
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-v2-metrics" aria-label={locale === "zh" ? "个人脱敏业务数据" : "Anonymized personal working ranges"}>
+      <div class="home-v2-shell home-v2-metric-grid">
+        {metricEntries.map((metric) => (
+          <div class="home-v2-metric">
+            <strong>
+              <span class="sr-only">{metric.value}</span>
+              <span
+                aria-hidden="true"
+                data-count-to={metric.countTo}
+                data-count-suffix={metric.suffix}
+              >{metric.value}</span>
+            </strong>
+            <span>{metric.label[locale]}</span>
+          </div>
         ))}
       </div>
-    </div>
-  </section>
+      <p class="home-v2-shell home-v2-metric-note">{c.metricsNote}</p>
+    </section>
 
-  <section class="section ai-method">
-    <div class="shell ai-method-grid">
-      <div>
-        <p class="eyebrow">{page.aiKicker}</p>
-        <h2>{page.aiTitle}</h2>
+    <section class="home-v2-section home-v2-expertise" aria-labelledby="expertise-title">
+      <div class="home-v2-shell">
+        <header class="home-v2-section-head home-v2-reveal" data-home-reveal>
+          <p class="eyebrow">{page.expertiseKicker}</p>
+          <h2 id="expertise-title">{page.expertiseTitle}</h2>
+        </header>
+        <div class="home-v2-expertise-grid">
+          {page.expertise.map((item) => (
+            <article class="home-v2-expertise-item home-v2-reveal" data-home-reveal>
+              <div class="home-v2-expertise-meta">
+                <span>{item.number}</span>
+                <span class="home-v2-icon-box"><ProjectIcon name={item.icon} size={29} /></span>
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
       </div>
-      <div data-reveal>
-        <p>{page.aiBody}</p>
-        <blockquote>{page.aiQuote}</blockquote>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <ContactBand locale={locale} />
+    <section class="home-v2-process" aria-labelledby="process-title" data-process-story>
+      <div class="home-v2-shell">
+        <header class="sr-only">
+          <p>{page.processKicker}</p>
+          <h2 id="process-title">{page.processTitle}</h2>
+        </header>
+        <div class="home-v2-process-layout">
+          <div class="home-v2-phase-index">
+            <div class="home-v2-process-rule" aria-hidden="true"><span data-process-progress></span></div>
+            <ol>
+              {page.process.map((phase, index) => (
+                <li data-phase-observer>
+                  <button
+                    type="button"
+                    class:list={["home-v2-phase-button", { "is-active": index === 0 }]}
+                    aria-pressed={index === 0 ? "true" : "false"}
+                    aria-controls={`process-panel-${index}`}
+                    data-phase-button
+                    data-phase-index={index}
+                  >
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{phase.title}</strong>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div class="home-v2-process-sticky">
+            <div class="home-v2-process-panels" aria-live="polite">
+              {page.process.map((phase, index) => (
+                <article
+                  id={`process-panel-${index}`}
+                  class="home-v2-process-panel"
+                  data-phase-panel
+                  hidden={index !== 0}
+                >
+                  <header>
+                    <span>{String(index + 1).padStart(2, "0")} / 06</span>
+                    <span>{locale === "zh" ? "阶段" : "PHASE"}</span>
+                  </header>
+                  <div class="home-v2-process-panel-body">
+                    <div>
+                      <h3>{phase.title}</h3>
+                      <p>{phase.body}</p>
+                    </div>
+                    {index === 0 ? (
+                      <img src="/images/process-objective-v2.png" width="1448" height="1086" alt={locale === "zh" ? "用于定义项目目标的笔记本与钢笔插画" : "Notebook and pen illustration for defining a project objective"} />
+                    ) : (
+                      <div class="home-v2-process-symbol" aria-hidden="true"><ProjectIcon name={phase.icon} size={72} /></div>
+                    )}
+                  </div>
+                  <footer><span>{locale === "zh" ? "工作重点" : "OBJECTIVE"}</span><p>{phase.meta}</p></footer>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-v2-section home-v2-markets" aria-labelledby="markets-title">
+      <div class="home-v2-shell home-v2-markets-grid">
+        <div class="home-v2-markets-copy home-v2-reveal" data-home-reveal>
+          <p class="eyebrow">{page.marketsKicker}</p>
+          <h2 id="markets-title">{page.marketsTitle}</h2>
+          <ul>
+            {page.regions.map((region, index) => (
+              <li>
+                <span class:list={["home-v2-market-dot", { "is-cobalt": index === 1 }]} aria-hidden="true"></span>
+                <div><strong>{region.title}</strong><p>{region.body}</p></div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <figure class="home-v2-map home-v2-reveal" data-home-reveal>
+          <img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "突出显示拉丁美洲以及独联体和东欧区域的世界地图" : "World map highlighting Latin America and CIS and Eastern Europe"} loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="home-v2-section home-v2-cases" aria-labelledby="cases-title">
+      <div class="home-v2-shell">
+        <header class="home-v2-subhead home-v2-reveal" data-home-reveal>
+          <p class="eyebrow">{page.casesKicker}</p>
+          <h2 id="cases-title">{c.selectedProjects}</h2>
+        </header>
+        <div class="home-v2-case-list">
+          {projectCases.map((project, index) => (
+            <a
+              class="home-v2-case-row home-v2-reveal"
+              href={`${routeMap.projects[locale]}#${project.id}`}
+              data-home-reveal
+              style={`--case-offset: ${index % 2 === 0 ? "1.1rem" : "-1.1rem"}`}
+            >
+              <span class="home-v2-case-number">{project.number}</span>
+              <div class="home-v2-case-copy">
+                <h3>{project.title[locale]}</h3>
+                <p>{project.situation[locale]}</p>
+                <small>{locale === "zh" ? "市场" : "Market"}: {page.caseMarkets[index]}</small>
+              </div>
+              <img src={caseImages[index]} width="1774" height="887" alt={`${project.title[locale]} — ${locale === "zh" ? "匿名项目案例配图" : "anonymized project case illustration"}`} loading="lazy" />
+              <span class="home-v2-case-arrow" aria-hidden="true"><ProjectIcon name="arrow-up-right" size={18} /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="home-v2-ai" aria-labelledby="ai-title">
+      <div class="home-v2-shell home-v2-ai-grid">
+        <div class="home-v2-ai-statement home-v2-reveal" data-home-reveal>
+          <p class="eyebrow">{page.aiKicker}</p>
+          <h2 id="ai-title">{page.aiTitle}</h2>
+        </div>
+        <ol class="home-v2-ai-steps">
+          {page.aiSteps.map((step, index) => (
+            <li class="home-v2-reveal" data-home-reveal>
+              <div class="home-v2-ai-icon"><ProjectIcon name={step.icon} size={28} /></div>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{step.title}</strong>
+            </li>
+          ))}
+        </ol>
+        <p class="home-v2-ai-note">{page.aiBody}</p>
+      </div>
+    </section>
+
+    <section class="home-v2-ending" aria-labelledby="about-ending-title">
+      <div class="home-v2-shell home-v2-ending-grid">
+        <div class="home-v2-ending-about home-v2-reveal" data-home-reveal>
+          <p class="eyebrow">{page.aboutKicker}</p>
+          <h2 id="about-ending-title">{page.aboutTitle}</h2>
+          <a class="home-v2-inline-link" href={routeMap.about[locale]}>{locale === "zh" ? "了解更多" : "More about me"}<ProjectIcon name="arrow-up-right" size={16} /></a>
+        </div>
+        <div class="home-v2-ending-contact home-v2-reveal" data-home-reveal>
+          <h2>{page.contactTitle}</h2>
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><ProjectIcon name="linkedin-logo" size={19} /><span>LinkedIn</span></a>
+          <a href={`mailto:${site.email}`}><ProjectIcon name="envelope-simple" size={19} /><span>{site.email}</span></a>
+          <button type="button" data-open-wechat><ProjectIcon name="wechat-logo" size={19} /><span>{page.wechatLabel}</span></button>
+        </div>
+        <div class="home-v2-ending-signature" aria-hidden="true">
+          <img src={site.wordmarkLight} width="218" height="102" alt="" />
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<script>
+  const homeRoot = document.querySelector<HTMLElement>("[data-home-v2]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (homeRoot) {
+    const revealItems = Array.from(homeRoot.querySelectorAll<HTMLElement>("[data-home-reveal]"));
+    if ("IntersectionObserver" in window && !reducedMotion.matches) {
+      homeRoot.classList.add("is-reveal-ready");
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          (entry.target as HTMLElement).classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.14, rootMargin: "0px 0px -7%" });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    }
+
+    const counters = Array.from(homeRoot.querySelectorAll<HTMLElement>("[data-count-to]"));
+    const animateCounter = (element: HTMLElement) => {
+      const target = Number(element.dataset.countTo ?? 0);
+      const suffix = element.dataset.countSuffix ?? "";
+      if (reducedMotion.matches) {
+        element.textContent = `${target}${suffix}`;
+        return;
+      }
+      const startedAt = performance.now();
+      const duration = 920;
+      const frame = (now: number) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        element.textContent = `${Math.round(target * eased)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(frame);
+      };
+      element.textContent = `0${suffix}`;
+      requestAnimationFrame(frame);
+    };
+    if ("IntersectionObserver" in window) {
+      const countObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animateCounter(entry.target as HTMLElement);
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.55 });
+      counters.forEach((counter) => countObserver.observe(counter));
+    }
+
+    const process = homeRoot.querySelector<HTMLElement>("[data-process-story]");
+    const phaseButtons = Array.from(process?.querySelectorAll<HTMLButtonElement>("[data-phase-button]") ?? []);
+    const phasePanels = Array.from(process?.querySelectorAll<HTMLElement>("[data-phase-panel]") ?? []);
+    const phaseObservers = Array.from(process?.querySelectorAll<HTMLElement>("[data-phase-observer]") ?? []);
+    const progress = process?.querySelector<HTMLElement>("[data-process-progress]");
+
+    const setActivePhase = (index: number) => {
+      phaseButtons.forEach((button, buttonIndex) => {
+        const active = buttonIndex === index;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      phasePanels.forEach((panel, panelIndex) => {
+        panel.hidden = panelIndex !== index;
+      });
+      if (progress) progress.style.setProperty("--process-progress", String(index / Math.max(phaseButtons.length - 1, 1)));
+    };
+
+    phaseButtons.forEach((button, index) => {
+      button.addEventListener("click", () => setActivePhase(index));
+      button.addEventListener("focus", () => setActivePhase(index));
+    });
+
+    if (process && phaseObservers.length > 0) {
+      let phaseFrame = 0;
+      const updatePhaseFromScroll = () => {
+        phaseFrame = 0;
+        if (!window.matchMedia("(min-width: 54.01rem)").matches) return;
+        const processBounds = process.getBoundingClientRect();
+        const focusY = window.innerHeight * 0.45;
+        if (processBounds.top > focusY || processBounds.bottom < focusY) return;
+        const distances = phaseObservers.map((item) => Math.abs(item.getBoundingClientRect().top + item.offsetHeight / 2 - focusY));
+        const closest = distances.indexOf(Math.min(...distances));
+        if (closest >= 0) setActivePhase(closest);
+      };
+      const requestPhaseUpdate = () => {
+        if (phaseFrame) return;
+        phaseFrame = requestAnimationFrame(updatePhaseFromScroll);
+      };
+      window.addEventListener("scroll", requestPhaseUpdate, { passive: true });
+      window.addEventListener("resize", requestPhaseUpdate);
+      updatePhaseFromScroll();
+    }
+
+    const dossier = homeRoot.querySelector<HTMLElement>("[data-hero-dossier]");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (dossier && finePointer.matches && !reducedMotion.matches) {
+      dossier.addEventListener("pointermove", (event) => {
+        const bounds = dossier.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+        dossier.style.setProperty("--dossier-x", `${x * 7}px`);
+        dossier.style.setProperty("--dossier-y", `${y * 5}px`);
+        dossier.style.setProperty("--dossier-rx", `${y * -1.2}deg`);
+        dossier.style.setProperty("--dossier-ry", `${x * 1.5}deg`);
+      });
+      dossier.addEventListener("pointerleave", () => {
+        dossier.style.removeProperty("--dossier-x");
+        dossier.style.removeProperty("--dossier-y");
+        dossier.style.removeProperty("--dossier-rx");
+        dossier.style.removeProperty("--dossier-ry");
+      });
+    }
+  }
+</script>

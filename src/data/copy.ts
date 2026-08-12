@@ -135,82 +135,136 @@ export const common = {
 
 export const home = {
   en: {
-    heroTitle: "Pharmaceutical international business, from registration to delivery.",
+    heroTitle: "From registration to delivery, I help pharmaceutical projects move forward.",
     heroLead:
-      "I connect business development with the regulatory, technical and operational details required to make international pharmaceutical projects happen — with a focus on Latin America and CIS markets.",
-    heroAside: "Business development · Registration · Execution · Delivery",
-    introKicker: "WHAT I ACTUALLY DO",
-    introTitle: "I help move pharmaceutical projects from opportunity to execution.",
-    introBody:
-      "A pharmaceutical export project is rarely a simple quotation-to-shipment process. It brings together overseas partners, registration, quality, production, packaging, logistics, finance and continuous communication. My role is to keep those pieces aligned and moving.",
-    expertiseKicker: "THE WORK",
-    expertiseTitle: "Commercial judgment, technical context and execution discipline.",
+      "Connecting international business development with regulatory, technical and operational work — so projects move forward with clarity and discipline.",
+    heroAnnotations: ["Markets", "Coordination", "Execution"],
+    expertiseKicker: "WHERE I WORK",
+    expertiseTitle: "I work where commercial opportunity meets regulatory and operational reality.",
     expertise: [
       {
         number: "01",
-        title: "International business development",
-        body: "Evaluate markets and partners, match products, structure commercial terms and develop cooperation beyond the first order."
+        title: "International Business Development",
+        body: "Identify and evaluate markets, partners and opportunities. Build the right entry strategy and business model.",
+        icon: "globe-hemisphere-west"
       },
       {
         number: "02",
-        title: "Regulatory and technical coordination",
-        body: "Bridge overseas requirements with registration, quality and manufacturing teams — from CPP and GMP to stability, specifications and analytical questions."
+        title: "Regulatory & Technical Coordination",
+        body: "Navigate registration pathways, technical requirements and authority expectations across different markets.",
+        icon: "file-text"
       },
       {
         number: "03",
-        title: "End-to-end execution",
-        body: "Track the chain from contract and artwork through production, QA release, shipment, payment reconciliation and archive."
+        title: "Project Execution & International Delivery",
+        body: "Coordinate manufacturing, documentation, logistics and deliverables to ensure projects reach the market.",
+        icon: "clipboard-text"
+      },
+      {
+        number: "04",
+        title: "AI-enabled Working Systems",
+        body: "Use AI to enhance research, analysis, documentation and decision-making — so teams work with more clarity.",
+        icon: "circles-three-plus"
       }
     ],
-    marketsKicker: "MARKET CONTEXT",
-    marketsTitle: "Local requirements change the shape of every project.",
-    marketsBody:
-      "The product may be the same, but registration practices, documentation, payment structures and market access differ from one country to another.",
-    regions: ["Latin America", "CIS & Eastern Europe"],
-    aiKicker: "A DIFFERENT WORKING METHOD",
-    aiTitle: "AI is part of how I work — not a separate identity.",
+    processKicker: "HOW PROJECTS MOVE",
+    processTitle: "A connected process from objective to follow-up.",
+    process: [
+      { title: "Define Objective", body: "Clarify the project’s purpose, target indications and success criteria. Align stakeholders on scope, timeline and key milestones.", meta: "Clarity sets everything in motion.", icon: "strategy" },
+      { title: "Market & Feasibility", body: "Assess market context, product fit, partner readiness and the practical conditions needed to make the opportunity viable.", meta: "Good projects begin with the right questions.", icon: "magnifying-glass" },
+      { title: "Regulatory Strategy", body: "Map the registration route, core documentation, technical questions and authority expectations before execution accelerates.", meta: "Requirements shape the route forward.", icon: "file-text" },
+      { title: "Execution & Coordination", body: "Connect commercial, regulatory, quality and manufacturing teams around dependencies, decisions and deadlines.", meta: "Coordination turns plans into progress.", icon: "users-three" },
+      { title: "Delivery & Submission", body: "Bring documentation, product readiness, shipment timing and formal submissions together at the point of delivery.", meta: "Every deliverable must arrive complete.", icon: "paper-plane-tilt" },
+      { title: "Closeout & Follow-up", body: "Confirm outcomes, archive the working record, resolve remaining actions and carry learning into the next cycle.", meta: "A clean closeout strengthens what follows.", icon: "seal-check" }
+    ],
+    marketsKicker: "MARKETS I WORK IN",
+    marketsTitle: "Experience shaped by different market realities.",
+    regions: [
+      { title: "Latin America", body: "Deep ties with key partners across the region." },
+      { title: "CIS & Eastern Europe", body: "Focus on sustainable market access." }
+    ],
+    casesKicker: "SELECTED PROJECT CASES",
+    caseMarkets: ["Latin America", "CIS", "Latin America"],
+    aiKicker: "AI-ENABLED WORKING METHOD",
+    aiTitle: "AI is part of my working method, not my professional identity.",
     aiBody:
-      "I use structured data, AI and automation to reduce information friction, extract and compare documents, surface risks earlier and leave more time for decisions that need professional judgment.",
-    aiQuote:
-      "I do not use AI to replace professional judgment. I use it to make complex work clearer."
+      "I use AI tools every day to research, analyze, draft and organize. It amplifies my ability to think, coordinate and deliver.",
+    aiSteps: [
+      { title: "Research & Analysis", icon: "magnifying-glass" },
+      { title: "Organize & Structure", icon: "list-checks" },
+      { title: "Coordinate & Execute", icon: "users-three" },
+      { title: "Document & Deliver", icon: "check-square" }
+    ],
+    aboutKicker: "ABOUT ME",
+    aboutTitle: "I am interested in how complicated systems actually work.",
+    contactTitle: "Let’s discuss a project.",
+    wechatLabel: "WeChat: lijied03"
   },
   zh: {
-    heroTitle: "医药国际业务，从注册到交付。",
+    heroTitle: "从注册到交付，我推动医药项目持续向前。",
     heroLead:
-      "我把商务开发与医药项目真正落地所需的注册、技术和执行细节连接起来，重点面向拉美、独联体及东欧相关市场。",
-    heroAside: "业务开发 · 注册协调 · 项目执行 · 国际交付",
-    introKicker: "我真正解决的问题",
-    introTitle: "把医药项目从机会推进到真正执行。",
-    introBody:
-      "医药出口很少只是“报价—下单—发货”。一个项目往往同时涉及海外伙伴、注册、质量、生产、包装、物流、财务与持续沟通。我的角色，是让这些环节保持一致并持续向前。",
-    expertiseKicker: "核心工作",
-    expertiseTitle: "商业判断、技术语境与执行纪律。",
+      "连接国际业务开发与注册、技术和运营工作，让项目在清晰的判断与严谨的执行中持续推进。",
+    heroAnnotations: ["市场", "协调", "执行"],
+    expertiseKicker: "我的工作界面",
+    expertiseTitle: "我工作在商业机会、注册要求与运营现实的交汇处。",
     expertise: [
       {
         number: "01",
         title: "医药国际业务开发",
-        body: "评估市场与合作伙伴，匹配产品，设计商务条件，并把合作从第一次沟通推进到长期项目。"
+        body: "识别和评估市场、合作伙伴与机会，建立合适的市场进入策略和业务模式。",
+        icon: "globe-hemisphere-west"
       },
       {
         number: "02",
         title: "注册与技术协调",
-        body: "把海外需求与注册、质量和生产团队连接起来，覆盖 CPP、GMP、稳定性、质量标准和分析方法等问题。"
+        body: "理解不同市场的注册路径、技术要求与监管预期，并推动各方形成一致。",
+        icon: "file-text"
       },
       {
         number: "03",
-        title: "端到端项目执行",
-        body: "跟踪合同、包装稿、生产、QA 放行、发运、收款核对与归档的完整链路。"
+        title: "项目执行与国际交付",
+        body: "协调生产、文件、物流和交付成果，确保项目真正走向市场。",
+        icon: "clipboard-text"
+      },
+      {
+        number: "04",
+        title: "AI 赋能的工作系统",
+        body: "使用 AI 增强研究、分析、文档和决策，让团队更清楚地协同推进。",
+        icon: "circles-three-plus"
       }
     ],
-    marketsKicker: "市场语境",
-    marketsTitle: "本地要求决定每一个项目的形状。",
-    marketsBody: "产品可以相同，但不同国家的注册习惯、文件要求、付款结构和市场准入路径可能完全不同。",
-    regions: ["拉丁美洲", "独联体与东欧"],
-    aiKicker: "不同的工作方式",
-    aiTitle: "AI 是工作方法，不是另一个身份。",
+    processKicker: "项目如何推进",
+    processTitle: "从目标定义到后续跟进的一体化流程。",
+    process: [
+      { title: "明确目标", body: "澄清项目目的、目标适应症和成功标准，让相关方就范围、时间线与关键里程碑达成一致。", meta: "清晰的目标让一切开始运转。", icon: "strategy" },
+      { title: "市场与可行性", body: "评估市场语境、产品匹配度、合作方准备情况，以及机会落地所需的现实条件。", meta: "好项目始于正确的问题。", icon: "magnifying-glass" },
+      { title: "注册策略", body: "在执行加速前梳理注册路径、核心文件、技术问题与监管预期。", meta: "要求决定前进的路线。", icon: "file-text" },
+      { title: "执行与协调", body: "围绕依赖关系、决策与期限，连接商务、注册、质量和生产团队。", meta: "协调让计划变成进展。", icon: "users-three" },
+      { title: "交付与申报", body: "在交付节点整合文件、产品准备、发运节奏与正式申报。", meta: "每项成果都必须完整抵达。", icon: "paper-plane-tilt" },
+      { title: "收尾与跟进", body: "确认结果、归档工作记录、解决剩余事项，并将经验带入下一轮项目。", meta: "清晰收尾，让后续更稳健。", icon: "seal-check" }
+    ],
+    marketsKicker: "我的市场经验",
+    marketsTitle: "在不同市场现实中形成的工作经验。",
+    regions: [
+      { title: "拉丁美洲", body: "与区域内关键合作伙伴保持深入协作。" },
+      { title: "独联体与东欧", body: "聚焦可持续的市场准入。" }
+    ],
+    casesKicker: "精选匿名项目案例",
+    caseMarkets: ["拉丁美洲", "独联体", "拉丁美洲"],
+    aiKicker: "AI 赋能的工作方法",
+    aiTitle: "AI 是我的工作方法之一，而不是我的职业身份。",
     aiBody:
-      "我使用结构化数据、AI 和自动化降低信息摩擦，提取和对比文件，更早暴露风险，把时间留给真正需要专业判断的决策。",
-    aiQuote: "我不使用 AI 替代专业判断，而是让复杂的工作变得更清楚。"
+      "我每天使用 AI 工具进行研究、分析、起草与整理。它放大了我的思考、协调和交付能力。",
+    aiSteps: [
+      { title: "研究与分析", icon: "magnifying-glass" },
+      { title: "组织与结构化", icon: "list-checks" },
+      { title: "协调与执行", icon: "users-three" },
+      { title: "文档与交付", icon: "check-square" }
+    ],
+    aboutKicker: "关于我",
+    aboutTitle: "我对复杂系统究竟如何运作始终保持兴趣。",
+    contactTitle: "一起聊聊项目。",
+    wechatLabel: "微信：lijied03"
   }
 } as const;
 
