@@ -12,45 +12,59 @@ const path = routeMap.markets[locale];
 ---
 
 <BaseLayout locale={locale} route="markets" path={path}>
-  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="02" />
+  <div class="detail-v2 detail-v2--markets">
+    <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="02" />
 
-  <section class="section section--paper">
-    <div class="shell regional-grid">
-      {page.regions.map((region) => (
-        <article class="regional-card" data-reveal>
-          <span class="region-code">{region.code}</span>
-          <h2>{region.title}</h2>
-          <p>{region.body}</p>
-          <ul>
-            {region.countries.map((country) => <li>{country}</li>)}
-          </ul>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="section section--ice">
-    <div class="shell regulatory-grid">
-      <header data-reveal>
-        <p class="eyebrow">{locale === "zh" ? "监管协作边界" : "REGULATORY CONTEXT"}</p>
-        <h2>{page.regulatoryTitle}</h2>
-        <p>{page.regulatoryLead}</p>
-      </header>
-      <ul data-reveal>
-        {page.authorities.map((authority, index) => <li><span>0{index + 1}</span>{authority}</li>)}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section market-reality">
-    <div class="shell">
-      <p class="eyebrow">{locale === "zh" ? "项目现实" : "COMMERCIAL REALITY"}</p>
-      <h2>{page.realityTitle}</h2>
-      <div class="reality-grid">
-        {page.reality.map((question, index) => <div data-reveal><span>0{index + 1}</span><strong>{question}</strong></div>)}
+    <section class="detail-v2-section detail-v2-regions" aria-labelledby="regions-title">
+      <div class="shell">
+        <header class="detail-v2-section-head" data-reveal>
+          <p class="eyebrow">{locale === "zh" ? "两个主要区域" : "TWO PRIMARY REGIONS"}</p>
+          <h2 id="regions-title">{locale === "zh" ? "区域相连，工作语境各不相同。" : "Connected regions, distinct operating contexts."}</h2>
+        </header>
+        <div class="detail-v2-region-layout">
+          <div class="detail-v2-region-list">
+            {page.regions.map((region, index) => (
+              <article class="detail-v2-region" data-reveal>
+                <header><span>{String(index + 1).padStart(2, "0")}</span><small>{region.code}</small></header>
+                <h3>{region.title}</h3>
+                <p>{region.body}</p>
+                <ul>{region.contexts.map((context) => <li>{context}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          <figure class="detail-v2-map" data-reveal>
+            <img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "突出拉丁美洲、独联体与东欧区域的世界地图" : "World map highlighting Latin America and CIS and Eastern Europe"} loading="lazy" />
+            <figcaption>{page.scopeNote}</figcaption>
+          </figure>
+        </div>
       </div>
-      <blockquote data-reveal>{page.quote}</blockquote>
-    </div>
-  </section>
-  <ContactBand locale={locale} />
+    </section>
+
+    <section class="detail-v2-chain detail-v2-coordination" aria-labelledby="coordination-title">
+      <div class="shell detail-v2-chain-layout">
+        <header data-reveal>
+          <p class="eyebrow">{locale === "zh" ? "协调边界" : "COORDINATION BOUNDARY"}</p>
+          <h2 id="coordination-title">{page.regulatoryTitle}</h2>
+          <p>{page.regulatoryLead}</p>
+        </header>
+        <ol class="detail-v2-coordination-list" data-reveal>
+          {page.authorities.map((authority, index) => <li><span>0{index + 1}</span><strong>{authority}</strong></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section class="detail-v2-section detail-v2-reality" aria-labelledby="reality-title">
+      <div class="shell">
+        <header class="detail-v2-section-head" data-reveal>
+          <p class="eyebrow">{locale === "zh" ? "项目现实" : "PROJECT REALITY"}</p>
+          <h2 id="reality-title">{page.realityTitle}</h2>
+        </header>
+        <div class="detail-v2-question-grid">
+          {page.reality.map((question, index) => <div data-reveal><span>0{index + 1}</span><strong>{question}</strong></div>)}
+        </div>
+        <blockquote data-reveal>{page.quote}</blockquote>
+      </div>
+    </section>
+    <ContactBand locale={locale} />
+  </div>
 </BaseLayout>

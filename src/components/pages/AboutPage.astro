@@ -12,46 +12,43 @@ const path = routeMap.about[locale];
 ---
 
 <BaseLayout locale={locale} route="about" path={path}>
-  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="04" />
-  <section class="section section--paper about-story">
-    <div class="shell about-story-grid">
-      <figure data-reveal>
-        <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 个人头像" : "Portrait of Jed Liu"} />
-        <figcaption>JED LIU / {locale === "zh" ? "医药国际业务" : "PHARMA INTERNATIONAL"}</figcaption>
-      </figure>
-      <div class="story-copy" data-reveal>
-        {page.story.map((paragraph) => <p>{paragraph}</p>)}
+  <div class="detail-v2 detail-v2--about">
+    <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="04" />
+    <section class="detail-v2-section detail-v2-story" aria-labelledby="story-title">
+      <div class="shell detail-v2-story-grid">
+        <figure data-reveal>
+          <div class="detail-v2-browser-bar" aria-hidden="true"><span></span><span></span><span></span><small>jedliuai.com / profile</small></div>
+          <img src={site.portrait} width="1400" height="1400" alt={locale === "zh" ? "Jed Liu 个人肖像" : "Portrait of Jed Liu"} />
+          <figcaption>JED LIU / {locale === "zh" ? "医药国际业务" : "PHARMA INTERNATIONAL"}</figcaption>
+        </figure>
+        <div class="detail-v2-story-copy" data-reveal>
+          <p class="eyebrow">{locale === "zh" ? "职业定位" : "PROFESSIONAL POSITIONING"}</p>
+          <h2 id="story-title">{locale === "zh" ? "以执行为导向的国际业务角色。" : "An execution-oriented international business role."}</h2>
+          {page.story.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section section--ice">
-    <div class="shell timeline-grid">
-      <header data-reveal>
-        <p class="eyebrow">{locale === "zh" ? "职业路径" : "PROGRESSION"}</p>
-        <h2>{page.timelineTitle}</h2>
-      </header>
-      <ol>
-        {page.timeline.map(([title, body], index) => (
-          <li data-reveal>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <div><h3>{title}</h3><p>{body}</p></div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="section principles">
-    <div class="shell">
-      <p class="eyebrow">{locale === "zh" ? "工作方法" : "WORKING METHOD"}</p>
-      <h2>{page.principlesTitle}</h2>
-      <div class="principle-grid">
-        {page.principles.map(([title, body], index) => (
-          <article data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>
-        ))}
+    <section class="detail-v2-section detail-v2-timeline" aria-labelledby="timeline-title">
+      <div class="shell detail-v2-timeline-grid">
+        <header data-reveal><p class="eyebrow">{locale === "zh" ? "职业路径" : "PROGRESSION"}</p><h2 id="timeline-title">{page.timelineTitle}</h2></header>
+        <ol>{page.timeline.map(([title, body], index) => <li data-reveal><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol>
       </div>
-    </div>
-  </section>
-  <ContactBand locale={locale} />
+    </section>
+
+    <section class="detail-v2-section detail-v2-principles" aria-labelledby="principles-title">
+      <div class="shell">
+        <header class="detail-v2-section-head" data-reveal><p class="eyebrow">{locale === "zh" ? "工作方法" : "WORKING METHOD"}</p><h2 id="principles-title">{page.principlesTitle}</h2></header>
+        <div class="detail-v2-question-grid">{page.principles.map(([title, body], index) => <article data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
+      </div>
+    </section>
+
+    <section class="detail-v2-chain detail-v2-ai" aria-labelledby="ai-method-title">
+      <div class="shell detail-v2-chain-layout">
+        <header data-reveal><p class="eyebrow">{locale === "zh" ? "AI 支持的方法" : "AI-SUPPORTED METHOD"}</p><h2 id="ai-method-title">{page.aiTitle}</h2><p>{page.aiBody}</p></header>
+        <ol class="detail-v2-ai-steps">{page.aiSteps.map((step, index) => <li data-reveal><span>0{index + 1}</span><strong>{step}</strong></li>)}</ol>
+      </div>
+    </section>
+    <ContactBand locale={locale} />
+  </div>
 </BaseLayout>

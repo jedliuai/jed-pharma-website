@@ -7,10 +7,18 @@
 - https://pharma.jedliuai.com/
 - Chinese edition: https://pharma.jedliuai.com/zh/
 
+## Public sections
+
+- Expertise: https://pharma.jedliuai.com/expertise/ | https://pharma.jedliuai.com/zh/expertise/
+- Markets: https://pharma.jedliuai.com/markets/ | https://pharma.jedliuai.com/zh/markets/
+- Anonymized projects: https://pharma.jedliuai.com/projects/ | https://pharma.jedliuai.com/zh/projects/
+- About: https://pharma.jedliuai.com/about/ | https://pharma.jedliuai.com/zh/about/
+- Contact: https://pharma.jedliuai.com/contact/ | https://pharma.jedliuai.com/zh/contact/
+
 ## Professional focus
 
 - Pharmaceutical international business development
-- Latin America, CIS and Eastern Europe market experience
+- Latin America and CIS & Eastern Europe working contexts; no claim of universal country coverage
 - Registration, technical and quality coordination
 - End-to-end order and delivery execution
 - Structured data, AI and automation for trade workflows
@@ -21,7 +29,7 @@
 - 100+ projects tracked
 - 70+ pharmaceutical products in working master data
 
-These figures are anonymized ranges from personal working records. They are not an employer disclosure.
+These figures and project examples are anonymized from personal working records. They are illustrative, not an employer disclosure or commercial commitment.
 
 ## Contact
 
@@ -30,4 +38,4 @@ These figures are anonymized ranges from personal working records. They are not 
 
 ## Important boundaries
 
-This is a personal professional website, not a pharmaceutical manufacturer or regulatory authority website. Product availability, registration status, specifications and commercial terms require project-specific formal confirmation.
+This is a personal professional website, not a pharmaceutical manufacturer, regulatory authority or independent regulatory consultancy. Product availability, registration status, specifications and commercial terms require project-specific formal confirmation by the relevant parties.

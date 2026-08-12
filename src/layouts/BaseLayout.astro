@@ -30,6 +30,7 @@ const structuredData = {
       url: site.origin,
       image: ogImage,
       jobTitle: "Pharmaceutical International Business Professional",
+      email: `mailto:${site.email}`,
       sameAs: [site.linkedin],
       knowsAbout: [
         "Pharmaceutical international business",
@@ -49,7 +50,7 @@ const structuredData = {
       publisher: { "@id": `${site.origin}/#person` }
     },
     {
-      "@type": "ProfilePage",
+      "@type": route === "about" || route === "home" ? "ProfilePage" : "WebPage",
       "@id": `${canonical}#webpage`,
       url: canonical,
       name: meta.title,
@@ -79,7 +80,7 @@ const structuredData = {
     <link rel="alternate" hreflang="x-default" href={new URL(englishPath, site.origin)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
-    <meta property="og:type" content="profile" />
+    <meta property="og:type" content={route === "about" || route === "home" ? "profile" : "website"} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />

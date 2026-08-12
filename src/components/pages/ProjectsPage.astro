@@ -9,36 +9,34 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 const page = projects[locale];
 const path = routeMap.projects[locale];
+const caseImages = ["/images/case-registration-v2.png", "/images/case-manufacturing-v2.png", "/images/case-delivery-v2.png"];
 ---
 
 <BaseLayout locale={locale} route="projects" path={path}>
-  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="03" />
-  <section class="section section--paper">
-    <div class="shell case-files">
-      {projectCases.map((project) => (
-        <article class="case-file" id={project.id} data-reveal>
-          <header>
-            <span>CASE / {project.number}</span>
-            <h2>{project.title[locale]}</h2>
-          </header>
-          <div class="case-file-grid">
-            <section>
-              <h3>{page.situation}</h3>
-              <p>{project.situation[locale]}</p>
-            </section>
-            <section>
-              <h3>{page.role}</h3>
-              <ul>{project.role[locale].map((item) => <li>{item}</li>)}</ul>
-            </section>
-            <section>
-              <h3>{page.demonstrates}</h3>
-              <ul class="skill-list">{project.demonstrates[locale].map((item) => <li>{item}</li>)}</ul>
-            </section>
-          </div>
-        </article>
-      ))}
-      <aside class="privacy-note" data-reveal><span>PRIVACY / 01</span><p>{page.privacy}</p></aside>
-    </div>
-  </section>
-  <ContactBand locale={locale} />
+  <div class="detail-v2 detail-v2--projects">
+    <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="03" />
+    <section class="detail-v2-section detail-v2-cases" aria-labelledby="case-list-title">
+      <div class="shell">
+        <h2 id="case-list-title" class="sr-only">{locale === "zh" ? "三个匿名项目案例" : "Three anonymized project cases"}</h2>
+        <p class="detail-v2-basis" data-reveal>{page.basis}</p>
+        <div class="detail-v2-case-list">
+          {projectCases.map((project, index) => (
+            <article class="detail-v2-case" id={project.id} data-reveal>
+              <header>
+                <div><span>CASE / {project.number}</span><h3>{project.title[locale]}</h3></div>
+                <img src={caseImages[index]} width="1774" height="887" alt={`${project.title[locale]} — ${locale === "zh" ? "匿名案例配图" : "anonymized case illustration"}`} loading="lazy" />
+              </header>
+              <div class="detail-v2-case-grid">
+                <section><h4>{page.situation}</h4><p>{project.situation[locale]}</p></section>
+                <section><h4>{page.role}</h4><ul>{project.role[locale].map((item) => <li>{item}</li>)}</ul></section>
+                <section><h4>{page.demonstrates}</h4><ul class="detail-v2-tags">{project.demonstrates[locale].map((item) => <li>{item}</li>)}</ul></section>
+              </div>
+            </article>
+          ))}
+        </div>
+        <aside class="detail-v2-boundary" data-reveal><span>PRIVACY / 01</span><p>{page.privacy}</p></aside>
+      </div>
+    </section>
+    <ContactBand locale={locale} />
+  </div>
 </BaseLayout>

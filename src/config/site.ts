@@ -141,8 +141,8 @@ export const projectCases: ProjectCase[] = [
       zh: "多订单生产与交付协同"
     },
     situation: {
-      en: "Multiple products were moving through artwork, production, QA release, shipment and payment at different speeds.",
-      zh: "多个产品和订单以不同节奏推进包装稿、生产、QA 放行、发运与收款。"
+      en: "Multiple products were moving through artwork, production, quality release, shipment and handover at different speeds.",
+      zh: "多个产品和订单以不同节奏推进包装稿、生产、质量放行、发运与交接。"
     },
     role: {
       en: [

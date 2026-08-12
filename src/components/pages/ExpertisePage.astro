@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHero from "@/components/PageHero.astro";
 import ContactBand from "@/components/ContactBand.astro";
+import ProjectIcon, { type ProjectIconName } from "@/components/ProjectIcon.astro";
 import { routeMap, type Locale } from "@/config/site";
 import { expertise } from "@/data/copy";
 
@@ -9,48 +10,64 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 const page = expertise[locale];
 const path = routeMap.expertise[locale];
+const areaIcons: ProjectIconName[] = ["globe-hemisphere-west", "file-text", "seal-check", "paper-plane-tilt"];
 ---
 
 <BaseLayout locale={locale} route="expertise" path={path}>
-  <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="01" />
-  <section class="section section--paper">
-    <div class="shell numbered-list">
-      {page.areas.map(([title, body], index) => (
-        <article data-reveal>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <h2>{title}</h2>
-          <p>{body}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="section execution-chain">
-    <div class="shell">
-      <p class="eyebrow">{locale === "zh" ? "项目执行" : "PROJECT EXECUTION"}</p>
-      <h2>{page.processTitle}</h2>
-      <ol class="process-track" data-reveal>
-        {page.process.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section--ice">
-    <div class="shell">
-      <header class="split-heading" data-reveal>
-        <h2>{page.productsTitle}</h2>
-        <p>{page.productsLead}</p>
-      </header>
-      <div class="product-groups">
-        {page.productGroups.map(([title, body], index) => (
-          <article data-reveal>
-            <span>0{index + 1}</span>
-            <h3>{title}</h3>
-            <p>{body}</p>
-          </article>
-        ))}
+  <div class="detail-v2 detail-v2--expertise">
+    <PageHero kicker={page.kicker} title={page.title} lead={page.lead} index="01" />
+    <section class="detail-v2-section detail-v2-capabilities" aria-labelledby="capabilities-title">
+      <div class="shell">
+        <header class="detail-v2-section-head" data-reveal>
+          <p class="eyebrow">{locale === "zh" ? "四个核心能力组" : "FOUR CORE CAPABILITY GROUPS"}</p>
+          <h2 id="capabilities-title">{locale === "zh" ? "在跨团队交界处保持清晰。" : "Clarity at every cross-functional edge."}</h2>
+        </header>
+        <div class="detail-v2-card-grid detail-v2-card-grid--four">
+          {page.areas.map(([title, body], index) => (
+            <article class="detail-v2-card" data-reveal>
+              <div class="detail-v2-card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span class="detail-v2-icon"><ProjectIcon name={areaIcons[index]} size={27} /></span>
+              </div>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-  <ContactBand locale={locale} />
+    </section>
+
+    <section class="detail-v2-chain" aria-labelledby="chain-title">
+      <div class="shell detail-v2-chain-layout">
+        <header data-reveal>
+          <p class="eyebrow">{page.processKicker}</p>
+          <h2 id="chain-title">{page.processTitle}</h2>
+        </header>
+        <ol class="detail-v2-process" data-reveal>
+          {page.process.map((step, index) => (
+            <li><span>{String(index + 1).padStart(2, "0")}</span><strong>{step}</strong></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="detail-v2-section detail-v2-products" aria-labelledby="products-title">
+      <div class="shell">
+        <header class="detail-v2-split-head" data-reveal>
+          <div><p class="eyebrow">{locale === "zh" ? "产品经验语境" : "PRODUCT EXPERIENCE CONTEXT"}</p><h2 id="products-title">{page.productsTitle}</h2></div>
+          <p>{page.productsLead}</p>
+        </header>
+        <div class="detail-v2-card-grid detail-v2-card-grid--three">
+          {page.productGroups.map(([title, body], index) => (
+            <article class="detail-v2-dossier-card" data-reveal>
+              <span>FILE / 0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+    <ContactBand locale={locale} />
+  </div>
 </BaseLayout>
