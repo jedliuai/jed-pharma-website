@@ -15,7 +15,34 @@ const path = routeMap.home[locale];
 const processIcons: ProjectIconName[] = ["magnifying-glass", "briefcase", "file-text", "sliders-horizontal", "truck", "seal-check"];
 const workIcons: ProjectIconName[] = ["briefcase", "file-text", "truck", "map-trifold"];
 const contactIcons: Record<string, ProjectIconName> = { linkedin: "linkedin-logo", email: "envelope-simple", whatsapp: "whatsapp-logo", wechat: "wechat-logo", card: "circles-three-plus" };
-const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-value-demo.png", "/images/cockpit-pareto-demo.png"];
+const cockpitImages = locale === "zh"
+  ? ["/images/cockpit-balance-demo.png", "/images/cockpit-value-demo.png", "/images/cockpit-pareto-demo.png"]
+  : ["/images/cockpit-balance-demo-en.png", "/images/cockpit-value-demo-en.png", "/images/cockpit-pareto-demo-en.png"];
+const marketPins = [
+  { en: "Mexico", zh: "墨西哥", x: 18.2, y: 43.8, region: "latam" },
+  { en: "Honduras", zh: "洪都拉斯", x: 21.8, y: 48.6, region: "latam" },
+  { en: "Venezuela", zh: "委内瑞拉", x: 28.6, y: 51.8, region: "latam" },
+  { en: "Colombia", zh: "哥伦比亚", x: 25.1, y: 54.4, region: "latam" },
+  { en: "Peru", zh: "秘鲁", x: 24.6, y: 61.8, region: "latam" },
+  { en: "Paraguay", zh: "巴拉圭", x: 30.4, y: 70.8, region: "latam" },
+  { en: "Chile", zh: "智利", x: 27.3, y: 76.6, region: "latam" },
+  { en: "Uzbekistan", zh: "乌兹别克斯坦", x: 63.8, y: 43.2, region: "cis" },
+];
+const interfaceCopy = locale === "zh" ? {
+  marketWindow: "市场范围 / 10+ 个国际市场",
+  liveTool: "01 / 在线工具",
+  privateSystem: "02 / 个人运营系统",
+  cockpitWindow: "个人医药订单驾驶舱 / 演示数据",
+  informationWorkflow: "03 / 信息工作流",
+  ecosystemRole: "医药国际业务"
+} : {
+  marketWindow: "MARKET CONTEXT / 10+ MARKETS",
+  liveTool: "01 / LIVE TOOL",
+  privateSystem: "02 / PRIVATE OPERATING SYSTEM",
+  cockpitWindow: "PERSONAL PHARMACEUTICAL ORDER COCKPIT / DEMO DATA",
+  informationWorkflow: "03 / INFORMATION WORKFLOW",
+  ecosystemRole: "INTERNATIONAL BUSINESS"
+};
 ---
 <BaseLayout locale={locale} path={path}>
   <section id="top" class="hero">
@@ -23,7 +50,7 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
     <div class="shell hero-grid">
       <div class="hero-copy">
         <p class="kicker hero-enter">{c.eyebrow}</p>
-        <h1 class="hero-enter">Jed Liu</h1>
+        <h1 class="hero-brand hero-enter"><img src={site.logo} width="400" height="201" alt="Jed Liu" /></h1>
         <p class="hero-lead hero-enter">{page.heroLead}</p>
         <p class="hero-caption hero-enter">{page.heroBody}</p>
         <div class="hero-actions hero-enter">
@@ -39,7 +66,7 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
   <section id="about" class="section about-section">
     <div class="shell about-grid">
       <SectionHeading kicker={page.aboutKicker} title={page.aboutTitle} />
-      <div class="about-copy" data-reveal><p>{page.aboutBody}</p><span class="signature-line">Jed <i></i> Liu</span></div>
+      <div class="about-copy" data-reveal><p>{page.aboutBody}</p></div>
     </div>
     <MetricStrip locale={locale} />
   </section>
@@ -71,12 +98,20 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
       <SectionHeading kicker={page.marketsKicker} title={page.marketsTitle} body={page.marketsBody} />
       <div class="market-workspace">
         <div class="market-map" data-reveal>
-          <div class="window-bar"><span>MARKET CONTEXT / 10+ MARKETS</span><ProjectIcon name="map-trifold" /></div>
-          <div class="market-regions">
-            {page.regions.map(([title, places, body], index) => <article>
-              <span>0{index + 1}</span><h3>{title}</h3><strong>{places}</strong><p>{body}</p>
-            </article>)}
-          </div>
+          <div class="window-bar"><span>{interfaceCopy.marketWindow}</span><ProjectIcon name="map-trifold" /></div>
+          <figure class="market-visual" data-market-map>
+            <img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "拉丁美洲、中亚与独联体市场地图" : "Map of Latin America, Central Asia and CIS markets"} loading="lazy" />
+            <div class="market-pin-layer" aria-label={locale === "zh" ? "重点市场" : "Focus markets"}>
+              {marketPins.map((pin, index) => <span class={`market-pin market-pin--${pin.region}`} data-market-pin style={`--x:${pin.x}%;--y:${pin.y}%;--delay:${index * 280}ms`} tabindex="0" role="img" aria-label={pin[locale]}>
+                <ProjectIcon name="map-pin" size={18} /><b>{pin[locale]}</b>
+              </span>)}
+            </div>
+            <figcaption>
+              {page.regions.map(([title, places, body], index) => <article>
+                <span>0{index + 1}</span><div><h3>{title}</h3><strong>{places}</strong><p>{body}</p></div>
+              </article>)}
+            </figcaption>
+          </figure>
         </div>
         <aside class="product-panel" data-reveal>
           <div class="window-bar"><span>{page.productTitle}</span><ProjectIcon name="package" /></div>
@@ -106,32 +141,38 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
     <div class="shell tool-stack">
       <article class="tool-window quote-window" data-reveal>
         <div class="tool-copy">
-          <span>01 / LIVE TOOL</span><ProjectIcon name="file-text" size={34} /><h3>{page.quoteTitle}</h3><p>{page.quoteBody}</p>
+          <span>{interfaceCopy.liveTool}</span><ProjectIcon name="file-text" size={34} /><h3>{page.quoteTitle}</h3><p>{page.quoteBody}</p>
           <ButtonLink href={site.quoteTool} variant="paper" icon="arrow-up-right" external>{page.quoteCta}</ButtonLink>
         </div>
-        <a class="tool-screen" href={site.quoteTool} target="_blank" rel="noopener noreferrer" aria-label={page.quoteCta}>
+        <div class="tool-screen image-zoom-surface">
           <div class="window-bar"><span>quote.jedliuai.com</span><ProjectIcon name="arrow-up-right" /></div>
           <img src="/images/quote-tool-demo.png" width="2160" height="1265" alt={locale === "zh" ? "Jed 报价与合同工具界面" : "Jed's quote and contract tool interface"} loading="lazy" />
-        </a>
+          <button class="image-zoom-trigger" type="button" data-image-zoom data-image-src="/images/quote-tool-demo.png" data-image-alt={locale === "zh" ? "Jed 报价与合同工具界面" : "Jed's quote and contract tool interface"} data-image-title={page.quoteTitle} aria-label={locale === "zh" ? "全屏查看报价与合同工具截图" : "View the quote and contract tool screenshot full screen"}>
+            <ProjectIcon name="magnifying-glass" size={21} /><span>{locale === "zh" ? "放大查看" : "View larger"}</span>
+          </button>
+        </div>
       </article>
 
       <article class="tool-window cockpit-window" data-gallery data-reveal>
         <div class="cockpit-copy">
-          <span>02 / PRIVATE OPERATING SYSTEM</span><ProjectIcon name="chart-line-up" size={34} /><h3>{page.cockpitTitle}</h3><p>{page.cockpitBody}</p>
+          <span>{interfaceCopy.privateSystem}</span><ProjectIcon name="chart-line-up" size={34} /><h3>{page.cockpitTitle}</h3><p>{page.cockpitBody}</p>
           <div class="gallery-tabs" role="tablist" aria-label={page.cockpitTitle}>
             {page.cockpitTabs.map((label, index) => <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} class:list={{ "is-active": index === 0 }} data-gallery-tab><span>0{index + 1}</span>{label}</button>)}
           </div>
         </div>
         <div class="cockpit-stage">
-          <div class="window-bar"><span>PERSONAL PHARMACEUTICAL ORDER COCKPIT / DEMO DATA</span><ProjectIcon name="database" /></div>
+          <div class="window-bar"><span>{interfaceCopy.cockpitWindow}</span><ProjectIcon name="database" /></div>
           {cockpitImages.map((src, index) => <figure data-gallery-panel hidden={index !== 0} class:list={{ "is-active": index === 0 }}>
             <img src={src} width="2048" height="998" alt={`${page.cockpitTabs[index]} — ${locale === "zh" ? "虚构公司与合成数据演示" : "fictional companies and synthetic demo data"}`} loading="lazy" />
+            <button class="image-zoom-trigger" type="button" data-image-zoom data-image-src={src} data-image-alt={`${page.cockpitTabs[index]} — ${locale === "zh" ? "虚构公司与合成数据演示" : "fictional companies and synthetic demo data"}`} data-image-title={page.cockpitTabs[index]} aria-label={locale === "zh" ? `全屏查看${page.cockpitTabs[index]}截图` : `View ${page.cockpitTabs[index]} full screen`}>
+              <ProjectIcon name="magnifying-glass" size={21} /><span>{locale === "zh" ? "放大查看" : "View larger"}</span>
+            </button>
           </figure>)}
         </div>
       </article>
 
       <article class="insight-window" data-reveal>
-        <div><span>03 / INFORMATION WORKFLOW</span><ProjectIcon name="network" size={34} /><h3>{page.insightTitle}</h3></div><p>{page.insightBody}</p>
+        <div><span>{interfaceCopy.informationWorkflow}</span><ProjectIcon name="network" size={34} /><h3>{page.insightTitle}</h3></div><p>{page.insightBody}</p>
         <div class="signal-line" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       </article>
     </div>
@@ -140,9 +181,13 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
   <section class="section industry-section">
     <div class="shell industry-grid">
       <div><SectionHeading kicker={page.industryKicker} title={page.industryTitle} body={page.industryBody} /></div>
-      <div class="ecosystem" data-reveal>
-        <div class="ecosystem-center"><img src={site.portrait} width="120" height="120" alt="Jed Liu" /><strong>JED LIU</strong><span>INTERNATIONAL BUSINESS</span></div>
-        {page.nodes.map((node, index) => <div class={`ecosystem-node node-${index + 1}`}><ProjectIcon name={index === 0 ? "factory" : index === 1 ? "package" : index === 2 ? "file-text" : index === 3 ? "seal-check" : index === 4 ? "truck" : "users-three"} /><span>{node}</span></div>)}
+      <div class="ecosystem" data-ecosystem data-reveal>
+        <div class="ecosystem-center"><img src={site.portrait} width="120" height="120" alt="Jed Liu" /><strong>JED LIU</strong><span>{interfaceCopy.ecosystemRole}</span></div>
+        <div class="ecosystem-orbit">
+          {page.nodes.map((node, index) => <div class="ecosystem-node" style={`--angle:${index * 60 - 90}deg;--counter-angle:${90 - index * 60}deg;--node-index:${index}`}>
+            <div class="ecosystem-node-card"><ProjectIcon name={index === 0 ? "factory" : index === 1 ? "package" : index === 2 ? "file-text" : index === 3 ? "seal-check" : index === 4 ? "truck" : "users-three"} /><span>{node}</span></div>
+          </div>)}
+        </div>
       </div>
     </div>
   </section>
@@ -159,9 +204,9 @@ const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-valu
       <div class="contact-intro"><p class="kicker">{page.contactKicker}</p><h2>{page.contactTitle}</h2><p>{page.contactBody}</p></div>
       <div class="contact-list">
         {contacts.map((channel, index) => channel.dialog ? (
-          <button type="button" data-open-wechat data-reveal><span><i>0{index + 1}</i><ProjectIcon name={contactIcons[channel.id]} size={25} /></span><strong>{channel.label[locale]}</strong><small>{channel.value}</small><ProjectIcon name="arrow-up-right" /></button>
+          <button class={`contact-channel contact-channel--${channel.id}`} type="button" data-open-wechat data-reveal><span><i>0{index + 1}</i><ProjectIcon name={contactIcons[channel.id]} size={25} /></span><strong>{channel.label[locale]}</strong><small>{channel.value}</small><ProjectIcon name="arrow-up-right" /></button>
         ) : (
-          <a href={channel.href} target={channel.external ? "_blank" : undefined} rel={channel.external ? "noopener noreferrer" : undefined} data-reveal>
+          <a class={`contact-channel contact-channel--${channel.id}`} href={channel.href} target={channel.external ? "_blank" : undefined} rel={channel.external ? "noopener noreferrer" : undefined} data-reveal>
             <span><i>0{index + 1}</i><ProjectIcon name={contactIcons[channel.id]} size={25} /></span><strong>{channel.label[locale]}</strong><small>{channel.id === "linkedin" ? (locale === "zh" ? "建立职业联系" : channel.value) : channel.value}</small><ProjectIcon name="arrow-up-right" />
           </a>
         ))}

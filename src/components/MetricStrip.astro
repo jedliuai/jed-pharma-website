@@ -4,9 +4,10 @@ import { common } from "@/data/copy";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 ---
-<section class="metric-strip" aria-label={locale === "zh" ? "个人脱敏业务数据" : "Anonymized personal working ranges"}>
+<section class="metric-strip" data-metric-strip aria-label={locale === "zh" ? "个人脱敏业务数据" : "Anonymized personal working ranges"}>
   <div class="shell metric-grid">
-    {metrics.map((metric) => <div class="metric" data-reveal>
+    {metrics.map((metric, index) => <div class="metric" style={`--metric-index:${index}`}>
+      <div class="metric-index"><span>0{index + 1}</span><i aria-hidden="true"></i></div>
       <strong class:list={{ "metric-currency": metric.value.startsWith("US$") }}>
         {metric.value.startsWith("US$") && <span>US$</span>}
         <b data-count={metric.amount} data-suffix={metric.suffix}>{metric.amount}{metric.suffix}</b>

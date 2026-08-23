@@ -1,0 +1,18 @@
+---
+import ProjectIcon from "@/components/ProjectIcon.astro";
+import type { Locale } from "@/config/site";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+
+<dialog class="image-lightbox" data-image-lightbox aria-labelledby="image-lightbox-title">
+  <div class="image-lightbox-panel">
+    <header>
+      <div><span>{locale === "zh" ? "图片预览" : "IMAGE PREVIEW"}</span><strong id="image-lightbox-title" data-image-lightbox-title></strong></div>
+      <button type="button" data-image-lightbox-close aria-label={locale === "zh" ? "关闭图片预览" : "Close image preview"}><ProjectIcon name="x" size={24} /></button>
+    </header>
+    <div class="image-lightbox-canvas"><img data-image-lightbox-image alt="" /></div>
+    <p>{locale === "zh" ? "点击空白区域或按 Esc 关闭" : "Click outside the image or press Esc to close"}</p>
+  </div>
+</dialog>

@@ -14,27 +14,35 @@
     reveals.forEach((element) => observer.observe(element));
   }
 
-  document.querySelectorAll<HTMLElement>("[data-count]").forEach((counter) => {
+  const runCounter = (counter: HTMLElement) => {
     const target = Number(counter.dataset.count ?? 0);
     const suffix = counter.dataset.suffix ?? "";
-    const run = () => {
-      if (reduceMotion) { counter.textContent = `${target}${suffix}`; return; }
-      const started = performance.now();
-      counter.textContent = `0${suffix}`;
-      const step = (now: number) => {
-        const progress = Math.min((now - started) / 900, 1);
-        counter.textContent = `${Math.round(target * (1 - Math.pow(1 - progress, 3)))}${suffix}`;
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
+    if (counter.dataset.counted === "true") return;
+    counter.dataset.counted = "true";
+    if (reduceMotion) { counter.textContent = `${target}${suffix}`; return; }
+    const started = performance.now();
+    counter.textContent = `0${suffix}`;
+    const step = (now: number) => {
+      const progress = Math.min((now - started) / 1500, 1);
+      counter.textContent = `${Math.round(target * (1 - Math.pow(1 - progress, 3)))}${suffix}`;
+      if (progress < 1) requestAnimationFrame(step);
     };
-    if (!("IntersectionObserver" in window)) run();
+    requestAnimationFrame(step);
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-metric-strip]").forEach((strip) => {
+    const showMetrics = () => {
+      strip.classList.add("is-animated");
+      strip.querySelectorAll<HTMLElement>("[data-count]").forEach(runCounter);
+    };
+    if (reduceMotion || !("IntersectionObserver" in window)) showMetrics();
     else {
-      const countObserver = new IntersectionObserver(([entry]) => {
+      const metricObserver = new IntersectionObserver(([entry]) => {
         if (!entry?.isIntersecting) return;
-        run(); countObserver.disconnect();
-      }, { threshold: .5 });
-      countObserver.observe(counter);
+        window.setTimeout(showMetrics, 180);
+        metricObserver.disconnect();
+      }, { threshold: .52, rootMargin: "0px 0px -10%" });
+      metricObserver.observe(strip);
     }
   });
 
@@ -62,23 +70,74 @@
   document.querySelectorAll<HTMLElement>("[data-process]").forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-process-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-process-panel]")];
-    tabs.forEach((tab, index) => tab.addEventListener("click", () => {
+    let active = Math.max(0, tabs.findIndex((tab) => tab.classList.contains("is-active")));
+    let timer = 0;
+    let visible = false;
+    const stop = () => { window.clearTimeout(timer); timer = 0; };
+    const activate = (index: number) => {
+      active = index;
       tabs.forEach((item, i) => { item.classList.toggle("is-active", i === index); item.setAttribute("aria-selected", String(i === index)); });
       panels.forEach((panel, i) => { panel.hidden = i !== index; panel.classList.toggle("is-active", i === index); });
-    }));
+      root.style.setProperty("--process-progress", `${tabs.length > 1 ? index / (tabs.length - 1) * 100 : 0}%`);
+    };
+    const schedule = (delay = 3200) => {
+      stop();
+      if (reduceMotion || !visible || tabs.length < 2 || document.hidden) return;
+      timer = window.setTimeout(() => {
+        const next = (active + 1) % tabs.length;
+        if (next === 0) root.classList.add("is-resetting");
+        activate(next);
+        if (next === 0) requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("is-resetting")));
+        schedule(next === tabs.length - 1 ? 4000 : 3200);
+      }, delay);
+    };
+    const userActivate = (index: number) => { activate(index); schedule(6500); };
+    activate(active);
+    tabs.forEach((tab, index) => tab.addEventListener("click", () => userActivate(index)));
     tabs.forEach((tab, index) => tab.addEventListener("keydown", (event) => {
       if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 :
         (index + (event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length;
-      tabs[next]?.focus(); tabs[next]?.click();
+      tabs[next]?.focus(); userActivate(next);
     }));
+    if (reduceMotion || !("IntersectionObserver" in window)) { visible = true; schedule(1800); }
+    else {
+      const processObserver = new IntersectionObserver(([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+        if (visible) schedule(1800); else stop();
+      }, { threshold: .35 });
+      processObserver.observe(root);
+    }
+    document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); else schedule(1800); });
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-market-map]").forEach((map) => {
+    const pins = [...map.querySelectorAll<HTMLElement>("[data-market-pin]")];
+    const showPins = () => pins.forEach((pin) => pin.classList.add("is-lit"));
+    if (reduceMotion || !("IntersectionObserver" in window)) showPins();
+    else {
+      const mapObserver = new IntersectionObserver(([entry]) => {
+        if (!entry?.isIntersecting) return;
+        showPins();
+        mapObserver.disconnect();
+      }, { threshold: .62, rootMargin: "0px 0px -10%" });
+      mapObserver.observe(map);
+    }
   });
 
   document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-gallery-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-gallery-panel]")];
+    let active = Math.max(0, tabs.findIndex((tab) => tab.classList.contains("is-active")));
+    let timer = 0;
+    let visible = false;
+    let pointerInside = false;
+    let keyboardFocus = false;
+    let resumeAt = 0;
+    const stop = () => { window.clearTimeout(timer); timer = 0; };
     const activate = (index: number) => {
+      active = index;
       tabs.forEach((tab, i) => {
         tab.classList.toggle("is-active", i === index);
         tab.setAttribute("aria-selected", String(i === index));
@@ -88,20 +147,118 @@
         panel.classList.toggle("is-active", i === index);
       });
     };
+    const schedule = (delay = 4200) => {
+      stop();
+      if (reduceMotion || !visible || pointerInside || keyboardFocus || tabs.length < 2 || document.hidden) return;
+      const remainingHold = Math.max(0, resumeAt - Date.now());
+      timer = window.setTimeout(() => { activate((active + 1) % tabs.length); schedule(); }, Math.max(delay, remainingHold));
+    };
+    const userActivate = (index: number) => {
+      activate(index);
+      resumeAt = Date.now() + 8000;
+      schedule(8000);
+    };
+    activate(active);
     tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => activate(index));
+      tab.addEventListener("pointerdown", () => { keyboardFocus = false; });
+      tab.addEventListener("click", () => userActivate(index));
       tab.addEventListener("keydown", (event) => {
         if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
         event.preventDefault();
+        keyboardFocus = true;
         const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
           (index + (event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1) + tabs.length) % tabs.length;
         tabs[next]?.focus();
-        activate(next);
+        userActivate(next);
       });
     });
+    root.addEventListener("pointerenter", () => { pointerInside = true; stop(); });
+    root.addEventListener("pointerleave", () => { pointerInside = false; schedule(1800); });
+    root.addEventListener("focusout", () => requestAnimationFrame(() => {
+      if (root.matches(":focus-within")) return;
+      keyboardFocus = false;
+      schedule(1800);
+    }));
+    document.addEventListener("image-lightbox:open", stop);
+    document.addEventListener("image-lightbox:close", () => schedule(1800));
+    if (reduceMotion || !("IntersectionObserver" in window)) { visible = true; schedule(1800); }
+    else {
+      const galleryObserver = new IntersectionObserver(([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+        if (visible) schedule(1800); else stop();
+      }, { threshold: .32 });
+      galleryObserver.observe(root);
+    }
+    document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); else schedule(1800); });
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-ecosystem]").forEach((ecosystem) => {
+    const bloom = () => ecosystem.classList.add("is-bloomed");
+    if (reduceMotion || !("IntersectionObserver" in window)) bloom();
+    else {
+      const ecosystemObserver = new IntersectionObserver(([entry]) => {
+        if (!entry?.isIntersecting) return;
+        bloom();
+        ecosystemObserver.disconnect();
+      }, { threshold: .62, rootMargin: "0px 0px -8%" });
+      ecosystemObserver.observe(ecosystem);
+    }
+  });
+
+  const imageDialog = document.querySelector<HTMLDialogElement>("[data-image-lightbox]");
+  const lightboxImage = imageDialog?.querySelector<HTMLImageElement>("[data-image-lightbox-image]");
+  const lightboxTitle = imageDialog?.querySelector<HTMLElement>("[data-image-lightbox-title]");
+  const lightboxClose = imageDialog?.querySelector<HTMLButtonElement>("[data-image-lightbox-close]");
+  let lastImageTrigger: HTMLElement | null = null;
+  document.querySelectorAll<HTMLElement>("[data-image-zoom]").forEach((trigger) => trigger.addEventListener("click", () => {
+    if (!imageDialog || !lightboxImage || !lightboxTitle) return;
+    lastImageTrigger = trigger;
+    lightboxImage.src = trigger.dataset.imageSrc ?? "";
+    lightboxImage.alt = trigger.dataset.imageAlt ?? "";
+    lightboxTitle.textContent = trigger.dataset.imageTitle ?? "";
+    document.documentElement.classList.add("has-lightbox");
+    document.dispatchEvent(new CustomEvent("image-lightbox:open"));
+    imageDialog.showModal();
+  }));
+  lightboxClose?.addEventListener("click", () => imageDialog?.close());
+  imageDialog?.addEventListener("click", (event) => {
+    if (event.target === imageDialog || (event.target instanceof HTMLElement && event.target.matches(".image-lightbox-canvas"))) imageDialog.close();
+  });
+  imageDialog?.addEventListener("close", () => {
+    document.documentElement.classList.remove("has-lightbox");
+    if (lightboxImage) lightboxImage.src = "";
+    lastImageTrigger?.focus();
+    document.dispatchEvent(new CustomEvent("image-lightbox:close"));
   });
 
   const header = document.querySelector<HTMLElement>("[data-header]");
   const updateHeader = () => header?.classList.toggle("is-scrolled", scrollY > 16);
   updateHeader(); addEventListener("scroll", updateHeader, { passive: true });
+
+  const shippingProgress = document.querySelector<HTMLElement>("[data-shipping-progress]");
+  const shippingVessel = shippingProgress?.querySelector<HTMLElement>("[data-shipping-vessel]");
+  let shippingFrame = 0;
+  let sailingTimer = 0;
+  const updateShippingProgress = () => {
+    shippingFrame = 0;
+    if (!shippingProgress || !shippingVessel) return;
+    const journey = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const value = Math.min(100, Math.max(0, scrollY / journey * 100));
+    const position = `${value.toFixed(3)}%`;
+    shippingVessel.style.left = position;
+    shippingProgress.setAttribute("aria-valuenow", String(Math.round(value)));
+  };
+  const requestShippingUpdate = () => {
+    if (shippingFrame) return;
+    shippingFrame = requestAnimationFrame(updateShippingProgress);
+  };
+  const markShippingAsMoving = () => {
+    if (!shippingProgress || reduceMotion) return;
+    shippingProgress.classList.add("is-sailing");
+    window.clearTimeout(sailingTimer);
+    sailingTimer = window.setTimeout(() => shippingProgress.classList.remove("is-sailing"), 560);
+  };
+  updateShippingProgress();
+  addEventListener("scroll", () => { markShippingAsMoving(); requestShippingUpdate(); }, { passive: true });
+  addEventListener("resize", requestShippingUpdate, { passive: true });
 </script>

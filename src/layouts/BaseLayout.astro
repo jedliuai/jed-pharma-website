@@ -2,7 +2,9 @@
 import "@/styles/global.css";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
+import ShippingProgress from "@/components/ShippingProgress.astro";
 import WeChatDialog from "@/components/WeChatDialog.astro";
+import ImageLightbox from "@/components/ImageLightbox.astro";
 import SiteMotion from "@/components/SiteMotion.astro";
 import { alternatePath, designTokens, site, type Locale } from "@/config/site";
 import { common, seo } from "@/data/copy";
@@ -100,11 +102,13 @@ const structuredData = {
   <body>
     <a class="skip-link" href="#main-content">{locale === "zh" ? "跳到主要内容" : "Skip to main content"}</a>
     <SiteHeader locale={locale} path={path} />
+    <ShippingProgress locale={locale} />
     <main id="main-content">
       <slot />
     </main>
     <SiteFooter locale={locale} />
     <WeChatDialog locale={locale} title={c.wechatTitle} body={c.wechatBody} closeLabel={c.close} />
+    <ImageLightbox locale={locale} />
     <SiteMotion />
   </body>
 </html>

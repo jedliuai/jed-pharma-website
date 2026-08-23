@@ -11,7 +11,7 @@ const c = common[locale];
   <div class="shell header-inner">
     <a class="brand-link" href="#top" aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
       <img src={site.logo} width="400" height="201" alt="Jed" />
-      <span>PHARMA / INTERNATIONAL</span>
+      <span>{locale === "zh" ? "医药 / 国际业务" : "PHARMA / INTERNATIONAL"}</span>
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label={c.openMenu} data-open-label={c.openMenu} data-close-label={c.closeMenu}>
       <span>{c.menu}</span><ProjectIcon name="list" size={22} />

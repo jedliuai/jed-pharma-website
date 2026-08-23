@@ -46,6 +46,7 @@ export default defineConfig({
           "arrow-down",
           "check",
           "map-trifold",
+          "map-pin-fill",
           "sparkle"
         ]
       }

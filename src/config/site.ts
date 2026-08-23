@@ -40,7 +40,7 @@ export const site = {
     zh: "中国 · 面向国际市场"
   },
   portrait: "/brand/jed-portrait.webp",
-  logo: "/brand/jed-personal-logo.webp",
+  logo: "/brand/jed-logo-transparent.png",
   wechatCard: "/brand/jed-wechat-card.jpg"
 } as const;
 
