@@ -246,16 +246,23 @@
   let shippingDragWidth = 1;
   const shippingJourney = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
   const shippingValue = () => Math.min(100, Math.max(0, scrollY / shippingJourney() * 100));
-  const setShippingValue = (value: number) => {
+  const setShippingValue = (value: number, immediate = false) => {
     if (!shippingVessel) return;
     const clampedValue = Math.min(100, Math.max(0, value));
+    const target = shippingJourney() * clampedValue / 100;
     shippingVessel.style.left = `${clampedValue.toFixed(3)}%`;
     shippingVessel.setAttribute("aria-valuenow", String(Math.round(clampedValue)));
-    scrollTo({ top: shippingJourney() * clampedValue / 100, behavior: "auto" });
+    if (immediate) {
+      const scroller = document.scrollingElement ?? document.documentElement;
+      scroller.scrollTop = target;
+      return;
+    }
+    scrollTo({ top: target, behavior: "auto" });
   };
   const updateShippingProgress = () => {
     shippingFrame = 0;
     if (!shippingProgress || !shippingVessel) return;
+    if (shippingDragPointer !== -1) return;
     const value = shippingValue();
     const position = `${value.toFixed(3)}%`;
     shippingVessel.style.left = position;
@@ -281,6 +288,8 @@
     shippingDragStartX = event.clientX;
     shippingDragStartValue = shippingValue();
     shippingDragWidth = Math.max(1, shippingTrack.getBoundingClientRect().width);
+    if (shippingFrame) cancelAnimationFrame(shippingFrame);
+    shippingFrame = 0;
     shippingVessel.setPointerCapture(event.pointerId);
     shippingProgress?.classList.add("is-dragging", "is-sailing");
     document.documentElement.classList.add("is-dragging-shipping");
@@ -290,7 +299,7 @@
   shippingVessel?.addEventListener("pointermove", (event) => {
     if (event.pointerId !== shippingDragPointer) return;
     const delta = (event.clientX - shippingDragStartX) / shippingDragWidth * 100;
-    setShippingValue(shippingDragStartValue + delta);
+    setShippingValue(shippingDragStartValue + delta, true);
     event.preventDefault();
   });
   const finishShippingDrag = (event: PointerEvent) => {
@@ -299,6 +308,7 @@
     shippingProgress?.classList.remove("is-dragging");
     document.documentElement.classList.remove("is-dragging-shipping");
     if (shippingVessel?.hasPointerCapture(event.pointerId)) shippingVessel.releasePointerCapture(event.pointerId);
+    requestShippingUpdate();
     window.clearTimeout(sailingTimer);
     sailingTimer = window.setTimeout(() => shippingProgress?.classList.remove("is-sailing"), 560);
   };
