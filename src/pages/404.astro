@@ -1,0 +1,28 @@
+---
+import "@/styles/global.css";
+import { site } from "@/config/site";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#EEEAE2" />
+    <title>Page not found | Jed Liu</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="not-found">
+      <div class="not-found-grid" aria-hidden="true"></div>
+      <a class="not-found-brand" href="/"><img src={site.logo} width="400" height="201" alt="Jed" /></a>
+      <div class="not-found-copy">
+        <p class="kicker">404 / PAGE NOT FOUND</p>
+        <h1>This page has been retired.</h1>
+        <p>The website now lives in one focused story. Return to the homepage, or open the Chinese edition.</p>
+        <div class="hero-actions"><a class="button button--terracotta" href="/">Back to homepage</a><a class="button button--outline" href="/zh/">进入中文页</a></div>
+      </div>
+      <span class="not-found-index">04 / 04</span>
+    </main>
+  </body>
+</html>

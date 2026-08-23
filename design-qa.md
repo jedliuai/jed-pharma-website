@@ -35,7 +35,7 @@
 ## 技术核对
 
 - Astro 类型检查：0 errors / 0 warnings。
-- 静态构建只生成 `/` 和 `/zh/`。
+- 静态构建只生成 `/`、`/zh/` 两个内容页和一个系统 `404.html`；旧路由不再返回首页 200。
 - Chromium 桌面端与移动端控制台：0 errors / 0 warnings。
 - Lighthouse 移动端：Performance 99 / Accessibility 96 / Best Practices 100 / SEO 100。
 - canonical、hreflang、JSON-LD、sitemap、robots、`llms.txt` 与 `ai-summary.txt` 与新单页结构一致。
