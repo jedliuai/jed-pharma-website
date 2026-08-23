@@ -235,6 +235,21 @@
   const updateHeader = () => header?.classList.toggle("is-scrolled", scrollY > 16);
   updateHeader(); addEventListener("scroll", updateHeader, { passive: true });
 
+  const pageScrollBehavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!(event.target instanceof Element)) return;
+    const link = event.target.closest<HTMLAnchorElement>('a[href^="#"]:not(.skip-link)');
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: pageScrollBehavior, block: "start" });
+    if (location.hash !== hash) history.pushState(null, "", hash);
+  });
+
   const shippingProgress = document.querySelector<HTMLElement>("[data-shipping-progress]");
   const shippingTrack = shippingProgress?.querySelector<HTMLElement>("[data-shipping-track]");
   const shippingVessel = shippingProgress?.querySelector<HTMLElement>("[data-shipping-vessel]");
@@ -247,7 +262,8 @@
   let shippingDragTarget = 0;
   let shippingDragFrame = 0;
   let shippingDragFrameTime = 0;
-  let shippingDragCleanupTimer = 0;
+  let shippingDragLastX = 0;
+  let shippingDragDirection = 0;
   const shippingJourney = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
   const shippingValue = () => Math.min(100, Math.max(0, scrollY / shippingJourney() * 100));
   const animateShippingDrag = (time: number) => {
@@ -260,11 +276,6 @@
       scroller.scrollTop = shippingDragTarget;
       shippingDragFrame = 0;
       shippingDragFrameTime = 0;
-      if (shippingDragPointer === -1) {
-        window.clearTimeout(shippingDragCleanupTimer);
-        document.documentElement.classList.remove("is-shipping-scroll-controlled");
-        requestShippingUpdate();
-      }
       return;
     }
     scroller.scrollTop += distance * follow;
@@ -286,7 +297,7 @@
       requestShippingDragAnimation();
       return;
     }
-    scrollTo({ top: target, behavior: "auto" });
+    scrollTo({ top: target, behavior: pageScrollBehavior });
   };
   const updateShippingProgress = () => {
     shippingFrame = 0;
@@ -318,7 +329,8 @@
     shippingDragStartValue = shippingValue();
     shippingDragWidth = Math.max(1, shippingTrack.getBoundingClientRect().width);
     shippingDragTarget = scrollY;
-    window.clearTimeout(shippingDragCleanupTimer);
+    shippingDragLastX = event.clientX;
+    shippingDragDirection = 0;
     if (shippingFrame) cancelAnimationFrame(shippingFrame);
     shippingFrame = 0;
     shippingVessel.setPointerCapture(event.pointerId);
@@ -329,32 +341,39 @@
   });
   shippingVessel?.addEventListener("pointermove", (event) => {
     if (event.pointerId !== shippingDragPointer) return;
+    const step = event.clientX - shippingDragLastX;
+    if (Math.abs(step) >= 1) shippingDragDirection = Math.sign(step);
+    shippingDragLastX = event.clientX;
     const delta = (event.clientX - shippingDragStartX) / shippingDragWidth * 100;
     setShippingValue(shippingDragStartValue + delta, true);
     event.preventDefault();
   });
+  const snapShippingToSection = (direction: number) => {
+    const sectionIds = ["top", "about", "experience", "markets", "digital", "contact"];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+    const targetPosition = shippingDragTarget;
+    const positions = sections.map((section) => ({ section, top: Math.min(shippingJourney(), Math.max(0, section.offsetTop)) }));
+    const threshold = Math.min(120, innerHeight * .12);
+    const destination = direction > 0
+      ? positions.find(({ top }) => top > targetPosition + threshold) ?? positions.at(-1)
+      : direction < 0
+        ? positions.findLast(({ top }) => top < targetPosition - threshold) ?? positions[0]
+        : positions.reduce((nearest, candidate) => Math.abs(candidate.top - targetPosition) < Math.abs(nearest.top - targetPosition) ? candidate : nearest);
+    requestAnimationFrame(() => destination?.section.scrollIntoView({ behavior: pageScrollBehavior, block: "start" }));
+  };
   const finishShippingDrag = (event: PointerEvent) => {
     if (event.pointerId !== shippingDragPointer) return;
+    const releaseDirection = event.type === "pointercancel" ? 0 : shippingDragDirection;
     shippingDragPointer = -1;
+    if (shippingDragFrame) cancelAnimationFrame(shippingDragFrame);
+    shippingDragFrame = 0;
+    shippingDragFrameTime = 0;
     shippingProgress?.classList.remove("is-dragging");
-    document.documentElement.classList.remove("is-dragging-shipping");
+    document.documentElement.classList.remove("is-dragging-shipping", "is-shipping-scroll-controlled");
     if (shippingVessel?.hasPointerCapture(event.pointerId)) shippingVessel.releasePointerCapture(event.pointerId);
-    if (!shippingDragFrame) {
-      document.documentElement.classList.remove("is-shipping-scroll-controlled");
-      requestShippingUpdate();
-    } else {
-      window.clearTimeout(shippingDragCleanupTimer);
-      shippingDragCleanupTimer = window.setTimeout(() => {
-        if (shippingDragPointer !== -1) return;
-        if (shippingDragFrame) cancelAnimationFrame(shippingDragFrame);
-        shippingDragFrame = 0;
-        shippingDragFrameTime = 0;
-        const scroller = document.scrollingElement ?? document.documentElement;
-        scroller.scrollTop = shippingDragTarget;
-        document.documentElement.classList.remove("is-shipping-scroll-controlled");
-        requestShippingUpdate();
-      }, 720);
-    }
+    updateShippingProgress();
+    snapShippingToSection(releaseDirection);
     window.clearTimeout(sailingTimer);
     sailingTimer = window.setTimeout(() => shippingProgress?.classList.remove("is-sailing"), 560);
   };
