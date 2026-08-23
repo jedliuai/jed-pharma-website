@@ -244,17 +244,46 @@
   let shippingDragStartX = 0;
   let shippingDragStartValue = 0;
   let shippingDragWidth = 1;
+  let shippingDragTarget = 0;
+  let shippingDragFrame = 0;
+  let shippingDragFrameTime = 0;
+  let shippingDragCleanupTimer = 0;
   const shippingJourney = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
   const shippingValue = () => Math.min(100, Math.max(0, scrollY / shippingJourney() * 100));
-  const setShippingValue = (value: number, immediate = false) => {
+  const animateShippingDrag = (time: number) => {
+    const scroller = document.scrollingElement ?? document.documentElement;
+    const elapsed = shippingDragFrameTime ? Math.min(40, time - shippingDragFrameTime) : 16.7;
+    const follow = 1 - Math.exp(-elapsed / 48);
+    const distance = shippingDragTarget - scroller.scrollTop;
+    shippingDragFrameTime = time;
+    if (Math.abs(distance) <= .5) {
+      scroller.scrollTop = shippingDragTarget;
+      shippingDragFrame = 0;
+      shippingDragFrameTime = 0;
+      if (shippingDragPointer === -1) {
+        window.clearTimeout(shippingDragCleanupTimer);
+        document.documentElement.classList.remove("is-shipping-scroll-controlled");
+        requestShippingUpdate();
+      }
+      return;
+    }
+    scroller.scrollTop += distance * follow;
+    shippingDragFrame = requestAnimationFrame(animateShippingDrag);
+  };
+  const requestShippingDragAnimation = () => {
+    if (shippingDragFrame) return;
+    shippingDragFrameTime = 0;
+    shippingDragFrame = requestAnimationFrame(animateShippingDrag);
+  };
+  const setShippingValue = (value: number, fromDrag = false) => {
     if (!shippingVessel) return;
     const clampedValue = Math.min(100, Math.max(0, value));
     const target = shippingJourney() * clampedValue / 100;
     shippingVessel.style.left = `${clampedValue.toFixed(3)}%`;
     shippingVessel.setAttribute("aria-valuenow", String(Math.round(clampedValue)));
-    if (immediate) {
-      const scroller = document.scrollingElement ?? document.documentElement;
-      scroller.scrollTop = target;
+    if (fromDrag) {
+      shippingDragTarget = target;
+      requestShippingDragAnimation();
       return;
     }
     scrollTo({ top: target, behavior: "auto" });
@@ -262,7 +291,7 @@
   const updateShippingProgress = () => {
     shippingFrame = 0;
     if (!shippingProgress || !shippingVessel) return;
-    if (shippingDragPointer !== -1) return;
+    if (shippingDragPointer !== -1 || shippingDragFrame) return;
     const value = shippingValue();
     const position = `${value.toFixed(3)}%`;
     shippingVessel.style.left = position;
@@ -288,11 +317,13 @@
     shippingDragStartX = event.clientX;
     shippingDragStartValue = shippingValue();
     shippingDragWidth = Math.max(1, shippingTrack.getBoundingClientRect().width);
+    shippingDragTarget = scrollY;
+    window.clearTimeout(shippingDragCleanupTimer);
     if (shippingFrame) cancelAnimationFrame(shippingFrame);
     shippingFrame = 0;
     shippingVessel.setPointerCapture(event.pointerId);
     shippingProgress?.classList.add("is-dragging", "is-sailing");
-    document.documentElement.classList.add("is-dragging-shipping");
+    document.documentElement.classList.add("is-dragging-shipping", "is-shipping-scroll-controlled");
     window.clearTimeout(sailingTimer);
     event.preventDefault();
   });
@@ -308,7 +339,22 @@
     shippingProgress?.classList.remove("is-dragging");
     document.documentElement.classList.remove("is-dragging-shipping");
     if (shippingVessel?.hasPointerCapture(event.pointerId)) shippingVessel.releasePointerCapture(event.pointerId);
-    requestShippingUpdate();
+    if (!shippingDragFrame) {
+      document.documentElement.classList.remove("is-shipping-scroll-controlled");
+      requestShippingUpdate();
+    } else {
+      window.clearTimeout(shippingDragCleanupTimer);
+      shippingDragCleanupTimer = window.setTimeout(() => {
+        if (shippingDragPointer !== -1) return;
+        if (shippingDragFrame) cancelAnimationFrame(shippingDragFrame);
+        shippingDragFrame = 0;
+        shippingDragFrameTime = 0;
+        const scroller = document.scrollingElement ?? document.documentElement;
+        scroller.scrollTop = shippingDragTarget;
+        document.documentElement.classList.remove("is-shipping-scroll-controlled");
+        requestShippingUpdate();
+      }, 720);
+    }
     window.clearTimeout(sailingTimer);
     sailingTimer = window.setTimeout(() => shippingProgress?.classList.remove("is-sailing"), 560);
   };
