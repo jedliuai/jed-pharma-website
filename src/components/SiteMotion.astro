@@ -236,17 +236,30 @@
   updateHeader(); addEventListener("scroll", updateHeader, { passive: true });
 
   const shippingProgress = document.querySelector<HTMLElement>("[data-shipping-progress]");
+  const shippingTrack = shippingProgress?.querySelector<HTMLElement>("[data-shipping-track]");
   const shippingVessel = shippingProgress?.querySelector<HTMLElement>("[data-shipping-vessel]");
   let shippingFrame = 0;
   let sailingTimer = 0;
+  let shippingDragPointer = -1;
+  let shippingDragStartX = 0;
+  let shippingDragStartValue = 0;
+  let shippingDragWidth = 1;
+  const shippingJourney = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  const shippingValue = () => Math.min(100, Math.max(0, scrollY / shippingJourney() * 100));
+  const setShippingValue = (value: number) => {
+    if (!shippingVessel) return;
+    const clampedValue = Math.min(100, Math.max(0, value));
+    shippingVessel.style.left = `${clampedValue.toFixed(3)}%`;
+    shippingVessel.setAttribute("aria-valuenow", String(Math.round(clampedValue)));
+    scrollTo({ top: shippingJourney() * clampedValue / 100, behavior: "auto" });
+  };
   const updateShippingProgress = () => {
     shippingFrame = 0;
     if (!shippingProgress || !shippingVessel) return;
-    const journey = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    const value = Math.min(100, Math.max(0, scrollY / journey * 100));
+    const value = shippingValue();
     const position = `${value.toFixed(3)}%`;
     shippingVessel.style.left = position;
-    shippingProgress.setAttribute("aria-valuenow", String(Math.round(value)));
+    shippingVessel.setAttribute("aria-valuenow", String(Math.round(value)));
   };
   const requestShippingUpdate = () => {
     if (shippingFrame) return;
@@ -261,4 +274,49 @@
   updateShippingProgress();
   addEventListener("scroll", () => { markShippingAsMoving(); requestShippingUpdate(); }, { passive: true });
   addEventListener("resize", requestShippingUpdate, { passive: true });
+
+  shippingVessel?.addEventListener("pointerdown", (event) => {
+    if (!shippingTrack || (event.pointerType === "mouse" && event.button !== 0)) return;
+    shippingDragPointer = event.pointerId;
+    shippingDragStartX = event.clientX;
+    shippingDragStartValue = shippingValue();
+    shippingDragWidth = Math.max(1, shippingTrack.getBoundingClientRect().width);
+    shippingVessel.setPointerCapture(event.pointerId);
+    shippingProgress?.classList.add("is-dragging", "is-sailing");
+    document.documentElement.classList.add("is-dragging-shipping");
+    window.clearTimeout(sailingTimer);
+    event.preventDefault();
+  });
+  shippingVessel?.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== shippingDragPointer) return;
+    const delta = (event.clientX - shippingDragStartX) / shippingDragWidth * 100;
+    setShippingValue(shippingDragStartValue + delta);
+    event.preventDefault();
+  });
+  const finishShippingDrag = (event: PointerEvent) => {
+    if (event.pointerId !== shippingDragPointer) return;
+    shippingDragPointer = -1;
+    shippingProgress?.classList.remove("is-dragging");
+    document.documentElement.classList.remove("is-dragging-shipping");
+    if (shippingVessel?.hasPointerCapture(event.pointerId)) shippingVessel.releasePointerCapture(event.pointerId);
+    window.clearTimeout(sailingTimer);
+    sailingTimer = window.setTimeout(() => shippingProgress?.classList.remove("is-sailing"), 560);
+  };
+  shippingVessel?.addEventListener("pointerup", finishShippingDrag);
+  shippingVessel?.addEventListener("pointercancel", finishShippingDrag);
+  shippingVessel?.addEventListener("lostpointercapture", finishShippingDrag);
+  shippingVessel?.addEventListener("keydown", (event) => {
+    const current = shippingValue();
+    const next = event.key === "Home" ? 0
+      : event.key === "End" ? 100
+      : event.key === "PageDown" ? current + 10
+      : event.key === "PageUp" ? current - 10
+      : event.key === "ArrowRight" || event.key === "ArrowDown" ? current + 2
+      : event.key === "ArrowLeft" || event.key === "ArrowUp" ? current - 2
+      : null;
+    if (next === null) return;
+    event.preventDefault();
+    setShippingValue(next);
+    markShippingAsMoving();
+  });
 </script>

@@ -3,15 +3,15 @@ import type { Locale } from "@/config/site";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const label = locale === "zh" ? "页面航运进度" : "Page shipping progress";
+const label = locale === "zh" ? "拖动货轮浏览页面" : "Drag the cargo ship to navigate the page";
 ---
 
-<div class="shipping-progress" data-shipping-progress role="progressbar" aria-label={label} aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-  <div class="shipping-progress-track" aria-hidden="true">
-    <span class="shipping-progress-vessel" data-shipping-vessel>
+<div class="shipping-progress" data-shipping-progress>
+  <div class="shipping-progress-track" data-shipping-track>
+    <span class="shipping-progress-vessel" data-shipping-vessel role="slider" tabindex="0" aria-label={label} aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" title={label}>
       <span class="shipping-progress-spray shipping-progress-spray--one"><img src="/images/shipping/cargo-ship-3d-side.png" alt="" /></span>
       <span class="shipping-progress-spray shipping-progress-spray--two"><img src="/images/shipping/cargo-ship-3d-side.png" alt="" /></span>
-      <span class="shipping-progress-rocker"><img class="shipping-progress-ship" src="/images/shipping/cargo-ship-3d-side.png" alt="" /></span>
+      <span class="shipping-progress-rocker"><img class="shipping-progress-ship" src="/images/shipping/cargo-ship-3d-side.png" alt="" draggable="false" /></span>
     </span>
   </div>
 </div>
