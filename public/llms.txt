@@ -1,41 +1,39 @@
 # Jed Liu — Pharmaceutical International Business
 
-> Personal professional website focused on pharmaceutical international business, registration coordination, project execution and international delivery.
+> Personal professional website connecting customers, products, registration, supply and delivery across China, Latin America and Central Asia/CIS.
 
 ## Canonical website
 
-- https://pharma.jedliuai.com/
-- Chinese edition: https://pharma.jedliuai.com/zh/
-
-## Public sections
-
-- Expertise: https://pharma.jedliuai.com/expertise/ | https://pharma.jedliuai.com/zh/expertise/
-- Markets: https://pharma.jedliuai.com/markets/ | https://pharma.jedliuai.com/zh/markets/
-- Anonymized projects: https://pharma.jedliuai.com/projects/ | https://pharma.jedliuai.com/zh/projects/
-- About: https://pharma.jedliuai.com/about/ | https://pharma.jedliuai.com/zh/about/
-- Contact: https://pharma.jedliuai.com/contact/ | https://pharma.jedliuai.com/zh/contact/
+- English single page: https://pharma.jedliuai.com/
+- Chinese single page: https://pharma.jedliuai.com/zh/
 
 ## Professional focus
 
-- Pharmaceutical international business development
-- Latin America and CIS & Eastern Europe working contexts; no claim of universal country coverage
-- Registration, technical and quality coordination
-- End-to-end order and delivery execution
-- Structured data, AI and automation for trade workflows
+- Pharmaceutical international business and commercial cooperation
+- Latin America and Central Asia/CIS market experience
+- Registration coordination and technical alignment
+- Contract, production, shipment and delivery execution
+- AI, automation and purpose-built software for international business workflows
+- Structured mapping of pharmaceutical manufacturers, products and market signals in China
 
-## Public proof points
+## Aggregated personal working records since 2021
 
+- 5+ years in pharmaceutical international business
+- 50+ customer accounts managed
 - 10+ international markets
-- 100+ projects tracked
-- 70+ pharmaceutical products in working master data
+- US$32M+ contract value managed
+- 80+ finished dosage forms and APIs
 
-These figures and project examples are anonymized from personal working records. They are illustrative, not an employer disclosure or commercial commitment.
+Figures are aggregated, rounded and anonymized. They describe work handled or coordinated, not personal revenue, ownership, an employer disclosure or a commercial commitment.
 
-## Contact
+## Public tools and contact
 
+- Quote & Contract Tool: https://quote.jedliuai.com
+- Contact Card: https://card.jedliuai.com
 - LinkedIn: https://www.linkedin.com/in/jed-liu-%F0%9F%92%8A-809039169/
-- Business email: jed@jedliuai.com
+- Email: jed@jedliuai.com
+- WhatsApp: +86 176 8640 3091
 
 ## Important boundaries
 
-This is a personal professional website, not a pharmaceutical manufacturer, regulatory authority or independent regulatory consultancy. Product availability, registration status, specifications and commercial terms require project-specific formal confirmation by the relevant parties.
+This is a personal professional website, not a manufacturer, regulatory authority, sourcing agency or live product catalogue. Product availability, registration status, specifications and commercial terms require project-specific formal confirmation. Public cockpit screens use fictional companies and fully synthetic demo figures.

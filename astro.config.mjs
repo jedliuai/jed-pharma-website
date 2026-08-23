@@ -6,6 +6,9 @@ export default defineConfig({
   site: "https://pharma.jedliuai.com",
   output: "static",
   trailingSlash: "always",
+  build: {
+    inlineStylesheets: "always"
+  },
   integrations: [
     icon({
       include: {
@@ -29,6 +32,11 @@ export default defineConfig({
           "strategy",
           "users-three",
           "wechat-logo",
+          "whatsapp-logo",
+          "factory",
+          "network",
+          "database",
+          "chart-line-up",
           "x",
           "dots-three",
           "globe",
@@ -53,6 +61,9 @@ export default defineConfig({
     })
   ],
   vite: {
+    build: {
+      emptyOutDir: true
+    },
     server: {
       host: "0.0.0.0"
     }

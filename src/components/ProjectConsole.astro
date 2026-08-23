@@ -5,15 +5,15 @@ import { site, type Locale } from "@/config/site";
 interface Props { locale: Locale; compact?: boolean; auto?: boolean }
 const { locale, compact = false, auto = true } = Astro.props;
 const rows = locale === "zh" ? [
-  { tag: "市场", title: "市场与伙伴", body: "机会、合作方与进入路径", icon: "globe" as const },
-  { tag: "注册 / 质量", title: "注册与质量", body: "要求、资料与技术问题", icon: "sliders-horizontal" as const },
-  { tag: "供应", title: "生产与供应", body: "准备度、节点与跨团队协同", icon: "package" as const },
-  { tag: "交付", title: "交付与跟进", body: "文件、物流、交接与闭环", icon: "truck" as const }
+  { tag: "市场", title: "市场与客户", body: "机会、合作方与市场语境", icon: "globe" as const },
+  { tag: "产品", title: "产品与报价", body: "匹配、报价逻辑与商务条件", icon: "package" as const },
+  { tag: "执行", title: "注册与合同", body: "要求、文件、责任人与节点", icon: "sliders-horizontal" as const },
+  { tag: "交付", title: "供应与交付", body: "生产、文件、物流与长期跟进", icon: "truck" as const }
 ] : [
-  { tag: "MARKET", title: "Market & Partner", body: "Opportunity, partner and entry path", icon: "globe" as const },
-  { tag: "REG / QA", title: "Registration & Quality", body: "Requirements, dossiers and technical questions", icon: "sliders-horizontal" as const },
-  { tag: "SUPPLY", title: "Manufacturing & Supply", body: "Readiness, milestones and team alignment", icon: "package" as const },
-  { tag: "DELIVERY", title: "Delivery & Follow-up", body: "Documents, logistics, handover and closeout", icon: "truck" as const }
+  { tag: "MARKETS", title: "Markets & Customers", body: "Opportunities, partners and market context", icon: "globe" as const },
+  { tag: "PRODUCTS", title: "Products & Quotations", body: "Fit, quotation logic and commercial basis", icon: "package" as const },
+  { tag: "EXECUTION", title: "Registration & Contracts", body: "Requirements, documents, owners and milestones", icon: "sliders-horizontal" as const },
+  { tag: "DELIVERY", title: "Supply & Delivery", body: "Production, documents, logistics and follow-up", icon: "truck" as const }
 ];
 ---
 
@@ -30,7 +30,7 @@ const rows = locale === "zh" ? [
     </aside>
     <div class="console-workspace">
       <header class="console-heading">
-        <div><small>{locale === "zh" ? "工作路径" : "WORKING PATH"}</small><strong>{locale === "zh" ? "从机会到交付" : "Opportunity to delivery"}</strong></div>
+        <div><small>{locale === "zh" ? "工作路径" : "WORKING PATH"}</small><strong>{locale === "zh" ? "从产品沟通到交付" : "Product discussion to delivery"}</strong></div>
         <span class="console-live"><i></i>{locale === "zh" ? "持续推进" : "IN MOTION"}</span>
       </header>
       <div class="console-list" aria-label={locale === "zh" ? "项目工作阶段" : "Project work stages"}>

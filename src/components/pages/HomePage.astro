@@ -1,73 +1,171 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
-import ContactBand from "@/components/ContactBand.astro";
 import MetricStrip from "@/components/MetricStrip.astro";
 import ProjectConsole from "@/components/ProjectConsole.astro";
-import ProjectIcon from "@/components/ProjectIcon.astro";
+import ProjectIcon, { type ProjectIconName } from "@/components/ProjectIcon.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { projectCases, routeMap, type Locale } from "@/config/site";
+import { contacts, routeMap, site, type Locale } from "@/config/site";
 import { common, home } from "@/data/copy";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const page = home[locale]; const c = common[locale]; const path = routeMap.home[locale];
-const capabilityIcons = ["globe", "sliders-horizontal", "truck"] as const;
-const caseImages = ["/images/case-registration-v2.png", "/images/case-manufacturing-v2.png", "/images/case-delivery-v2.png"];
+const page = home[locale];
+const c = common[locale];
+const path = routeMap.home[locale];
+const processIcons: ProjectIconName[] = ["magnifying-glass", "briefcase", "file-text", "sliders-horizontal", "truck", "seal-check"];
+const workIcons: ProjectIconName[] = ["briefcase", "file-text", "truck", "map-trifold"];
+const contactIcons: Record<string, ProjectIconName> = { linkedin: "linkedin-logo", email: "envelope-simple", whatsapp: "whatsapp-logo", wechat: "wechat-logo", card: "circles-three-plus" };
+const cockpitImages = ["/images/cockpit-balance-demo.png", "/images/cockpit-value-demo.png", "/images/cockpit-pareto-demo.png"];
 ---
-<BaseLayout locale={locale} route="home" path={path}>
-  <section class="hero">
+<BaseLayout locale={locale} path={path}>
+  <section id="top" class="hero">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
     <div class="shell hero-grid">
       <div class="hero-copy">
         <p class="kicker hero-enter">{c.eyebrow}</p>
-        <h1 class="hero-enter">{page.heroTitle}</h1>
+        <h1 class="hero-enter">Jed Liu</h1>
         <p class="hero-lead hero-enter">{page.heroLead}</p>
-        <p class="hero-caption hero-enter">{page.heroCaption}</p>
-        <div class="hero-actions hero-enter"><ButtonLink href={routeMap.contact[locale]}>{c.primaryCta}</ButtonLink><ButtonLink href="#method" variant="outline">{c.secondaryCta}</ButtonLink></div>
+        <p class="hero-caption hero-enter">{page.heroBody}</p>
+        <div class="hero-actions hero-enter">
+          <ButtonLink href="#contact">{page.primaryCta}</ButtonLink>
+          <ButtonLink href="#experience" variant="outline">{page.secondaryCta}</ButtonLink>
+        </div>
       </div>
       <div class="hero-console"><ProjectConsole locale={locale} /></div>
     </div>
-    <a class="scroll-cue" href="#capabilities" aria-label={locale === "zh" ? "向下浏览" : "Scroll to capabilities"}><span>{locale === "zh" ? "向下" : "SCROLL"}</span><ProjectIcon name="arrow-down" /></a>
+    <a class="scroll-cue" href="#about" aria-label={locale === "zh" ? "向下浏览" : "Scroll to about"}><span>{locale === "zh" ? "向下" : "SCROLL"}</span><ProjectIcon name="arrow-down" /></a>
   </section>
-  <MetricStrip locale={locale} />
 
-  <section id="capabilities" class="section capabilities">
-    <div class="shell">
-      <SectionHeading kicker={locale === "zh" ? "连接系统" : "CONNECTED SYSTEM"} title={page.capabilitiesTitle} body={page.capabilitiesLead} />
-      <div class="capability-grid">
-        {page.capabilities.map(([title, body], index) => <article class="capability-card" data-reveal style={`--i:${index}`}><span class="card-number">0{index + 1}</span><ProjectIcon name={capabilityIcons[index]} size={30} /><h3>{title}</h3><p>{body}</p><a href={routeMap.expertise[locale]} aria-label={title}><ProjectIcon name="arrow-up-right" /></a></article>)}
-      </div>
+  <section id="about" class="section about-section">
+    <div class="shell about-grid">
+      <SectionHeading kicker={page.aboutKicker} title={page.aboutTitle} />
+      <div class="about-copy" data-reveal><p>{page.aboutBody}</p><span class="signature-line">Jed <i></i> Liu</span></div>
     </div>
+    <MetricStrip locale={locale} />
   </section>
 
-  <section id="method" class="section process-section" data-process>
+  <section id="experience" class="section process-section" data-process>
     <div class="shell process-layout">
-      <div class="process-intro"><SectionHeading kicker={page.methodKicker} title={page.methodTitle} /><p>{locale === "zh" ? "选择任一阶段，查看这套方法如何保持项目行动、负责人和依赖关系清晰。" : "Select a stage to see how the method keeps actions, owners and dependencies clear."}</p></div>
+      <div class="process-intro">
+        <SectionHeading kicker={page.processKicker} title={page.processTitle} />
+        <p>{locale === "zh" ? "选择任一阶段，看清一个医药国际项目如何从机会走向交付。" : "Choose a stage to see how an international pharmaceutical opportunity becomes a delivered project."}</p>
+      </div>
       <div class="process-console" data-reveal>
-        <div class="process-tabs" role="tablist" aria-label={page.methodTitle}>{page.process.map(([title], index) => <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} class:list={{ "is-active": index === 0 }} data-process-tab><span>0{index + 1}</span>{title}</button>)}</div>
-        <div class="process-panels">{page.process.map(([title, body], index) => <article data-process-panel hidden={index !== 0} class:list={{ "is-active": index === 0 }}><span>{locale === "zh" ? "阶段" : "PHASE"} 0{index + 1} / 06</span><h3>{title}</h3><p>{body}</p><div class="process-line"><i></i><b>{locale === "zh" ? "持续推进" : "KEEP MOVING"}</b></div></article>)}</div>
+        <div class="process-tabs" role="tablist" aria-label={page.processTitle}>
+          {page.process.map(([title], index) => <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} class:list={{ "is-active": index === 0 }} data-process-tab><span>0{index + 1}</span>{title}</button>)}
+        </div>
+        <div class="process-panels">
+          {page.process.map(([title, body], index) => <article role="tabpanel" data-process-panel hidden={index !== 0} class:list={{ "is-active": index === 0 }}>
+            <span>{locale === "zh" ? "阶段" : "PHASE"} 0{index + 1} / 06</span>
+            <ProjectIcon name={processIcons[index]} size={36} />
+            <h3>{title}</h3><p>{body}</p>
+            <div class="process-line"><i></i><b>{locale === "zh" ? "持续推进" : "KEEP MOVING"}</b></div>
+          </article>)}
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section markets-home">
-    <div class="shell markets-home-grid">
-      <div><SectionHeading kicker={page.marketsKicker} title={page.marketsTitle} body={page.marketsLead} /><ButtonLink href={routeMap.markets[locale]} variant="outline" icon="arrow-right">{locale === "zh" ? "查看市场经验" : "Explore markets"}</ButtonLink></div>
-      <figure class="map-window" data-reveal><div class="window-bar"><span>MARKET CONTEXT</span><ProjectIcon name="map-trifold" /></div><img src="/images/markets-map-v2.png" width="1600" height="800" alt={locale === "zh" ? "拉丁美洲、独联体与东欧市场地图" : "Map of Latin America, CIS and Eastern Europe"} loading="lazy" /><figcaption><span>LATAM</span><span>CIS / EASTERN EUROPE</span></figcaption></figure>
+  <section id="markets" class="section markets-section">
+    <div class="shell">
+      <SectionHeading kicker={page.marketsKicker} title={page.marketsTitle} body={page.marketsBody} />
+      <div class="market-workspace">
+        <div class="market-map" data-reveal>
+          <div class="window-bar"><span>MARKET CONTEXT / 10+ MARKETS</span><ProjectIcon name="map-trifold" /></div>
+          <div class="market-regions">
+            {page.regions.map(([title, places, body], index) => <article>
+              <span>0{index + 1}</span><h3>{title}</h3><strong>{places}</strong><p>{body}</p>
+            </article>)}
+          </div>
+        </div>
+        <aside class="product-panel" data-reveal>
+          <div class="window-bar"><span>{page.productTitle}</span><ProjectIcon name="package" /></div>
+          {page.products.map(([title, body]) => <article><ProjectIcon name={title.includes("Active") || title === "原料药" ? "database" : "package"} size={26} /><div><h3>{title}</h3><p>{body}</p></div></article>)}
+          <p class="boundary-note">{page.productNote}</p>
+        </aside>
+      </div>
     </div>
   </section>
 
-  <section class="section cases-home">
-    <div class="shell"><SectionHeading kicker={locale === "zh" ? "项目片段" : "PROJECT SNAPSHOTS"} title={page.casesTitle} /></div>
-    <div class="case-rail" data-reveal><div class="case-track">{projectCases.map((project, index) => <a class="case-card" href={`${routeMap.projects[locale]}#${project.id}`}><div><span>{project.number} / 03</span><ProjectIcon name="arrow-up-right" /></div><img src={caseImages[index]} width="1774" height="887" alt="" loading="lazy" /><h3>{project.title[locale]}</h3><p>{project.situation[locale]}</p></a>)}</div></div>
-  </section>
-
-  <section class="section ai-section">
-    <div class="shell ai-grid">
-      <SectionHeading kicker="AI / AUTOMATION" title={page.aiTitle} body={page.aiLead} light />
-      <ol>{page.aiItems.map((item, index) => <li data-reveal><span>0{index + 1}</span><ProjectIcon name={index === 0 ? "magnifying-glass" : index === 1 ? "list-checks" : "sparkle"} size={26} /><strong>{item}</strong></li>)}</ol>
+  <section class="section work-section">
+    <div class="shell">
+      <SectionHeading kicker={page.workKicker} title={page.workTitle} />
+      <div class="work-grid">
+        {page.work.map(([title, body], index) => <article class="work-card" data-reveal style={`--i:${index}`}>
+          <span>0{index + 1}</span><ProjectIcon name={workIcons[index]} size={30} /><h3>{title}</h3><p>{body}</p><i aria-hidden="true"></i>
+        </article>)}
+      </div>
     </div>
   </section>
 
-  <section class="section faq-section"><div class="shell faq-grid"><SectionHeading kicker="FAQ" title={page.faqTitle} /><div class="faq-list">{page.faq.map(([question, answer], index) => <details data-reveal open={index === 0}><summary><span>0{index + 1}</span>{question}<ProjectIcon name="caret-down" /></summary><p>{answer}</p></details>)}</div></div></section>
-  <ContactBand locale={locale} />
+  <section id="digital" class="section digital-section">
+    <div class="shell digital-intro">
+      <SectionHeading kicker={page.digitalKicker} title={page.digitalTitle} light />
+      <div data-reveal><p class="digital-lead">{page.digitalLead}</p><p>{page.digitalBody}</p></div>
+    </div>
+    <div class="shell tool-stack">
+      <article class="tool-window quote-window" data-reveal>
+        <div class="tool-copy">
+          <span>01 / LIVE TOOL</span><ProjectIcon name="file-text" size={34} /><h3>{page.quoteTitle}</h3><p>{page.quoteBody}</p>
+          <ButtonLink href={site.quoteTool} variant="paper" icon="arrow-up-right" external>{page.quoteCta}</ButtonLink>
+        </div>
+        <a class="tool-screen" href={site.quoteTool} target="_blank" rel="noopener noreferrer" aria-label={page.quoteCta}>
+          <div class="window-bar"><span>quote.jedliuai.com</span><ProjectIcon name="arrow-up-right" /></div>
+          <img src="/images/quote-tool-demo.png" width="2160" height="1265" alt={locale === "zh" ? "Jed 报价与合同工具界面" : "Jed's quote and contract tool interface"} loading="lazy" />
+        </a>
+      </article>
+
+      <article class="tool-window cockpit-window" data-gallery data-reveal>
+        <div class="cockpit-copy">
+          <span>02 / PRIVATE OPERATING SYSTEM</span><ProjectIcon name="chart-line-up" size={34} /><h3>{page.cockpitTitle}</h3><p>{page.cockpitBody}</p>
+          <div class="gallery-tabs" role="tablist" aria-label={page.cockpitTitle}>
+            {page.cockpitTabs.map((label, index) => <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} class:list={{ "is-active": index === 0 }} data-gallery-tab><span>0{index + 1}</span>{label}</button>)}
+          </div>
+        </div>
+        <div class="cockpit-stage">
+          <div class="window-bar"><span>PERSONAL PHARMACEUTICAL ORDER COCKPIT / DEMO DATA</span><ProjectIcon name="database" /></div>
+          {cockpitImages.map((src, index) => <figure data-gallery-panel hidden={index !== 0} class:list={{ "is-active": index === 0 }}>
+            <img src={src} width="2048" height="998" alt={`${page.cockpitTabs[index]} — ${locale === "zh" ? "虚构公司与合成数据演示" : "fictional companies and synthetic demo data"}`} loading="lazy" />
+          </figure>)}
+        </div>
+      </article>
+
+      <article class="insight-window" data-reveal>
+        <div><span>03 / INFORMATION WORKFLOW</span><ProjectIcon name="network" size={34} /><h3>{page.insightTitle}</h3></div><p>{page.insightBody}</p>
+        <div class="signal-line" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section industry-section">
+    <div class="shell industry-grid">
+      <div><SectionHeading kicker={page.industryKicker} title={page.industryTitle} body={page.industryBody} /></div>
+      <div class="ecosystem" data-reveal>
+        <div class="ecosystem-center"><img src={site.portrait} width="120" height="120" alt="Jed Liu" /><strong>JED LIU</strong><span>INTERNATIONAL BUSINESS</span></div>
+        {page.nodes.map((node, index) => <div class={`ecosystem-node node-${index + 1}`}><ProjectIcon name={index === 0 ? "factory" : index === 1 ? "package" : index === 2 ? "file-text" : index === 3 ? "seal-check" : index === 4 ? "truck" : "users-three"} /><span>{node}</span></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section approach-section">
+    <div class="shell approach-grid">
+      <div><p class="kicker">{page.approachKicker}</p><h2>{page.approachTitle}</h2></div>
+      <div class="approach-quote" data-reveal><span>“</span><p>{page.approachBody}</p><small>JED LIU / {locale === "zh" ? "工作方法" : "WORKING PRINCIPLE"}</small></div>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact-section">
+    <div class="shell contact-grid">
+      <div class="contact-intro"><p class="kicker">{page.contactKicker}</p><h2>{page.contactTitle}</h2><p>{page.contactBody}</p></div>
+      <div class="contact-list">
+        {contacts.map((channel, index) => channel.dialog ? (
+          <button type="button" data-open-wechat data-reveal><span><i>0{index + 1}</i><ProjectIcon name={contactIcons[channel.id]} size={25} /></span><strong>{channel.label[locale]}</strong><small>{channel.value}</small><ProjectIcon name="arrow-up-right" /></button>
+        ) : (
+          <a href={channel.href} target={channel.external ? "_blank" : undefined} rel={channel.external ? "noopener noreferrer" : undefined} data-reveal>
+            <span><i>0{index + 1}</i><ProjectIcon name={contactIcons[channel.id]} size={25} /></span><strong>{channel.label[locale]}</strong><small>{channel.id === "linkedin" ? (locale === "zh" ? "建立职业联系" : channel.value) : channel.value}</small><ProjectIcon name="arrow-up-right" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 </BaseLayout>

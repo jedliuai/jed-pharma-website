@@ -1,23 +1,23 @@
 ---
-import { alternatePath, routeMap, site, type Locale, type RouteKey } from "@/config/site";
-import { common, navLabels } from "@/data/copy";
+import { alternatePath, site, type Locale } from "@/config/site";
+import { common, navItems } from "@/data/copy";
 import ProjectIcon from "@/components/ProjectIcon.astro";
-interface Props { locale: Locale; route: RouteKey; path: string }
-const { locale, route, path } = Astro.props;
+interface Props { locale: Locale; path: string }
+const { locale, path } = Astro.props;
 const otherLocale: Locale = locale === "en" ? "zh" : "en";
-const navOrder: RouteKey[] = ["expertise", "markets", "projects", "about", "contact"];
 const c = common[locale];
 ---
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="brand-link" href={routeMap.home[locale]} aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
-      <img src={site.wordmarkLight} width="218" height="102" alt="Jed" /><span>Jed Liu</span>
+    <a class="brand-link" href="#top" aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
+      <img src={site.logo} width="400" height="201" alt="Jed" />
+      <span>PHARMA / INTERNATIONAL</span>
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label={c.openMenu} data-open-label={c.openMenu} data-close-label={c.closeMenu}>
       <span>{c.menu}</span><ProjectIcon name="list" size={22} />
     </button>
     <nav id="site-navigation" class="site-nav" aria-label={c.mainNavigation}>
-      {navOrder.map((key) => <a href={routeMap[key][locale]} aria-current={route === key ? "page" : undefined}>{navLabels[locale][key]}</a>)}
+      {navItems[locale].map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
       <a class="language-link" href={alternatePath(path, otherLocale)} hreflang={otherLocale === "zh" ? "zh-CN" : "en"}>{c.language}</a>
     </nav>
   </div>
@@ -29,7 +29,8 @@ const c = common[locale];
     if (!toggle || !nav) return;
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? toggle.dataset.closeLabel ?? "Close" : toggle.dataset.openLabel ?? "Menu");
-    nav.classList.toggle("is-open", open); document.body.classList.toggle("menu-open", open);
+    nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("menu-open", open);
   };
   toggle?.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
   nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));

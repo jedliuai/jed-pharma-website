@@ -6,7 +6,8 @@
   "packageManager": "pnpm@10.33.2",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "clean": "node scripts/clean-dist.mjs",
+    "build": "pnpm clean && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "deploy": "pnpm dlx wrangler@4.120.1 pages deploy dist --project-name jed-pharma-website"

@@ -6,10 +6,13 @@ const { locale } = Astro.props;
 ---
 <section class="metric-strip" aria-label={locale === "zh" ? "个人脱敏业务数据" : "Anonymized personal working ranges"}>
   <div class="shell metric-grid">
-    {metrics.slice(0, 3).map((metric) => {
-      const amount = Number.parseInt(metric.value);
-      return <div class="metric" data-reveal><strong data-count={amount} data-suffix="+">{amount}+</strong><span>{metric.label[locale]}</span></div>;
-    })}
+    {metrics.map((metric) => <div class="metric" data-reveal>
+      <strong class:list={{ "metric-currency": metric.value.startsWith("US$") }}>
+        {metric.value.startsWith("US$") && <span>US$</span>}
+        <b data-count={metric.amount} data-suffix={metric.suffix}>{metric.amount}{metric.suffix}</b>
+      </strong>
+      <span>{metric.label[locale]}</span>
+    </div>)}
   </div>
   <p class="shell metric-note">{common[locale].metricsNote}</p>
 </section>

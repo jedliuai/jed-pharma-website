@@ -1,59 +1,41 @@
-# Product Design QA — Jed Pharma Website V2
+# Design QA — 2026-08-23 单页业务版
 
-## Evidence
+## 结论
 
-- Source visual truth: `design/reference-home-v2.png`
-- Source pixels: 806 × 2048
-- Browser implementation: `output/qa/home-desktop-scroll-v2.png`
-- Implementation pixels/CSS viewport: 1440 px wide, deviceScaleFactor 1, full-page height after a scripted real-scroll sweep
-- Combined comparison: `output/qa/home-desktop-comparison-v2.png`
-- Additional states:
-  - `output/qa/home-mobile-zh-scroll-v2.png` at 390 × 844 CSS px
-  - `output/qa/projects-tablet-scroll-v2.png` at 768 × 1024 CSS px
-- Theme/state: light; English default homepage for visual comparison; Chinese homepage and English projects page for responsive evidence.
-- Density normalization: both desktop source and implementation were proportionally resized to equal 1000 px comparison columns without crop; browser chrome was excluded.
+**PASSED**
 
-## Full-view comparison
+新版延续了已确认首页的视觉语言：暖灰纸张底色、深色文字、陶土橙强调色、网格背景、编辑式大标题和“国际项目执行台”窗口系统。页面从原来的多页路由收束为英文与中文两个完整单页，首屏视觉重心、比例与交互节奏均保持一致。
 
-The implementation preserves the approved visual composition: warm technical paper grid, handwritten Jed identity, terracotta/cobalt palette, spacious split hero, portrait dossier window, ruled metrics ledger, four editorial capability columns, left-index/right-dossier project process, folded market map, horizontal anonymous cases, cobalt AI method band, and quiet About/Contact close.
+## 对照资料
 
-The real page is intentionally taller than the concept board. The approved board compresses several modules into a presentation sheet; the implementation gives the sticky process, map, case rows, and responsive reading states enough vertical room. This does not change the hierarchy or section sequence.
+- 当前线上版首屏：`output/playwright/source-live-desktop.png`
+- 新版本地首屏：`output/playwright/new-local-desktop.png`
+- 新版桌面端全页：`output/playwright/single-page-desktop-revealed.png`
+- 英文移动端：`output/playwright/single-page-mobile-top.png`
+- 中文移动端：`output/playwright/chinese-mobile-top.png`
+- 移动端菜单：`output/playwright/mobile-menu-open.png`
 
-## Focused-region comparison
+## 视觉核对
 
-- Hero: real portrait crop, browser frame, soft terracotta glow, cobalt annotations, italic `move forward.` and hand-drawn underline match the target. Round 1 found the target's stronger blue handwritten layer was missing; a restrained decorative blue `jed` monogram was added and confirmed in `output/qa/home-desktop-comparison-v2.png`.
-- Process: typography, phase rail, paper panel, terracotta active state and line illustration match the intended dossier language. The final full-page capture shows phase 06 because QA scrolled through the module; interaction testing separately confirmed phase selection and a single visible enhanced panel.
-- Markets/cases: generated assets match the target art direction and are sharper than the compressed concept imagery; crops and row proportions are consistent.
-- Mobile: the same visual system becomes a natural single column at 390 px. The phase selector remains usable without trapping scroll, and no horizontal overflow was detected.
+- 首屏：保留 Jed Liu 大字标题与右侧 Project Desk，信息密度和留白与原版同系。
+- 品牌：使用 Jed 手写标识、暖灰 / 深褐黑 / 陶土橙 / 小面积钴蓝。
+- 模块：流程、市场、数据、工具和产业生态全部使用统一的窗口、编号、细线和节点语言。
+- 可读性：大标题尺寸在 390px、1440px 宽度下均无溢出；中文断行正常。
+- 真实工具：报价工具使用真实界面；Cockpit 三张图使用统一虚构公司池与合成数据，并标记 DEMO DATA。
 
-## Required fidelity surfaces
+## 交互核对
 
-- Fonts and typography: passed. Self-hosted Newsreader provides the intended editorial display weight/contrast; IBM Plex Sans is used for body/UI; compact metadata uses the mono stack. Heading wrap and optical hierarchy remain coherent at 1440, 768 and 390 px.
-- Spacing and layout rhythm: passed. Major section proportions, ruled dividers, column spacing, radii, shadows and paper-card elevation are consistent with the target. The added real-page vertical space is an intentional usability adaptation.
-- Colors and visual tokens: passed. `#F2EDE3`, `#2B211C`, `#C95D3A` and `#1F55B5` map directly to the approved direction, with accessible foreground/background balance.
-- Image quality and asset fidelity: passed. The real portrait, wordmark, contact card, folded map, three documentary case images and process illustration are actual raster assets with correct crop, size and alt text. No placeholder or CSS-drawn visual asset remains.
-- Copy and content: passed. Required identity, exact English hero eyebrow/CTAs, three metrics plus end-to-end support, four capabilities, six phases, two market regions, three anonymized cases, AI framing and direct contacts are present in equivalent English/Chinese content.
+- 导航锚点、英中语言切换正常。
+- 移动端菜单可打开、关闭，Esc 键可退出。
+- 六阶段流程 Tab 和三张 Cockpit Tab 可点击，支持方向键、Home 与 End。
+- 微信弹窗可用键盘关闭，号码公开显示，关闭后焦点回到触发元素。
+- WhatsApp、LinkedIn、Email、Quote Tool 和 Contact Card 均使用真实地址。
+- `prefers-reduced-motion` 下会停止非必要动画。
 
-## Interaction and browser checks
+## 技术核对
 
-- `qa_capture.py`: 3 screenshots, 0 browser console/page errors, 0 horizontal-overflow failures.
-- `qa_interactions.py`: process selection, single visible enhanced panel, WeChat open/Escape close/focus return, mobile menu open/Escape close, and reduced-motion hover behavior all passed.
-- Without JavaScript, all six process panels remain in the document and phase controls are usable fragment links; enhancement hides only inactive panels after initialization.
-- `prefers-reduced-motion: reduce` removes non-essential transitions, transforms and animations while keeping content and controls available.
-
-## Comparison history
-
-### Round 1
-
-- P2: hero lacked the stronger blue handwritten identity layer visible in the target.
-- Fix: added an `aria-hidden` cobalt `jed` monogram inside the portrait window, placed away from semantic text and constrained responsively.
-- Post-fix evidence: `output/qa/home-desktop-comparison-v2.png`.
-
-### Round 2
-
-- No actionable P0/P1/P2 visual differences remain.
-- P3 follow-up: final image payloads can later receive AVIF/WebP derivatives for performance while retaining PNG source masters.
-
-## Final result
-
-final result: passed
+- Astro 类型检查：0 errors / 0 warnings。
+- 静态构建只生成 `/` 和 `/zh/`。
+- Chromium 桌面端与移动端控制台：0 errors / 0 warnings。
+- Lighthouse 移动端：Performance 99 / Accessibility 96 / Best Practices 100 / SEO 100。
+- canonical、hreflang、JSON-LD、sitemap、robots、`llms.txt` 与 `ai-summary.txt` 与新单页结构一致。

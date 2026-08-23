@@ -22,7 +22,8 @@ const { locale, title, body, closeLabel } = Astro.props;
       <button class="dialog-close" type="button" aria-label={closeLabel}><ProjectIcon name="x" size={20} /></button>
     </div>
     <p id="wechat-description">{body}</p>
-    <img src={site.wechatCard} width="888" height="1134" alt={locale === "zh" ? "Jed Liu 微信联系卡" : "Jed Liu WeChat contact card"} />
+    <a class="wechat-number" href={site.whatsapp} target="_blank" rel="noopener noreferrer">{site.phone}</a>
+    <img src={site.wechatCard} width="888" height="1134" loading="lazy" alt={locale === "zh" ? "Jed Liu 微信联系卡" : "Jed Liu WeChat contact card"} />
   </div>
 </dialog>
 

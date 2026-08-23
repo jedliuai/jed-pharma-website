@@ -1,16 +1,34 @@
 ---
-import { routeMap, site, type Locale } from "@/config/site";
-import { common, navLabels } from "@/data/copy";
+import { site, type Locale } from "@/config/site";
+import { navItems } from "@/data/copy";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const c = common[locale];
 ---
 <footer class="site-footer">
   <div class="shell footer-grid">
-    <div class="footer-brand"><img src={site.wordmarkLight} width="218" height="102" alt="Jed" /><p>{c.footerNote}</p></div>
-    <nav aria-label={c.footerNavigation}><strong>{locale === "zh" ? "浏览" : "EXPLORE"}</strong>{(["expertise", "markets", "projects", "about", "contact"] as const).map((key) => <a href={routeMap[key][locale]}>{navLabels[locale][key]}</a>)}</nav>
-    <div class="footer-links"><strong>{locale === "zh" ? "联系" : "CONNECT"}</strong><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href={`mailto:${site.email}`}>{site.email}</a><button type="button" data-open-wechat>{locale === "zh" ? "微信联系卡" : "WeChat card"}</button></div>
-    <div class="footer-location"><strong>{locale === "zh" ? "工作地点" : "LOCATION"}</strong><p>{site.location[locale]}</p><p>{locale === "zh" ? "面向国际医药项目" : "Working across markets"}</p></div>
+    <div class="footer-brand">
+      <img src={site.logo} width="400" height="201" alt="Jed" />
+      <p>{locale === "zh" ? "从产品沟通到交付，推动医药国际业务持续向前。" : "Moving pharmaceutical business forward, from product discussion to delivery."}</p>
+    </div>
+    <nav aria-label={locale === "zh" ? "页尾导航" : "Footer navigation"}>
+      <strong>{locale === "zh" ? "浏览" : "EXPLORE"}</strong>
+      {navItems[locale].map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+    <div class="footer-links">
+      <strong>{locale === "zh" ? "联系" : "CONNECT"}</strong>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp · {site.phone}</a>
+      <button type="button" data-open-wechat>{locale === "zh" ? "微信联系卡" : "WeChat contact card"}</button>
+    </div>
+    <div class="footer-location">
+      <strong>{locale === "zh" ? "所在地" : "LOCATION"}</strong>
+      <p>{site.location[locale]}</p>
+      <a href={site.contactCard} target="_blank" rel="noopener noreferrer">card.jedliuai.com ↗</a>
+    </div>
   </div>
-  <div class="shell footer-bottom"><span>© {new Date().getFullYear()} Jed Liu</span><span>{c.disclaimer}</span></div>
+  <div class="shell footer-bottom">
+    <span>© {new Date().getFullYear()} Jed Liu</span>
+    <span>{locale === "zh" ? "产品、注册和商务信息均需针对具体项目正式确认。" : "Product, regulatory and commercial information requires project-specific formal confirmation."}</span>
+  </div>
 </footer>

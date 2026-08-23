@@ -75,6 +75,32 @@
     }));
   });
 
+  document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-gallery-tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-gallery-panel]")];
+    const activate = (index: number) => {
+      tabs.forEach((tab, i) => {
+        tab.classList.toggle("is-active", i === index);
+        tab.setAttribute("aria-selected", String(i === index));
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+        panel.classList.toggle("is-active", i === index);
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activate(index));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
+          (index + (event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next]?.focus();
+        activate(next);
+      });
+    });
+  });
+
   const header = document.querySelector<HTMLElement>("[data-header]");
   const updateHeader = () => header?.classList.toggle("is-scrolled", scrollY > 16);
   updateHeader(); addEventListener("scroll", updateHeader, { passive: true });
