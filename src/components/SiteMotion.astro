@@ -235,6 +235,21 @@
   const updateHeader = () => header?.classList.toggle("is-scrolled", scrollY > 16);
   updateHeader(); addEventListener("scroll", updateHeader, { passive: true });
 
+  const pageScrollBehavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!(event.target instanceof Element)) return;
+    const link = event.target.closest<HTMLAnchorElement>('a[href^="#"]:not(.skip-link)');
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: pageScrollBehavior, block: "start" });
+    if (location.hash !== hash) history.pushState(null, "", hash);
+  });
+
   const shippingProgress = document.querySelector<HTMLElement>("[data-shipping-progress]");
   const shippingTrack = shippingProgress?.querySelector<HTMLElement>("[data-shipping-track]");
   const shippingVessel = shippingProgress?.querySelector<HTMLElement>("[data-shipping-vessel]");
@@ -242,20 +257,58 @@
   let sailingTimer = 0;
   let shippingDragPointer = -1;
   let shippingDragStartX = 0;
-  let shippingDragStartValue = 0;
   let shippingDragWidth = 1;
+  let shippingDragTarget = 0;
+  let shippingDragFrame = 0;
+  let shippingDragFrameTime = 0;
+  let shippingDragDirection = 0;
+  let shippingDragOriginTop = 0;
+  let shippingDragOriginIndex = 0;
+  let shippingDragSnapTarget: HTMLElement | null = null;
   const shippingJourney = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
   const shippingValue = () => Math.min(100, Math.max(0, scrollY / shippingJourney() * 100));
-  const setShippingValue = (value: number) => {
+  const shippingSections = () => Array.from(document.querySelectorAll<HTMLElement>("#main-content > section"));
+  const shippingSectionTop = (section: HTMLElement) => {
+    const scrollPadding = Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    return Math.min(shippingJourney(), Math.max(0, section.offsetTop - scrollPadding));
+  };
+  const animateShippingDrag = (time: number) => {
+    const scroller = document.scrollingElement ?? document.documentElement;
+    const elapsed = shippingDragFrameTime ? Math.min(40, time - shippingDragFrameTime) : 16.7;
+    const follow = 1 - Math.exp(-elapsed / 48);
+    const distance = shippingDragTarget - scroller.scrollTop;
+    shippingDragFrameTime = time;
+    if (Math.abs(distance) <= .5) {
+      scroller.scrollTop = shippingDragTarget;
+      shippingDragFrame = 0;
+      shippingDragFrameTime = 0;
+      return;
+    }
+    scroller.scrollTop += distance * follow;
+    shippingDragFrame = requestAnimationFrame(animateShippingDrag);
+  };
+  const requestShippingDragAnimation = () => {
+    if (shippingDragFrame) return;
+    shippingDragFrameTime = 0;
+    shippingDragFrame = requestAnimationFrame(animateShippingDrag);
+  };
+  const setShippingValue = (value: number, fromDrag = false) => {
     if (!shippingVessel) return;
     const clampedValue = Math.min(100, Math.max(0, value));
+    const target = shippingJourney() * clampedValue / 100;
     shippingVessel.style.left = `${clampedValue.toFixed(3)}%`;
     shippingVessel.setAttribute("aria-valuenow", String(Math.round(clampedValue)));
-    scrollTo({ top: shippingJourney() * clampedValue / 100, behavior: "auto" });
+    if (fromDrag) {
+      shippingDragTarget = target;
+      requestShippingDragAnimation();
+      return;
+    }
+    scrollTo({ top: target, behavior: pageScrollBehavior });
   };
   const updateShippingProgress = () => {
     shippingFrame = 0;
     if (!shippingProgress || !shippingVessel) return;
+    if (shippingDragPointer !== -1 || shippingDragFrame) return;
     const value = shippingValue();
     const position = `${value.toFixed(3)}%`;
     shippingVessel.style.left = position;
@@ -279,26 +332,57 @@
     if (!shippingTrack || (event.pointerType === "mouse" && event.button !== 0)) return;
     shippingDragPointer = event.pointerId;
     shippingDragStartX = event.clientX;
-    shippingDragStartValue = shippingValue();
     shippingDragWidth = Math.max(1, shippingTrack.getBoundingClientRect().width);
+    shippingDragTarget = scrollY;
+    shippingDragDirection = 0;
+    shippingDragOriginTop = scrollY;
+    shippingDragSnapTarget = null;
+    const sections = shippingSections();
+    shippingDragOriginIndex = sections.reduce((nearestIndex, section, index) => {
+      const nearestDistance = Math.abs(shippingSectionTop(sections[nearestIndex]) - scrollY);
+      const candidateDistance = Math.abs(shippingSectionTop(section) - scrollY);
+      return candidateDistance < nearestDistance ? index : nearestIndex;
+    }, 0);
+    if (shippingFrame) cancelAnimationFrame(shippingFrame);
+    shippingFrame = 0;
     shippingVessel.setPointerCapture(event.pointerId);
     shippingProgress?.classList.add("is-dragging", "is-sailing");
-    document.documentElement.classList.add("is-dragging-shipping");
+    document.documentElement.classList.add("is-dragging-shipping", "is-shipping-scroll-controlled");
     window.clearTimeout(sailingTimer);
     event.preventDefault();
   });
   shippingVessel?.addEventListener("pointermove", (event) => {
     if (event.pointerId !== shippingDragPointer) return;
-    const delta = (event.clientX - shippingDragStartX) / shippingDragWidth * 100;
-    setShippingValue(shippingDragStartValue + delta);
+    const totalDelta = event.clientX - shippingDragStartX;
+    if (Math.abs(totalDelta) >= 2) shippingDragDirection = Math.sign(totalDelta);
+    const sections = shippingSections();
+    const destinationIndex = Math.min(sections.length - 1, Math.max(0, shippingDragOriginIndex + shippingDragDirection));
+    shippingDragSnapTarget = sections[destinationIndex] ?? null;
+    const destinationTop = shippingDragSnapTarget ? shippingSectionTop(shippingDragSnapTarget) : shippingDragOriginTop;
+    const gestureDistance = Math.min(260, Math.max(120, shippingDragWidth * .26));
+    const gestureProgress = Math.min(1, Math.abs(totalDelta) / gestureDistance);
+    const easedProgress = 1 - Math.pow(1 - gestureProgress, 3);
+    shippingDragTarget = shippingDragOriginTop + (destinationTop - shippingDragOriginTop) * easedProgress;
+    const targetValue = shippingDragTarget / shippingJourney() * 100;
+    if (shippingVessel) {
+      shippingVessel.style.left = `${targetValue.toFixed(3)}%`;
+      shippingVessel.setAttribute("aria-valuenow", String(Math.round(targetValue)));
+    }
+    requestShippingDragAnimation();
     event.preventDefault();
   });
   const finishShippingDrag = (event: PointerEvent) => {
     if (event.pointerId !== shippingDragPointer) return;
+    const destination = event.type === "pointercancel" || shippingDragDirection === 0 ? null : shippingDragSnapTarget;
     shippingDragPointer = -1;
+    if (shippingDragFrame) cancelAnimationFrame(shippingDragFrame);
+    shippingDragFrame = 0;
+    shippingDragFrameTime = 0;
     shippingProgress?.classList.remove("is-dragging");
-    document.documentElement.classList.remove("is-dragging-shipping");
+    document.documentElement.classList.remove("is-dragging-shipping", "is-shipping-scroll-controlled");
     if (shippingVessel?.hasPointerCapture(event.pointerId)) shippingVessel.releasePointerCapture(event.pointerId);
+    updateShippingProgress();
+    requestAnimationFrame(() => destination?.scrollIntoView({ behavior: pageScrollBehavior, block: "start" }));
     window.clearTimeout(sailingTimer);
     sailingTimer = window.setTimeout(() => shippingProgress?.classList.remove("is-sailing"), 560);
   };
