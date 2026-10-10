@@ -18,6 +18,8 @@
 
 OAI-SearchBot、ChatGPT-User、PerplexityBot 有明确允许规则；Googlebot、Bingbot 等遵循通配允许规则。robots 的允许不等于所有真实机器人都已通过 Cloudflare 的边缘风控；若后台显示抓取失败，应依据真实错误检查对应配置。
 
+正式站复查还发现原有 Cloudflare Web Analytics 自动注入脚本被 CSP 的 script-src 拦截。本轮按[官方说明](https://developers.cloudflare.com/web-analytics/faq/)仅增加 https://static.cloudflareinsights.com 脚本来源；自动注入向本站 /cdn-cgi/rum 上报，现有 connect-src 'self' 已足够，无需开放额外网络来源。浏览器先模拟更新后的响应头，确认脚本返回 200、上报返回 204，且没有 CSP 错误，再发布配置。
+
 ## 索引发现
 
 sitemap 包含英文与中文主页、双语对应关系及实际更新时间，不包含 404。正式站地图与公开验证文件均返回 200。pnpm indexnow 已通知两页更新，返回 HTTP 202；收到通知不代表收录。
