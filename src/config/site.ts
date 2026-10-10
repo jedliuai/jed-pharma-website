@@ -64,4 +64,7 @@ export const contacts: ContactChannel[] = [
 ];
 
 export const routeMap = { home: { en: "/", zh: "/zh/" } } as const;
-export const alternatePath = (_path: string, locale: Locale) => routeMap.home[locale];
+export const alternatePath = (path: string, locale: Locale) => {
+  const englishPath = path.replace(/^\/zh(?=\/)/, "") || "/";
+  return locale === "zh" ? `/zh${englishPath}` : englishPath;
+};

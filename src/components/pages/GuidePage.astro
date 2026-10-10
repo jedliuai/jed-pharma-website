@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, type Locale } from "@/config/site";
+import { guides, type Guide } from "@/data/guides";
+import { contentUpdatedAt } from "@/config/content-meta.mjs";
+import "@/styles/guides.css";
+interface Props { locale: Locale; guide: Guide }
+const { locale, guide } = Astro.props;
+const prefix = locale === "zh" ? "/zh/" : "/";
+const path = `${prefix}guides/${guide.slug}/`;
+const canonical = new URL(path, site.origin).href;
+const indexLabel = locale === "zh" ? "医药外贸业务笔记" : "Pharmaceutical business guides";
+const extraGraph = [
+  {
+    "@type": "Article", "@id": `${canonical}#article`, headline: guide.title,
+    description: guide.description, url: canonical,
+    mainEntityOfPage: { "@id": `${canonical}#webpage` },
+    author: { "@id": site.canonicalPersonId, "@type": "Person", name: "Jed Liu", url: `${site.origin}${prefix}` },
+    publisher: { "@id": site.canonicalPersonId },
+    datePublished: "2026-10-10", dateModified: contentUpdatedAt,
+    inLanguage: locale === "zh" ? "zh-CN" : "en",
+    ...(guide.sources.length ? { citation: guide.sources.map(source => source.url) } : {})
+  },
+  {
+    "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Jed Liu", item: `${site.origin}${prefix}` },
+      { "@type": "ListItem", position: 2, name: indexLabel, item: `${site.origin}${prefix}guides/` },
+      { "@type": "ListItem", position: 3, name: guide.title, item: canonical }
+    ]
+  }
+];
+---
+<BaseLayout locale={locale} path={path} title={`${guide.title} | Jed Liu`} description={guide.description} pageKind="article" extraGraph={extraGraph}>
+  <article class="guide-article shell">
+    <nav class="guide-breadcrumb" aria-label={locale === "zh" ? "面包屑导航" : "Breadcrumb"}>
+      <a href={prefix}>Jed Liu</a><span aria-hidden="true">/</span><a href={`${prefix}guides/`}>{indexLabel}</a>
+    </nav>
+    <header>
+      <p class="eyebrow">{locale === "zh" ? "医药国际业务 / 工作清单" : "PHARMACEUTICAL BUSINESS / WORKING CHECKLIST"}</p>
+      <h1>{guide.title}</h1>
+      <p class="guide-byline"><a href={`${prefix}#about`}>Jed Liu</a> · <time datetime={contentUpdatedAt}>{contentUpdatedAt}</time></p>
+      <p class="guide-answer">{guide.answer}</p>
+      <p class="guide-scope">{locale === "zh" ? "本文是商务协同工作笔记，不是产品目录、注册承诺或特定市场的法规清单。具体要求由项目负责方核实。" : "A business coordination note, not a product catalogue, approval commitment or market-specific regulatory checklist. Confirm actual requirements with the responsible project teams."}</p>
+    </header>
+    <nav class="guide-toc" aria-label={locale === "zh" ? "本文目录" : "On this page"}>
+      <strong>{locale === "zh" ? "本文内容" : "On this page"}</strong>
+      <ol>{guide.sections.map((section, index) => <li><a href={`#step-${index + 1}`}>{section.title}</a></li>)}</ol>
+    </nav>
+    {guide.sections.map((section, index) => <section id={`step-${index + 1}`}><h2>{section.title}</h2><p>{section.text}</p>{section.items && <ul>{section.items.map(item => <li>{item}</li>)}</ul>}</section>)}
+    <aside class="guide-example"><h2>{locale === "zh" ? "一个假设场景" : "An illustrative scenario"}</h2><p>{guide.example}</p></aside>
+    <section><h2>{locale === "zh" ? "落实到下一步" : "The next useful action"}</h2><p>{guide.takeaway}</p></section>
+    {guide.sources.length > 0 && <section><h2>{locale === "zh" ? "官方参考" : "Official references"}</h2><ul>{guide.sources.map(source => <li><a href={source.url}>{source.title}</a> — {source.note}</li>)}</ul></section>}
+    <section class="guide-related"><h2>{locale === "zh" ? "继续阅读" : "Related guides"}</h2><ul>{guides[locale].filter(item => item.slug !== guide.slug).map(item => <li><a href={`${prefix}guides/${item.slug}/`}>{item.title}</a></li>)}</ul><a class="guide-contact" href={`${prefix}#contact`}>{locale === "zh" ? "带着项目背景联系 Jed Liu →" : "Contact Jed Liu with your project context →"}</a></section>
+  </article>
+</BaseLayout>

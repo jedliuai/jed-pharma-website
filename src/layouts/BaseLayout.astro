@@ -13,10 +13,14 @@ import { contentUpdatedAt } from "@/config/content-meta.mjs";
 interface Props {
   locale: Locale;
   path: string;
+  title?: string;
+  description?: string;
+  pageKind?: "profile" | "article" | "collection";
+  extraGraph?: Record<string, unknown>[];
 }
 
-const { locale, path } = Astro.props;
-const meta = seo[locale];
+const { locale, path, title, description, pageKind = "profile", extraGraph = [] } = Astro.props;
+const meta = { title: title ?? seo[locale].title, description: description ?? seo[locale].description };
 const englishPath = alternatePath(path, "en");
 const chinesePath = alternatePath(path, "zh");
 const canonical = new URL(path, site.origin).toString();
@@ -40,7 +44,7 @@ const structuredData = {
       name: "Jed Liu",
       url: site.origin,
       image: ogImage,
-      description: meta.description,
+      description: seo[locale].description,
       jobTitle: locale === "zh" ? "医药国际业务从业者" : "Pharmaceutical International Business Professional",
       email: `mailto:${site.email}`,
       telephone: site.phone,
@@ -58,7 +62,7 @@ const structuredData = {
       publisher: { "@id": personId }
     },
     {
-      "@type": "ProfilePage",
+      "@type": pageKind === "profile" ? "ProfilePage" : pageKind === "collection" ? "CollectionPage" : "WebPage",
       "@id": `${canonical}#webpage`,
       url: canonical,
       name: meta.title,
@@ -66,8 +70,7 @@ const structuredData = {
       inLanguage: language,
       dateModified: contentUpdatedAt,
       isPartOf: { "@id": `${site.origin}/#website` },
-      mainEntity: { "@id": personId },
-      hasPart: { "@id": `${canonical}#faq` },
+      ...(pageKind === "profile" ? { mainEntity: { "@id": personId }, hasPart: { "@id": `${canonical}#faq` } } : {}),
       ...(locale === "zh"
         ? { translationOfWork: { "@id": `${translatedPage}#webpage` } }
         : { workTranslation: { "@id": `${translatedPage}#webpage` } }),
@@ -77,7 +80,7 @@ const structuredData = {
         caption: ogImageAlt
       }
     },
-    {
+    ...(pageKind === "profile" ? [{
       "@type": "FAQPage",
       "@id": `${canonical}#faq`,
       url: `${canonical}#faq`,
@@ -91,7 +94,8 @@ const structuredData = {
           text: answer
         }
       }))
-    }
+    }] : []),
+    ...extraGraph
   ]
 };
 ---
@@ -114,7 +118,7 @@ const structuredData = {
     <link rel="alternate" hreflang="x-default" href={new URL(englishPath, site.origin)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
-    <meta property="og:type" content="profile" />
+    <meta property="og:type" content={pageKind === "profile" ? "profile" : pageKind === "article" ? "article" : "website"} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
@@ -136,7 +140,7 @@ const structuredData = {
   <body>
     <a class="skip-link" href="#main-content">{locale === "zh" ? "跳到主要内容" : "Skip to main content"}</a>
     <SiteHeader locale={locale} path={path} />
-    <ShippingProgress locale={locale} />
+    {pageKind === "profile" && <ShippingProgress locale={locale} />}
     <main id="main-content">
       <slot />
     </main>

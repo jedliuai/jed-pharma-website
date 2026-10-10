@@ -211,6 +211,14 @@ const interfaceCopy = locale === "zh" ? {
     </div>
   </section>
 
+  <section class="section" aria-labelledby="guides-heading">
+    <div class="shell">
+      <p class="eyebrow">{locale === "zh" ? "医药外贸 / 业务笔记" : "PHARMACEUTICAL BUSINESS / GUIDES"}</p>
+      <h2 id="guides-heading">{locale === "zh" ? "从一个具体问题开始推进项目。" : "Start with the next practical project question."}</h2>
+      <p>{locale === "zh" ? "阅读项目需求简报、注册资料协调和发运交接清单，把沟通整理成责任清楚的下一步。" : "Explore project briefs, registration document coordination and shipment handover checklists to clarify the next action and its owner."}</p>
+      <ButtonLink href={`${path}guides/`}>{locale === "zh" ? "阅读业务笔记" : "Read the business guides"}</ButtonLink>
+    </div>
+  </section>
   <section id="faq" class="section faq-section" aria-labelledby="faq-title">
     <div class="shell faq-layout">
       <div class="faq-intro">

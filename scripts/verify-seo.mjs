@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, access } from "node:fs/promises";
+import { readFile, access, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { contentUpdatedAt } from "../src/config/content-meta.mjs";
 
@@ -46,6 +46,40 @@ for (const [route, filename, lang] of [["/", "index.html", "en"], ["/zh/", "zh/i
   pages.set(route, html);
   console.log(`PASS ${route}: metadata, H1, language, JSON-LD, visible FAQ, image resources`);
 }
+
+const titles = new Set();
+const descriptions = new Set();
+for (const filename of await readdir(output, { recursive: true })) {
+  if (!filename.endsWith("index.html") || !filename.includes("guides")) continue;
+  const route = `/${filename.replaceAll("\\", "/").replace(/index\.html$/, "")}`;
+  const html = await readFile(resolve(output, filename), "utf8");
+  const links = tags(html, "link");
+  const meta = tags(html, "meta");
+  const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = meta.find(item => item.name === "description")?.content;
+  assert.ok(title && !titles.has(title), `${route}: unique title`);
+  assert.ok(description && !descriptions.has(description), `${route}: unique description`);
+  titles.add(title); descriptions.add(description);
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1, `${route}: one H1`);
+  assert.equal(links.find(item => item.rel === "canonical")?.href, `${origin}${route}`);
+  const englishPath = route.replace(/^\/zh\//, "/");
+  for (const [language, path] of [["en", englishPath], ["zh-CN", `/zh${englishPath}`], ["x-default", englishPath]]) {
+    assert.equal(links.find(item => item.hreflang === language)?.href, `${origin}${path}`, `${route}: equivalent ${language} alternate`);
+  }
+  assert.ok(!meta.find(item => item.name === "robots")?.content.includes("noindex"));
+  const graph = JSON.parse(html.match(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)[1])["@graph"];
+  assert.ok(!graph.some(item => item["@type"] === "FAQPage" || item["@type"] === "ProfilePage"), `${route}: no unrelated profile or FAQ markup`);
+  if (!route.endsWith("/guides/")) {
+    const article = graph.find(item => item["@type"] === "Article");
+    assert.equal(article.url, `${origin}${route}`);
+    assert.equal(article.author["@id"], "https://jedliuai.com/#person");
+    assert.ok(text(html).includes(article.headline));
+    assert.ok(graph.some(item => item["@type"] === "BreadcrumbList"));
+  }
+  pages.set(route, html);
+  console.log(`PASS ${route}: unique metadata, canonical, translations and page-specific schema`);
+}
+assert.equal(pages.size, 10, "two profiles, two collections and six bilingual guides");
 
 for (const [route, html] of pages) {
   for (const anchor of tags(html, "a")) {

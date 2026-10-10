@@ -12,13 +12,19 @@ if (!verification.ok || (await verification.text()).trim() !== key) {
   throw new Error("Deploy the IndexNow verification file to production before submitting URLs.");
 }
 
+const sitemap = await readFile(new URL("../dist/sitemap-0.xml", import.meta.url), "utf8");
+const urlList = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+if (!urlList.length || urlList.some(url => new URL(url).origin !== origin)) throw new Error("Build a same-origin sitemap before submitting.");
+const liveSitemap = await fetch(`${origin}/sitemap-0.xml`, { signal: AbortSignal.timeout(30000) });
+const liveXml = await liveSitemap.text();
+if (!liveSitemap.ok || urlList.some(url => !liveXml.includes(`<loc>${url}</loc>`))) throw new Error("Deploy the new sitemap before submitting.");
 const response = await fetch("https://api.indexnow.org/indexnow", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=utf-8" },
-  body: JSON.stringify({ host, key, keyLocation, urlList: [`${origin}/`, `${origin}/zh/`] }),
+  body: JSON.stringify({ host, key, keyLocation, urlList }),
   signal: AbortSignal.timeout(30000)
 });
 if (![200, 202].includes(response.status)) {
   throw new Error(`IndexNow submission failed: HTTP ${response.status} ${(await response.text()).slice(0, 300)}`);
 }
-console.log(`IndexNow received both language URLs (HTTP ${response.status}). This confirms submission, not indexing.`);
+console.log(`IndexNow received ${urlList.length} canonical URLs (HTTP ${response.status}). This confirms submission, not indexing.`);

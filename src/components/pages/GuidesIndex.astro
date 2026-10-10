@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, type Locale } from "@/config/site";
+import { guides } from "@/data/guides";
+import "@/styles/guides.css";
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const prefix = locale === "zh" ? "/zh/" : "/";
+const title = locale === "zh" ? "医药外贸业务笔记与项目协同清单" : "Pharmaceutical international business guides";
+const description = locale === "zh" ? "Jed Liu 的医药外贸工作笔记：从项目需求简报、注册资料协调到发运交接，把商务沟通整理成可执行的清单。" : "Working checklists from Jed Liu's pharmaceutical business website: project briefs, registration document coordination and shipment handover.";
+const extraGraph = [{ "@type": "ItemList", "@id": `${site.origin}${prefix}guides/#list`, itemListElement: guides[locale].map((guide, index) => ({ "@type": "ListItem", position: index + 1, name: guide.title, url: `${site.origin}${prefix}guides/${guide.slug}/` })) }];
+---
+<BaseLayout locale={locale} path={`${prefix}guides/`} title={`${title} | Jed Liu`} description={description} pageKind="collection" extraGraph={extraGraph}>
+  <div class="guide-article shell">
+    <nav class="guide-breadcrumb"><a href={prefix}>{locale === "zh" ? "← 返回 Jed Liu 医药主页" : "← Jed Liu pharmaceutical profile"}</a></nav>
+    <p class="eyebrow">{locale === "zh" ? "业务笔记" : "WORKING NOTES"}</p>
+    <h1>{title}</h1><p class="guide-answer">{description}</p>
+    <p>{locale === "zh" ? "这些笔记面向客户、商务人员和跨团队协作者，帮助把一个模糊的问题变成范围明确、责任清楚的下一步。按项目所处阶段选择阅读；每篇包含直接回答、行动清单和明确标注的假设场景。" : "For customers, commercial teams and colleagues coordinating across functions. Choose the stage you are working on: each note offers a direct answer, a practical checklist and an explicitly hypothetical example to turn an open question into a clear next action."}</p>
+    <div class="guide-cards">{guides[locale].map((guide, index) => <section><p class="eyebrow">0{index + 1}</p><h2><a href={`${prefix}guides/${guide.slug}/`}>{guide.title}</a></h2><p>{guide.description}</p></section>)}</div>
+    <p>{locale === "zh" ? "了解笔记背后的职业背景：" : "For the professional context behind this site: "}<a href={`${prefix}#about`}>{locale === "zh" ? "Jed Liu 的医药国际业务经验" : "Jed Liu's pharmaceutical international business experience"}</a></p>
+  </div>
+</BaseLayout>

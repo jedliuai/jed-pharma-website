@@ -6,10 +6,11 @@ interface Props { locale: Locale; path: string }
 const { locale, path } = Astro.props;
 const otherLocale: Locale = locale === "en" ? "zh" : "en";
 const c = common[locale];
+const homePath = locale === "zh" ? "/zh/" : "/";
 ---
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="brand-link" href="#top" aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
+    <a class="brand-link" href={`${homePath}#top`} aria-label={locale === "zh" ? "Jed 医药国际业务首页" : "Jed Liu home"}>
       <img src={site.logo} width="400" height="201" alt="Jed" />
       <span>{locale === "zh" ? "医药 / 国际业务" : "PHARMA / INTERNATIONAL"}</span>
     </a>
@@ -17,7 +18,8 @@ const c = common[locale];
       <span>{c.menu}</span><ProjectIcon name="list" size={22} />
     </button>
     <nav id="site-navigation" class="site-nav" aria-label={c.mainNavigation}>
-      {navItems[locale].map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+      {navItems[locale].map(([id, label]) => <a href={`${homePath}#${id}`}>{label}</a>)}
+      <a href={`${homePath}guides/`}>{locale === "zh" ? "业务笔记" : "Guides"}</a>
       <a class="language-link" href={alternatePath(path, otherLocale)} hreflang={otherLocale === "zh" ? "zh-CN" : "en"}>{c.language}</a>
     </nav>
   </div>

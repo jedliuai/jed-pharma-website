@@ -6,8 +6,18 @@ Last materially reviewed: 2026-10-10
 
 ## Canonical website
 
-- English single page: https://pharma.jedliuai.com/
-- Chinese single page: https://pharma.jedliuai.com/zh/
+- English profile: https://pharma.jedliuai.com/
+- Chinese profile: https://pharma.jedliuai.com/zh/
+
+## Practical business guides
+
+- [English guide collection](https://pharma.jedliuai.com/guides/)
+- [中文业务笔记](https://pharma.jedliuai.com/zh/guides/)
+- [Project brief](https://pharma.jedliuai.com/guides/pharmaceutical-project-brief/): scope, confirmed facts, open questions and decision owners.
+- [Registration document coordination](https://pharma.jedliuai.com/guides/registration-document-coordination/): request sources, document versions, technical owners and acknowledgement.
+- [Shipment handover](https://pharma.jedliuai.com/guides/pharmaceutical-shipment-handover/): order references, document consistency and delivery follow-up.
+
+These are editorial business coordination checklists with hypothetical examples, not verified client case studies or country-specific regulatory instructions. Each guide has a corresponding Chinese version linked from the page.
 
 ## Professional focus
 
