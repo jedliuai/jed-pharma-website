@@ -2,6 +2,8 @@
 
 > Personal professional website connecting customers, products, registration, supply and delivery across China, Latin America and Central Asia/CIS.
 
+Last materially reviewed: 2026-10-10
+
 ## Canonical website
 
 - English single page: https://pharma.jedliuai.com/
@@ -37,3 +39,25 @@ Figures are aggregated, rounded and anonymized. They describe work handled or co
 ## Important boundaries
 
 This is a personal professional website, not a manufacturer, regulatory authority, sourcing agency or live product catalogue. Product availability, registration status, specifications and commercial terms require project-specific formal confirmation. Public cockpit screens use fictional companies and fully synthetic demo figures.
+
+## Direct answers
+
+### What does Jed Liu do?
+
+Jed Liu works in pharmaceutical international business. He connects commercial opportunities with customer communication, product discussion, quotation and negotiation, registration coordination, contract and production follow-up, shipment documentation and final delivery.
+
+### Which markets are represented?
+
+Publicly stated experience centers on Latin America and Central Asia/CIS while working from China. Named markets include Colombia, Venezuela, Mexico, Peru, Paraguay, Chile, Honduras and Uzbekistan.
+
+### Which product categories are represented?
+
+Experience includes finished dosage forms—such as sterile injectables, antibiotics and other formulations—and active pharmaceutical ingredients with related technical and quality documentation. These are experience categories, not a live catalogue.
+
+### How are AI and automation used?
+
+AI, automation and purpose-built software support repetitive work around quotations, contract preparation, order visibility and market monitoring. Human relationships, professional judgment and project-specific confirmation remain central.
+
+## 中文摘要
+
+Jed Liu 从事医药国际业务，工作覆盖产品与机会沟通、报价与谈判、注册协调、合同与生产跟进、发运文件和最终交付。区域经验主要集中在拉丁美洲与中亚/CIS。这里展示的是经汇总、取整和脱敏后的个人工作记录，不构成制造商声明、实时产品目录或供应要约。

@@ -7,6 +7,7 @@ import ProjectIcon, { type ProjectIconName } from "@/components/ProjectIcon.astr
 import SectionHeading from "@/components/SectionHeading.astro";
 import { contacts, routeMap, site, type Locale } from "@/config/site";
 import { common, home } from "@/data/copy";
+import { contentUpdatedAt } from "@/config/content-meta.mjs";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const page = home[locale];
@@ -58,7 +59,10 @@ const interfaceCopy = locale === "zh" ? {
     <div class="shell hero-grid">
       <div class="hero-copy">
         <p class="kicker hero-enter">{c.eyebrow}</p>
-        <h1 class="hero-brand hero-enter"><img src={site.logo} width="400" height="201" alt="Jed Liu" /></h1>
+        <h1 class="hero-brand hero-enter">
+          <span class="sr-only">{locale === "zh" ? "Jed Liu — 医药国际业务与外贸项目执行" : "Jed Liu — Pharmaceutical International Business"}</span>
+          <img src={site.logo} width="400" height="201" alt="" aria-hidden="true" />
+        </h1>
         <p class="hero-lead hero-enter">{page.heroLead}</p>
         <p class="hero-caption hero-enter">{page.heroBody}</p>
         <div class="hero-actions hero-enter">
@@ -204,6 +208,25 @@ const interfaceCopy = locale === "zh" ? {
     <div class="shell approach-grid">
       <div><p class="kicker">{page.approachKicker}</p><h2>{page.approachTitle}</h2></div>
       <div class="approach-quote" data-reveal><span>“</span><p>{page.approachBody}</p><small>JED LIU / {locale === "zh" ? "工作方法" : "WORKING PRINCIPLE"}</small></div>
+    </div>
+  </section>
+
+  <section id="faq" class="section faq-section" aria-labelledby="faq-title">
+    <div class="shell faq-layout">
+      <div class="faq-intro">
+        <p class="kicker">{page.faqKicker}</p>
+        <h2 id="faq-title">{page.faqTitle}</h2>
+        <p>{page.faqIntro}</p>
+        <p class="content-updated">{locale === "zh" ? "资料更新于" : "Profile updated"} <time datetime={contentUpdatedAt}>{contentUpdatedAt}</time></p>
+      </div>
+      <div class="faq-list">
+        {page.faq.map(([question, answer], index) => (
+          <article class="faq-item" data-reveal>
+            <span>0{index + 1}</span>
+            <div><h3>{question}</h3><p>{answer}</p></div>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 

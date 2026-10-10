@@ -161,6 +161,18 @@
 .node-1,.node-2,.node-3,.node-4,.node-5,.node-6{inset:auto}
 .approach-section h2{max-width:39rem;font-size:clamp(2.8rem,4.7vw,5.25rem);line-height:1.02;letter-spacing:-.055em}
 
+.faq-section{background:linear-gradient(180deg,var(--paper),#e9e3da);border-top:1px solid var(--line)}
+.faq-layout{display:grid;grid-template-columns:.78fr 1.22fr;gap:8vw;align-items:start}
+.faq-intro{position:sticky;top:8rem}
+.faq-intro h2{margin-top:1.3rem;max-width:32rem;font-size:clamp(2.7rem,4.4vw,5rem);line-height:.98;letter-spacing:-.055em;font-weight:480}
+.faq-intro>p:not(.kicker){margin-top:2rem;max-width:29rem;color:var(--muted);font-size:1rem;line-height:1.7}
+.faq-intro .content-updated{margin-top:1rem;font-size:.72rem}
+.faq-list{border-top:1px solid var(--line)}
+.faq-item{display:grid;grid-template-columns:3.5rem 1fr;gap:1rem;padding:2.1rem .5rem 2.25rem;border-bottom:1px solid var(--line)}
+.faq-item>span{padding-top:.25rem;color:var(--orange-dark);font-size:.58rem;font-weight:700;letter-spacing:.12em}
+.faq-item h3{font-size:clamp(1.25rem,1.8vw,1.75rem);line-height:1.2;letter-spacing:-.025em;font-weight:620}
+.faq-item p{margin-top:.85rem;max-width:48rem;color:var(--muted);line-height:1.75}
+
 .contact-channel>span>.project-icon{stroke-width:2.2}
 .contact-channel--linkedin>span>.project-icon{color:#0a66c2}
 .contact-channel--email>span>.project-icon{color:#d44638}
@@ -189,6 +201,9 @@
 :lang(zh) .ecosystem-center span{letter-spacing:.06em}
 :lang(zh) .approach-section h2{line-height:1.14;letter-spacing:-.035em}
 :lang(zh) .approach-quote p{line-height:1.65}
+:lang(zh) .faq-intro h2{line-height:1.14;letter-spacing:-.035em}
+:lang(zh) .faq-item h3{line-height:1.4;letter-spacing:-.015em}
+:lang(zh) .faq-item p{line-height:1.9}
 :lang(zh) .contact-intro h2{line-height:1.1;letter-spacing:-.04em}
 :lang(zh) .contact-intro>p:last-child{line-height:1.75}
 
@@ -202,6 +217,8 @@
   .market-pin-layer{height:auto;aspect-ratio:2/1}
   .ecosystem{--orbit-radius:min(13rem,32vw)}
   .footer-brand img{mix-blend-mode:screen}
+  .faq-layout{grid-template-columns:1fr;gap:3.5rem}
+  .faq-intro{position:static}
 }
 @media(max-width:38rem){
   .shipping-progress{height:3.8rem}
@@ -226,6 +243,8 @@
   .image-zoom-trigger span{display:none}
   .image-lightbox-panel{padding:.75rem}
   .approach-section h2{font-size:clamp(2.7rem,14vw,4rem);line-height:1.04}
+  .faq-item{grid-template-columns:2rem 1fr;padding:1.65rem 0}
+  .faq-item p{font-size:.92rem}
   .footer-brand img{mix-blend-mode:normal}
 }
 

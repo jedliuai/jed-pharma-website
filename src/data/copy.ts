@@ -7,12 +7,12 @@ export const navItems = {
 
 export const seo = {
   en: {
-    title: "Jed Liu | Pharmaceutical International Business",
-    description: "Jed Liu connects pharmaceutical customers, products, registration, supply and international delivery across China, Latin America and Central Asia/CIS."
+    title: "Pharmaceutical International Business | Jed Liu",
+    description: "Jed Liu supports pharmaceutical international business from product discussion and registration coordination through supply, shipment and delivery."
   },
   zh: {
-    title: "Jed Liu｜医药国际业务",
-    description: "Jed Liu 连接中国、拉丁美洲与中亚/CIS 市场的医药客户、产品、注册、供应与国际交付。"
+    title: "医药国际业务与外贸项目执行｜Jed Liu",
+    description: "Jed Liu 从产品沟通、注册协调到供应、发运与交付，推动连接中国、拉丁美洲及中亚/CIS 的医药国际业务。"
   }
 } as const;
 
@@ -101,6 +101,17 @@ export const home = {
     approachKicker: "PERSONAL APPROACH",
     approachTitle: "Systems create clarity. Relationships create momentum.",
     approachBody: "I believe international business is ultimately built on trust, responsiveness and solving real problems—not only quotations and contracts. Good systems make the work clearer. Good relationships are what keep it moving.",
+    faqKicker: "PHARMACEUTICAL INTERNATIONAL BUSINESS / FAQ",
+    faqTitle: "My work, clearly explained.",
+    faqIntro: "A concise overview for potential partners, collaborators and anyone evaluating where my experience may fit.",
+    faq: [
+      ["What does a pharmaceutical international business professional do?", "A pharmaceutical international business professional connects commercial opportunities with the practical work needed to deliver them. My role spans customer communication, product and opportunity discussion, quotation and negotiation, registration coordination, contract and production follow-up, shipment documentation and final delivery."],
+      ["Which pharmaceutical markets has Jed Liu worked across?", "My international experience is concentrated in Latin America and Central Asia/CIS while working from China. The public market record includes Colombia, Venezuela, Mexico, Peru, Paraguay, Chile, Honduras and Uzbekistan, plus related regional markets."],
+      ["What pharmaceutical product experience is represented here?", "My experience covers finished dosage forms, including sterile injectables, antibiotics and other formulations, as well as active pharmaceutical ingredients and their technical and quality documentation. This is experience evidence, not a live product catalogue or availability claim."],
+      ["How do you support a project from registration to delivery?", "I keep commercial context, registration requirements and delivery readiness connected throughout the project. That means clarifying requirements, coordinating dossier questions and technical owners, tracking contracts and production milestones, and aligning release, shipping documents, logistics and handover timing."],
+      ["How do AI and automation support your international business work?", "I use AI, automation and purpose-built software to structure repetitive work around quotations, contract preparation, order visibility and market monitoring. These tools support faster organization and clearer follow-up; relationships, professional judgment and project-specific confirmation remain human responsibilities."],
+      ["Does this website represent a manufacturer or a live supply offer?", "No. This is Jed Liu's personal professional website. It is not a manufacturer, regulatory authority, sourcing agency or live product catalogue, and it does not make claims about product availability, registration status, specifications or commercial terms without project-specific formal confirmation."]
+    ],
     contactKicker: "START A CONVERSATION",
     contactTitle: "Start with the business context.",
     contactBody: "Share the market, product context and current question. Please keep confidential dossiers, contracts, prices, payment details and patient data out of the first message."
@@ -160,6 +171,17 @@ export const home = {
     approachKicker: "个人方法",
     approachTitle: "系统创造清晰，关系创造动量。",
     approachBody: "我相信，国际业务最终建立在信任、响应与解决真实问题之上，不只是报价和合同。好的系统让工作更清晰，好的关系让工作继续向前。",
+    faqKicker: "医药国际业务 / 常见问题",
+    faqTitle: "关于工作与合作，直接说明。",
+    faqIntro: "为潜在合作伙伴、行业同行，以及正在判断我的经验是否适合其项目的人提供一份简明说明。",
+    faq: [
+      ["医药国际业务从业者具体做什么？", "医药国际业务从业者需要把商业机会与真正完成交付所需的工作连接起来。我的工作涵盖客户沟通、产品与机会讨论、报价与谈判、注册协调、合同与生产跟进、发运文件以及最终交付。"],
+      ["Jed Liu 主要接触过哪些医药市场？", "我从中国开展国际业务，区域经验主要集中在拉丁美洲与中亚/CIS。公开市场记录包括哥伦比亚、委内瑞拉、墨西哥、秘鲁、巴拉圭、智利、洪都拉斯、乌兹别克斯坦及相关区域市场。"],
+      ["这个网站展示了哪些医药产品经验？", "我的经验包括无菌注射剂、抗生素及其他制剂，也包括原料药及相关技术和质量文件。这里展示的是个人经手经验，不是实时产品目录，也不代表现货供应。"],
+      ["你如何支持一个项目从注册走向交付？", "我会在项目全过程中连接商务语境、注册要求与交付准备度，包括明确需求、协调申报问题和技术负责人、跟踪合同与生产节点，并对齐放行、发运文件、物流和交接时间。"],
+      ["AI 与自动化如何用于医药国际业务？", "我使用 AI、自动化和专用软件，整理报价、合同准备、订单可视化和市场监测等重复性工作。工具可以提高组织效率与跟进清晰度，但客户关系、专业判断和具体项目确认仍由人负责。"],
+      ["这个网站是否代表制造商或实时供应要约？", "不是。这是 Jed Liu 的个人职业网站，不代表制造商、监管机构、采购代理或实时产品目录。产品可用性、注册状态、规格与商务条款都需要针对具体项目进行正式确认。"]
+    ],
     contactKicker: "开始沟通",
     contactTitle: "先从业务背景开始。",
     contactBody: "可以告诉我目标市场、产品背景与当前问题。首次消息请勿发送保密申报资料、合同、价格、付款信息或患者数据。"

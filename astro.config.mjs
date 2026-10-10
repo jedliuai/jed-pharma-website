@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
+import { contentUpdatedAt } from "./src/config/content-meta.mjs";
 
 export default defineConfig({
   site: "https://pharma.jedliuai.com",
@@ -52,6 +53,7 @@ export default defineConfig({
       }
     }),
     sitemap({
+      lastmod: new Date(contentUpdatedAt),
       i18n: {
         defaultLocale: "en",
         locales: {

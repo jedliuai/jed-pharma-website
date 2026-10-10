@@ -10,6 +10,8 @@
     "build": "pnpm clean && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "seo:check": "node scripts/verify-seo.mjs",
+    "indexnow": "node scripts/submit-indexnow.mjs",
     "deploy": "pnpm dlx wrangler@4.120.1 pages deploy dist --project-name jed-pharma-website"
   },
   "dependencies": {

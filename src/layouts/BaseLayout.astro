@@ -7,7 +7,8 @@ import WeChatDialog from "@/components/WeChatDialog.astro";
 import ImageLightbox from "@/components/ImageLightbox.astro";
 import SiteMotion from "@/components/SiteMotion.astro";
 import { alternatePath, designTokens, site, type Locale } from "@/config/site";
-import { common, seo } from "@/data/copy";
+import { common, home, seo } from "@/data/copy";
+import { contentUpdatedAt } from "@/config/content-meta.mjs";
 
 interface Props {
   locale: Locale;
@@ -22,34 +23,39 @@ const canonical = new URL(path, site.origin).toString();
 const ogImage = new URL(site.portrait, site.origin).toString();
 const ogImageAlt = locale === "zh" ? "Jed Liu 个人肖像" : "Portrait of Jed Liu";
 const c = common[locale];
+const page = home[locale];
+const language = locale === "zh" ? "zh-CN" : "en-US";
+const personId = site.canonicalPersonId;
+const translatedPage = new URL(locale === "zh" ? englishPath : chinesePath, site.origin).toString();
+const knowsAbout = locale === "zh"
+  ? ["医药国际业务", "拉丁美洲与中亚/CIS 医药市场", "医药注册协调", "医药国际项目执行", "AI 增强的外贸工作流"]
+  : ["Pharmaceutical international business", "Latin America and Central Asia/CIS pharmaceutical markets", "Pharmaceutical registration coordination", "International pharmaceutical project execution", "AI-enabled trade workflows"];
 
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Person",
-      "@id": `${site.origin}/#person`,
+      "@id": personId,
       name: "Jed Liu",
       url: site.origin,
       image: ogImage,
-      jobTitle: "Pharmaceutical International Business Professional",
+      description: meta.description,
+      jobTitle: locale === "zh" ? "医药国际业务从业者" : "Pharmaceutical International Business Professional",
       email: `mailto:${site.email}`,
-      sameAs: [site.linkedin],
-      knowsAbout: [
-        "Pharmaceutical international business",
-        "Latin America and CIS & Eastern Europe pharmaceutical markets",
-        "Pharmaceutical registration coordination",
-        "International pharmaceutical project execution",
-        "AI-enabled trade workflows"
-      ]
+      telephone: site.phone,
+      sameAs: [site.personalSite, site.linkedin, site.github, site.contactCard],
+      knowsLanguage: ["Chinese", "English"],
+      workLocation: { "@type": "Country", name: "China" },
+      knowsAbout
     },
     {
       "@type": "WebSite",
       "@id": `${site.origin}/#website`,
       url: site.origin,
-      name: site.name,
+      name: locale === "zh" ? site.nameZh : site.name,
       inLanguage: ["en-US", "zh-CN"],
-      publisher: { "@id": `${site.origin}/#person` }
+      publisher: { "@id": personId }
     },
     {
       "@type": "ProfilePage",
@@ -57,9 +63,34 @@ const structuredData = {
       url: canonical,
       name: meta.title,
       description: meta.description,
-      inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+      inLanguage: language,
+      dateModified: contentUpdatedAt,
       isPartOf: { "@id": `${site.origin}/#website` },
-      mainEntity: { "@id": `${site.origin}/#person` }
+      mainEntity: { "@id": personId },
+      hasPart: { "@id": `${canonical}#faq` },
+      ...(locale === "zh"
+        ? { translationOfWork: { "@id": `${translatedPage}#webpage` } }
+        : { workTranslation: { "@id": `${translatedPage}#webpage` } }),
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: ogImage,
+        caption: ogImageAlt
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      url: `${canonical}#faq`,
+      inLanguage: language,
+      isPartOf: { "@id": `${site.origin}/#website` },
+      mainEntity: page.faq.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: answer
+        }
+      }))
     }
   ]
 };
@@ -89,10 +120,13 @@ const structuredData = {
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="profile:first_name" content="Jed" />
+    <meta property="profile:last_name" content="Liu" />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content={locale === "zh" ? "zh_CN" : "en_US"} />
     <meta property="og:locale:alternate" content={locale === "zh" ? "en_US" : "zh_CN"} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />
     <meta name="twitter:image" content={ogImage} />

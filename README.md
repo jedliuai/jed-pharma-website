@@ -25,6 +25,7 @@ pnpm dev
 ```bash
 pnpm check
 pnpm build
+pnpm seo:check
 pnpm preview
 ```
 
@@ -43,3 +44,14 @@ Cloudflare Pages 构建产物目录为 `dist/`。首次部署需要先确认 Wra
 pnpm build
 pnpm deploy
 ```
+
+每次内容更新后，确认正式域名已经显示新版，再运行 `pnpm indexnow`，通知支持 IndexNow 的搜索引擎重新发现英文与中文页面。返回 200/202 代表收到提交，不代表已经收录。
+
+## SEO 与 GEO 维护
+
+- `src/config/content-meta.mjs` 记录实际内容更新时间；不要在仅修改样式或重新部署时虚增日期。
+- 双语 FAQ 的可见文字与结构化数据共用 `src/data/copy.ts`，避免两份内容脱节。
+- `pnpm seo:check` 检查构建后的 H1、canonical、hreflang、JSON-LD、FAQ、内部链接和图片资源。
+- `public/llms.txt` 与 `public/ai-summary.txt` 是辅助摘要；更新个人资料时同步维护，它们不是排名保证。
+- Google Search Console 与 Bing Webmaster Tools 可用于域名验证、提交 `https://pharma.jedliuai.com/sitemap-index.xml`、检查收录及衡量实际搜索表现。
+- 完整审计和后续内容建议见 `GEO-AUDIT-REPORT.md`。
