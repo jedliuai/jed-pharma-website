@@ -8,7 +8,7 @@
 
 本次补上双语文本 H1、6 组公开问答、统一的个人实体图谱、内容修改日期、机器可读摘要和 IndexNow 提交能力。主题与数据都取自已有个人介绍，没有新增雇主、客户或未经证实的资历。
 
-公开搜索未返回本站结果，但 site: 查询并不完整，不能据此断言未收录。真实收录、点击和关键词表现需要 Search Console / Bing Webmaster Tools 数据。总体 GEO 效果暂不作确定性打分；代码可抓取与被 AI 实际引用是两个不同的观测结果。
+公开搜索未返回本站结果，但 site: 查询并不完整，不能单独据此断言未收录。随后通过 HYPD.AI 读取了已授权的 Search Console 域名资源：两页均返回“Google 无法识别此网址”，站点地图列表为空。当前应先完成页面发现与站点地图提交。总体 GEO 效果暂不作确定性打分；代码可抓取与被 AI 实际引用是两个不同的观测结果。
 
 ## 已完成的整改
 
@@ -33,16 +33,31 @@
 - Schema.org Validator 对两个语言的完整 HTML 均返回 totalNumErrors=0、totalNumWarnings=0。
 - 桌面英文与手机中文在浏览器中检查：H1 正确、各有 6 组问答、没有横向溢出，控制台没有错误。
 - 原有轮船滚动逻辑未修改；FAQ 作为新增正文模块参与正常页面滚动。
-- Core Web Vitals 的真实用户数据和 Search Console 账户数据尚未取得；不把实验室检查当作实际排名。
+- Core Web Vitals 的真实用户数据尚未取得；不把实验室检查当作实际排名。
 - 品牌与平台历史观察来自上轮公开资料审计；没有将同名研究者、雇主或其他同名人士关联到本站。
+
+## 正式站与 Search Console 实测
+
+代码提交 3706ec3 已通过 Cloudflare 的 main 分支自动部署。正式域名的中英文页面均返回 200，标题、6 组可见问答、个人实体、canonical、hreflang 和 HSTS 均已核验；站点地图、辅助摘要和 IndexNow 验证文件也可正常读取。IndexNow 通知返回 HTTP 202，仅表示两页通知已接收，不代表收录。
+
+2026-10-10，通过 HYPD.AI 查询已授权资源 sc-domain:jedliuai.com：
+
+| 检查 | 实际返回 | 当前含义 |
+|---|---|---|
+| 英文首页 URL 检查 | Google 无法识别此网址；NEUTRAL | 没有可用的 Google 收录记录 |
+| 中文首页 URL 检查 | Google 无法识别此网址；NEUTRAL | 同上，不是明确的 robots 拦截错误 |
+| 已提交站点地图 | 空列表 | 该资源没有返回已提交的 sitemap 记录 |
+| 2026-09-10 至 2026-10-07，web 搜索，限医药子域名 | 无页面数据行 | 此范围没有返回表现记录，不据此编造点击量或排名 |
+
+该插件已连通并能读取数据，但只有只读能力。仍需在 Search Console 的“站点地图”中提交 https://pharma.jedliuai.com/sitemap-index.xml，并分别对两页做实时测试后申请编入索引。Google 何时处理、是否收录不能由代码或插件保证。
 
 ## 后续优先级
 
 ### 高优先级：验证与衡量
 
-1. 在 Google Search Console 确认具有 pharma.jedliuai.com 的 URL 前缀资源或 jedliuai.com 的域名资源访问权限，提交 sitemap-index.xml，检查两种语言的 URL。
+1. Google Search Console 的 jedliuai.com 域名资源已确认具有所有者权限。提交医药子域名的完整 sitemap 地址，并在 URL 检查中对两页实时测试、申请编入索引。
 2. 在 Bing Webmaster Tools 验证同一网站，检查 sitemap 与抓取问题。
-3. 连接 HYPD.AI for Search Console 后，可以读取真实收录、站点地图和搜索表现；该插件只读，不能代替域名验证、提交 sitemap 或申请收录。
+3. HYPD.AI for Search Console 已读取本轮收录基线。提交后再用它核验处理状态与搜索表现；该插件只读，不能提交 sitemap 或申请收录。
 
 ### 中优先级：让真实经历形成更多证据
 
