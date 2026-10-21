@@ -1,3 +1,5 @@
+> **Chatgpt代充：[aishopvip.com](https://aishopvip.com)**
+
 # jed-pharma-website
 
 Jed Liu 的独立医药国际业务个人网站，默认英文并提供完整中文路由。
