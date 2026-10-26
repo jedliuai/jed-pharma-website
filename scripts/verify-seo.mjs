@@ -33,7 +33,10 @@ for (const [route, filename, lang] of [["/", "index.html", "en"], ["/zh/", "zh/i
   const faq = graph.find((item) => item["@type"] === "FAQPage");
   assert.equal(person["@id"], "https://jedliuai.com/#person", `${route}: shared person identity`);
   assert.equal(profile.mainEntity["@id"], person["@id"], `${route}: profile entity reference`);
-  assert.equal(profile.dateModified, contentUpdatedAt, `${route}: content modification date`);
+  assert.match(profile.dateModified, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/, `${route}: ProfilePage modification must include time and timezone, not a date-only value`);
+  assert.ok(Number.isFinite(Date.parse(profile.dateModified)), `${route}: valid modification timestamp`);
+  assert.equal(profile.dateModified.slice(0, 10), contentUpdatedAt, `${route}: timestamp matches the visible content date`);
+  assert.ok(Date.parse(profile.dateModified) <= Date.now(), `${route}: modification timestamp is not in the future`);
   assert.equal(faq.mainEntity.length, 6, `${route}: six FAQ entries`);
   for (const question of faq.mainEntity) {
     assert.ok(text(html).includes(question.name), `${route}: visible FAQ question`);

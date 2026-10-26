@@ -8,7 +8,7 @@ import ImageLightbox from "@/components/ImageLightbox.astro";
 import SiteMotion from "@/components/SiteMotion.astro";
 import { alternatePath, designTokens, site, type Locale } from "@/config/site";
 import { common, home, seo } from "@/data/copy";
-import { contentUpdatedAt } from "@/config/content-meta.mjs";
+import { contentUpdatedAt, profileModifiedAt } from "@/config/content-meta.mjs";
 
 interface Props {
   locale: Locale;
@@ -68,7 +68,7 @@ const structuredData = {
       name: meta.title,
       description: meta.description,
       inLanguage: language,
-      dateModified: contentUpdatedAt,
+      dateModified: pageKind === "profile" ? profileModifiedAt : contentUpdatedAt,
       isPartOf: { "@id": `${site.origin}/#website` },
       ...(pageKind === "profile" ? { mainEntity: { "@id": personId }, hasPart: { "@id": `${canonical}#faq` } } : {}),
       ...(locale === "zh"
